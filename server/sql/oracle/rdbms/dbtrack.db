@@ -1,0 +1,8 @@
+-- C:\Temp\dbtech.db
+--
+-- Generated for Oracle 10g on Tue Nov 20  17:33:29 2007 by Server Generator 10.1.2.8.46
+ 
+CREATE DATABASE DBTRACK
+  CHARACTER SET RUSSIAN_CIS.CL8MSWIN1251
+/
+

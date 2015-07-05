@@ -1,0 +1,1471 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr"><head>
+
+  
+<meta content="Google Mapplets, Google Maps, Google Earth, KML, GPS, ГИС, GIS, карта, навигация, spatial, spatial dataset, трэк, маршрут, путевая точка, track, route, waypoint, shapefile" name="keywords">
+<meta content="Cg/bDCsW5+O9e8Pl2K6Dcr1xFqswm3l2LP/n6wcv9ic=" name="verify-v1">
+    
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta content="true" name="MSSmartTagsPreventParsing">
+  <meta content="blogger" name="generator">
+  <link rel="alternate" type="application/atom+xml" title="Проект GeoMapX - Atom" href="http://geomapx.blogspot.com/feeds/posts/default">
+<link rel="alternate" type="application/rss+xml" title="Проект GeoMapX - RSS" href="http://geomapx.blogspot.com/feeds/posts/default?alt=rss">
+<link rel="service.post" type="application/atom+xml" title="Проект GeoMapX - Atom" href="http://www.blogger.com/feeds/3597410985907051565/posts/default">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.blogger.com/rsd.g?blogID=3597410985907051565">
+<link rel="alternate" type="application/atom+xml" title="Проект GeoMapX - Atom" href="http://geomapx.blogspot.com/feeds/635905215838153682/comments/default"><title>Цифровая
+картография, навигация и ГИС-технологии: Проект GeoMapX: PostGIS:
+Пространственный анализ в PostGIS с использованием множества
+координатных систем</title>
+
+  
+
+    
+    <style id="page-skin-1" type="text/css"><!--
+/*
+ * Blogger Template Style
+ *
+ * Sand Dollar
+ * by Jason Sutter
+ * Updated by Blogger Team
+ */
+
+/* Variable definitions
+   ====================
+   <Variable name="textcolor" description="Text Color"
+             type="color" default="#000">
+
+   <Variable name="bgcolor" description="Page Background Color"
+             type="color" default="#f6f6f6">
+
+   <Variable name="pagetitlecolor" description="Blog Title Color"
+             type="color" default="#F5DEB3">
+
+   <Variable name="pagetitlebgcolor" description="Blog Title Background Color"
+             type="color" default="#DE7008">
+
+  <Variable name="descriptionColor" description="Blog Description Color"
+            type="color" default="#9E5205" />
+
+   <Variable name="descbgcolor" description="Description Background Color"
+             type="color" default="#F5E39e">
+
+   <Variable name="titlecolor" description="Post Title Color"
+             type="color" default="#9E5205">
+
+   <Variable name="datecolor" description="Date Header Color"
+             type="color" default="#777777">
+
+   <Variable name="footercolor" description="Post Footer Color"
+             type="color" default="#444444">
+
+   <Variable name="linkcolor" description="Link Color"
+             type="color" default="#DE7008">
+
+   <Variable name="footerlinkcolor" description="Post Footer Link Color"
+             type="color" default="#968a0a">
+
+   <Variable name="visitedlinkcolor" description="Visited Link Color"
+             type="color" default="#DE7008">
+
+   <Variable name="sidebarcolor" description="Sidebar Title Color"
+             type="color" default="#B8A80D">
+
+   <Variable name="sidebarlinkcolor" description="Sidebar Link Color"
+             type="color" default="#999999">
+
+   <Variable name="bordercolor" description="Border Color"
+             type="color" default="#e0ad12">
+
+   <Variable name="bodyfont" description="Text Font"
+             type="font"
+             default="normal normal 120% 'Trebuchet MS',Trebuchet,Verdana,Sans-Serif">
+
+   <Variable name="headerfont" description="Sidebar Title Font"
+             type="font"
+             default="normal bold 120% Verdana,Sans-serif">
+
+   <Variable name="dateHeaderFont" description="Date Header Font"
+             type="font"
+             default="normal bold 105% 'Trebuchet MS',Trebuchet,Verdana,Sans-serif">
+
+   <Variable name="pagetitlefont" description="Blog Title Font"
+             type="font" default="normal bold 150% Verdana,Sans-Serif">
+
+   <Variable name="titlefont" description="Post Title Font"
+             type="font" default="normal bold 120% Verdana,Sans-Serif">
+*/
+
+body {
+  margin:0px;
+  padding:0px;
+  background:#f6f6f6;
+  color:#000000;
+  font-size: small;
+}
+
+pre {
+  font-size: 80%;
+}
+
+table {
+  margin:0px 0px 0px 0px;
+}
+
+#outer-wrapper {
+  font:normal normal 120% 'Trebuchet MS',Trebuchet,Verdana,Sans-Serif;
+}
+			
+a {
+ color:#DE7008;
+} 
+			
+a:hover {
+ color:#9E5205;
+} 
+
+a img { 
+  border-width: 0;
+}
+                        
+#content-wrapper {
+  padding: 0 1em 0 1em;
+}
+
+@media all  {
+  div#main {
+    float:right;
+    width:66%;
+    padding:10px 0 10px 1em;
+    border-left:dotted 1px #e0ad12;
+    word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+    overflow: hidden;     /* fix for long non-text content breaking IE sidebar float */
+  } 			  
+  div#sidebar {
+    margin:20px 0px 0px 0;
+    padding:0px;
+    text-align:left; 
+    float: left;
+    width: 31%;
+    word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+    overflow: hidden;     /* fix for long non-text content breaking IE sidebar float */
+  } 
+} 
+                        
+@media handheld  {
+  div#main {
+   float:none;
+   width:90%; 
+ } 
+  
+  div#sidebar {
+    padding:30px 7% 10px 3%;
+  }                          
+}
+                        
+#header { 
+  padding:0px 0px 0px 0px;
+  margin:0px 0px 0px 0px;
+  border-bottom:dotted 1px #e0ad12;
+  background:#F6F6F6;
+}
+						
+h1 a:link  {
+ text-decoration:none;
+ color:#9E5205
+} 
+			
+h1 a:visited  {
+  text-decoration:none;
+  color:#9E5205
+} 
+
+h1,h2,h3 {
+  margin: 0;
+}
+
+h1 { 
+  padding:25px 0px 10px 5%;
+  color:#9E5205;
+  background:#F6F6F6;
+  font:normal bold 150% Verdana,Sans-Serif;
+  letter-spacing:-2px; 
+} 
+			
+h3.post-title { 
+  color:#9E5205;
+  font:normal bold 120% Verdana,Sans-Serif;
+  letter-spacing:-1px;
+}
+
+h3.post-title a,
+h3.post-title a:visited { 
+  color: #9E5205;
+}
+ 			
+h2.date-header  {
+  margin:10px 0px 0px 0px;
+  color:#777777;
+  font: normal bold 105% 'Trebuchet MS',Trebuchet,Verdana,Sans-serif;
+}
+			
+h4 {
+ color:#aa0033; 
+} 
+						
+#sidebar h2 { 
+  color:#B8A80D;
+  margin:0px; 
+  padding:0px;
+  font:normal bold 120% Verdana,Sans-serif;
+}
+
+#sidebar .widget {
+  margin:0px 0px 33px 0px;
+  padding:0px 0px 0px 0px;
+  font-size:95%; 
+} 
+
+#sidebar ul {
+  list-style-type:none;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+#sidebar li {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  list-style-type:none;
+  font-size:95%; 
+} 
+
+.description {
+  padding:0px;
+  margin:7px 12% 7px 5%;
+  color:#9E5205;
+  background:transparent;
+  font:bold 100% Verdana,Sans-Serif;
+}
+
+.post {
+  margin:0px 0px 30px 0px;
+} 
+
+.posts li a {
+  font-size:120%; 
+} 
+			
+.post strong {
+  color:#000000;
+  font-weight:bold; 
+} 
+
+pre,code {
+ color:#999999;
+} 
+
+strike {
+ color:#999999;
+} 
+
+.post-footer  {
+  padding:0px;
+  margin:0px;
+  color:#444444;
+  font-size:80%; 
+} 
+.post-footer a {
+  border:none;
+  color:#968a0a;
+  text-decoration:none; 
+} 
+
+.post-footer a:hover {
+  text-decoration:underline; 
+} 
+
+#comments {
+  padding:0px;
+  font-size:110%;
+  font-weight:bold;
+}
+
+.comment-author { 
+  margin-top: 10px;
+ }
+
+.comment-body {
+  font-size:100%;
+  font-weight:normal;
+  color:black; 
+} 
+
+.comment-footer {
+  padding-bottom:20px;
+  color:#444444;
+  font-size:80%;
+  font-weight:normal;
+  display:inline;
+  margin-right:10px 
+} 
+
+.deleted-comment  {
+  font-style:italic;
+  color:gray; 
+} 
+
+.comment-link  {
+  margin-left:.6em;
+} 
+
+.profile-textblock { 
+  clear: both;
+  margin-left: 0;
+}
+
+.profile-img { 
+  float: left;
+  margin: 0 5px 5px 0;
+  border: 2px solid #F6F6F6;
+}
+
+#sidebar a:link  {
+  color:#999999;
+  text-decoration:none; 
+}    
+
+#sidebar a:active  {
+  color:#ff0000;
+  text-decoration:none; 
+}     
+
+#sidebar a:visited  {
+  color:sidebarlinkcolor;
+  text-decoration:none; 
+} 
+
+#sidebar a:hover {
+  color:#B8A80D;
+  text-decoration:none; 
+} 
+
+.feed-links {
+  clear: both;
+  line-height: 2.5em;
+}
+
+#blog-pager-newer-link {
+  float: left;
+ }
+  
+#blog-pager-older-link {
+  float: right;
+}
+ 
+#blog-pager {   
+  text-align: center; 
+}
+
+.clear { 
+  clear: both;
+}
+
+.widget-content { 
+  margin-top: 0.5em;
+#  font-size:120%;
+}
+
+/** Tweaks for layout editor preview */
+
+body#layout #outer-wrapper { 
+  margin-top: 0;
+}
+
+body#layout #main,
+body#layout #sidebar { 
+  margin-top: 10px;
+  padding-top: 0;
+}
+
+--></style>
+  <link rel="stylesheet" type="text/css" href="postgis_files/3319451950-blogarchive.css"><!-- --><style type="text/css">@import url('http://www.blogger.com/css/blog_controls.css');
+@import url('http://www.blogger.com/dyn-css/authorization.css?blogID=3597410985907051565');
+#navbar-iframe { display:block }
+</style>
+
+<link rel="stylesheet" type="text/css" href="postgis_files/2791266615-blog.css"><script type="text/javascript" src="postgis_files/1533466593-widgets.js"></script></head><body>
+  <div class="navbar section" id="navbar"><div class="widget Navbar" id="Navbar1"><iframe src="postgis_files/navbar.html" marginwidth="0" marginheight="0" id="navbar-iframe" frameborder="0" height="30" scrolling="no" width="100%"></iframe>
+<div id="space-for-ie"></div></div></div>
+
+
+  <div id="outer-wrapper"><div id="wrap2">
+
+    <!-- skip links for text browsers -->
+    <span id="skiplinks" style="display: none;">
+      <a href="#main">skip to main </a> |
+      <a href="#sidebar">skip to sidebar</a>
+    </span>
+    <div id="content-wrapper">
+
+      <div id="crosscol-wrapper" style="text-align: center;">
+        <div class="crosscol section" id="crosscol"></div>
+      </div>
+
+      <div id="main-wrapper">
+        <div class="main section" id="main"><div class="widget HTML" id="HTML2">
+  
+  
+  <div class="widget-content">
+    <span style="font-weight: bold;">Другие проекты <a href="http://mobigroup.ru/">Mobile Business Group</a>:</span>
+<ul>
+<li><a href="http://mbg-merch.blogspot.com/2007/07/merchandising.html">Мониторинг дилерских точек продаж (мерчендайзинг)</a></li>
+<li><a href="http://postgrestips.blogspot.com/2007/06/blog-post.html"> 
+Построение корпоративных хранилищ данных на СУБД PostgreSQL</a></li>
+</ul>
+  </div>
+
+  
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=HTML&amp;widgetId=HTML2&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("HTML2"));' target="configHTML2" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+</div><div class="widget HTML" id="HTML4">
+  
+  
+  <div class="widget-content">
+    <script type="text/javascript"><!--
+var random_number = Math.random();
+ if (random_number < .5){
+ // green
+google_ad_client = "pub-1572148954270629";
+google_alternate_color = "F6F6F6";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text_image";
+//2007-07-13: geomapx-banner-top-green
+google_ad_channel = "8643520206";
+google_color_border = "9E5205";
+google_color_bg = "E0FFDA";
+google_color_link = "9E5205";
+google_color_text = "000000";
+google_color_url = "EDC59F";
+google_ui_features = "rc:6";
+ } else {
+ //blue
+google_ad_client = "pub-1572148954270629";
+google_alternate_color = "F6F6F6";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text_image";
+//2007-07-13: geomapx-banner-top-blue
+google_ad_channel = "7422520904";
+google_color_border = "9E5205";
+google_color_bg = "D8F5FF";
+google_color_link = "9E5205";
+google_color_text = "000000";
+google_color_url = "EDC59F";
+google_ui_features = "rc:6";
+ }
+//-->
+</script>
+
+
+<script src="postgis_files/show_ads.js" type="text/javascript">
+</script><iframe style="display: none;" name="google_ads_frame" src="postgis_files/ads.html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" frameborder="0" height="60" scrolling="no" width="468"></iframe>
+  </div>
+
+  
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=HTML&amp;widgetId=HTML4&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("HTML4"));' target="configHTML4" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+</div><div class="widget Blog" id="Blog1">
+  
+  <div class="blog-posts hfeed">
+
+    
+  
+
+
+    <!-- google_ad_section_start -->
+    
+      
+        <h2 class="date-header">17 Июнь 2007 г.</h2>
+      
+      
+  <div class="post hentry uncustomized-post-template">
+    <a name="635905215838153682"></a>
+    
+      <h3 class="post-title entry-title">
+     
+        
+          <a href="http://geomapx.blogspot.com/2007/06/postgis.html">PostGIS: Пространственный анализ в PostGIS с использованием множества координатных систем</a>
+        
+     
+      </h3>
+    
+
+    <div class="post-header-line-1"></div>
+
+    <div class="post-body entry-content">
+      <p>В
+случае, если мы хотим воспользоваться функциями пространственного
+анализа в PostGIS, особых сложностей не возникает. Другое дело, если
+необходимо “на лету” выполнять различные трансформации координат.
+Рассмотрим следующий случай: в таблице house хранится пространственная
+информация в градусах WGS84 (идентификатор системы координат 4326), а
+мы ищем объект, заданный координатами в Пулково 1942-го года
+(идентификатор системы координат 28408).<br><br>Описания координатных
+систем хранятся в таблице spatial_ref_sys, по SRID=4326 можно найти
+информацию о мировой системе координат, а по SRID=28408 - российской.
+По умолчанию все координаты имеют SRID=-1, например:
+GeometryFromText('POINT(43 56)',-1) - точка с неопределенной системой
+координат. Функцией SETSRID можно указать систему координат, при этом
+просто меняется идентификатор SRID в записи, но никаких вычислений не
+происходит. Пересчет координат из одной системы координат в другую
+выполняет функция transform, при этом изменяется как числовое значение
+координаты, так и размерность (градусы, метры, футы, ярды и проч., в
+зависимости от принятого в текущей координатной системе). Выражение
+transform( SETSRID(GeometryFromText('POINT(43 56)',-1),4326), 28408 )
+задает для точки 'POINT(43 56)' мировую систему координат (4326)
+функцией SETSRID и вычисляет координаты точки в российской системе
+(28408).<br><br>Далее предполагается, что наблюдатель 1 располагается в
+первой точке и обладает сферой видимости 100000 метров, а наблюдатель 2
+расположен в точке 2 и имеет такую же сферу видимости.<br><br><span style="font-weight: bold;">Задача 1</span>:<br>Поиск
+всех объектов в радиусе 100000 метров в российской системе координат
+Пулково 1942-го года от наблюдателя, расположенного в точке POINT(43
+56), заданной в мировой системе координат, с выводом результата в
+мировой системе:<br>SELECT the_geom FROM house<br>WHERE<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>transform( SETSRID(GeometryFromText('POINT(43 56)',-1),4326), 28408 )<br>) &lt; 100000;<br><br><span style="font-weight: bold;">Задача 2</span>:<br>Поиск
+всех объектов в радиусе 100000 метров в российской системе координат
+Пулково 1942-го года от наблюдателя, расположенного в точке POINT(43
+56), заданной в мировой системе координат, с выводом результата в
+российской системе:<br>SELECT transform( SETSRID(the_geom,4326), 28408 ) FROM house<br>WHERE<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>transform( SETSRID(GeometryFromText('POINT(43 56)',-1),4326), 28408 )<br>) &lt; 100000;<br><br><span style="font-weight: bold;">Задача 3</span>:<br>Поиск
+всех объектов в радиусе 100000 метров в российской системе координат
+Пулково 1942-го года от наблюдателя, расположенного в точке
+POINT(8434555.38952802 6235317.6754922), заданной в российской системе
+координат, с выводом результата в российской системе:<br>SELECT transform( SETSRID(force_3d(the_geom),4326), 28408 ) FROM house<br>WHERE<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>SETSRID(GeometryFromText('POINT(8434555.38952802 6235317.6754922)',-1),28408 )<br>) &lt; 100000;<br><br><span style="font-weight: bold;">Задача 4</span>:<br>Поиск
+всех объектов в радиусе 100000 метров в российской системе координат
+Пулково 1942-го года от наблюдателя, расположенного в точке
+POINT1=POINT(8434555.38952802 6235317.6754922), которые исчезнут из
+поля зрения при перемещении наблюдателя в точку POINT2=..., заданных в
+российской системе координат, с выводом результата в российской системе:<br>SELECT transform( SETSRID(force_3d(the_geom),4326), 28408 ) FROM house<br>WHERE<br>not<br>(<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>SETSRID(GeometryFromText('POINT2',-1),28408 )<br>) &lt; 100000<br>and<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>SETSRID(GeometryFromText('POINT1',-1),28408 )<br>) &lt; 100000<br>)<br>and<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>SETSRID(GeometryFromText('POINT1',-1),28408 )<br>) &lt; 100000;<br><br><span style="font-weight: bold;">Задача 5</span>:<br>Поиск
+всех объектов в радиусе 100000 метров в российской системе координат
+Пулково 1942-го года от наблюдателя, расположенного в точке
+POINT1=POINT(8434555.38952802 6235317.6754922), которые появятся в поле
+зрения при перемещении наблюдателя в точку POINT2=..., заданных в
+российской системе координат, с выводом результата в российской системе:<br>SELECT transform( SETSRID(force_3d(the_geom),4326), 28408 ) FROM house<br>WHERE<br>not<br>(<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>SETSRID(GeometryFromText('POINT2',-1),28408 )<br>) &lt; 100000<br>and<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>SETSRID(GeometryFromText('POINT1',-1),28408 )<br>) &lt; 100000<br>)<br>and<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>SETSRID(GeometryFromText('POINT2',-1),28408 )<br>) &lt; 100000;<br><br><span style="font-weight: bold;">Обсуждение</span>: в примерах 4-5 выражение<br>(<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>SETSRID(GeometryFromText('POINT2',-1),28408 )<br>) &lt; 100000<br>and<br>distance(<br>transform( SETSRID(the_geom,4326), 28408 ),<br>SETSRID(GeometryFromText('POINT1',-1),28408 )<br>) &lt; 100000<br>)<br>задает
+объекты, входящие в сферу видимости обоих наблюдателей. Соответственно,
+объекты сферы видимости первого наблюдателя, не входящие в общую сферу
+видимости, пропадают из поля зрения (пример 4), а входящие в сферу
+видимости второго наблюдателя, не входящие в общую сферу видимости –
+появляются в поле зрения при перемещении наблюдателя из позиции 1 в
+позицию 2. Естественно, если сферы видимости обоих наблюдателей не
+перекрываются, решение задачи принимает вырожденный вид согласно
+примеру 3.</p>
+      <div style="clear: both;"></div> 
+    </div>
+    <div class="post-footer">
+    <p class="post-footer-line post-footer-line-1">
+      <span class="post-author vcard">
+        
+          Автор
+          <span class="fn">Печников Алексей</span>
+        
+      </span>
+
+      <span class="post-timestamp">
+        
+          на
+        
+          <a class="timestamp-link" href="http://geomapx.blogspot.com/2007/06/postgis.html" rel="bookmark" title="permanent link"><abbr class="published" title="2007-06-17T05:05:00-07:00">5:05</abbr></a>
+        
+        
+      </span>
+
+      <span class="post-comment-link">
+        
+      </span>
+
+       
+       <span class="post-backlinks post-comment-link">
+         
+       </span>
+
+      <span class="post-icons">
+        
+        
+          <span class="item-action">
+          <a href="http://www.blogger.com/email-post.g?blogID=3597410985907051565&amp;postID=635905215838153682" title="Отправить сообщение по электронной почте">
+            <span class="email-post-icon">&nbsp;</span>
+          </a>
+          </span>
+        
+
+        
+        
+  
+    <span class="item-control blog-admin pid-174497795">
+      <a href="http://www.blogger.com/post-edit.g?blogID=3597410985907051565&amp;postID=635905215838153682" title="Изменить сообщение">
+        <span class="quick-edit-icon">&nbsp;</span>
+      </a>
+    </span>
+  
+
+      </span>
+      </p>
+
+      <p class="post-footer-line post-footer-line-2">
+      <span class="post-labels">
+        
+          Ярлыки:
+          
+            <a href="http://geomapx.blogspot.com/search/label/%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%8C%20PostGIS" rel="tag">модуль PostGIS</a>,
+          
+            <a href="http://geomapx.blogspot.com/search/label/%D0%A1%D0%9A%20WGS84" rel="tag">СК WGS84</a>,
+          
+            <a href="http://geomapx.blogspot.com/search/label/%D0%A1%D0%9A%20%D0%9F%D1%83%D0%BB%D0%BA%D0%BE%D0%B2%D0%BE%201942" rel="tag">СК Пулково 1942</a>
+          
+        
+      </span>
+      </p>
+
+      <p class="post-footer-line post-footer-line-3"></p>
+    </div>
+  </div>
+
+      
+        
+  <div class="comments" id="comments">
+    <a name="comments"></a>
+    
+      <h4>
+        
+          6 комментария(ев):
+        
+      </h4>
+
+      <dl id="comments-block">
+        
+          <dt class="comment-author" id="c7637405159523552816">
+            <a name="c7637405159523552816"></a>
+            
+              <a href="http://www.blogger.com/profile/11904874713490692624" rel="nofollow">alexrush</a>
+            
+            комментирует...
+          </dt>
+          <dd class="comment-body">
+            
+              <p>1.<br><i>transform( SETSRID(GeometryFromText('POINT(43 56)',-1),4326), 28408 )</i><br>Несколько запутанный пример. Для чего здесь SetSRID, если можно обойтесь GeometryFromText('POINT(43 56)',<b>4326</b>)?<br><br>2. Вы ничем не аргументируете использование force_3d (IMHO потому, что аргументировать нЕчем, ибо не нужна она здесь вовсе).<br><br>3.
+У Вас почему-то не сказано о том, что SRID, равный -1 - это крайняя
+мера, позволяющая работать с неструктурным картматериалом, а если
+материал соответствует той или иной проекции - ее нужно задавать явно
+на весь слой. (Приимущества Вы, безусловно, знаете. Или рассказать?)<br><br>4. Вы ни словом не обмолвильсб про возможность описания местных (в общем случае - произвольных) проекций.<br><br>4. Примеры в стиле <i>"наблюдатель 1 располагается в первой точке и обладает сферой видимости 100000 метров, а наблюдатель 2 расположен..."</i> слишком акдемичны. А вот <i>"объекты
+сферы видимости первого наблюдателя, не входящие в общую сферу
+видимости, пропадают из поля зрения (пример 4), а входящие в сферу
+видимости второго наблюдателя, не входящие в общую сферу видимости –
+появляются в поле зрения при перемещении наблюдателя из позиции 1 в
+позицию 2."</i> - читал из под стола и плакал. IMHO стиль надо
+упрощать. Сильно. Не забывайте, что на радиофизическом не все учились.
+Может что-то более насущное? Аренда земельных участков, недвижимость?
+Подальше от института, поближе к деньгам...</p>
+            
+          </dd>
+          <dd class="comment-footer">
+            <span class="comment-timestamp">
+              <a href="http://geomapx.blogspot.com/2007/06/postgis.html#c7637405159523552816" title="comment permalink">
+                3 Июль 2007 г. 0:37
+              </a>
+              
+  <span class="item-control blog-admin pid-1010852751">
+    <a href="http://www.blogger.com/delete-comment.g?blogID=3597410985907051565&amp;postID=7637405159523552816" title="Удалить комментарий">
+      <span class="delete-comment-icon">&nbsp;</span>
+    </a>
+  </span>
+
+            </span>
+          </dd>
+        
+          <dt class="comment-author" id="c1897491244698320644">
+            <a name="c1897491244698320644"></a>
+            
+              <a href="http://www.blogger.com/profile/11456235518086085574" rel="nofollow">Печников Алексей</a>
+            
+            комментирует...
+          </dt>
+          <dd class="comment-body">
+            
+              <p>Отвечаю:<br><br>1.
+SetSRID нужен для того, чтобы явно заданное значение координат потом в
+запросе заменить на значение из таблицы, для которой SRID = -1.<br><br>2.
+Пример из программы отображения навигации на трехмерной карте,
+естественно, нужны трехмерные данные, но тестовые данные были
+двумерными, пришлось делать их явное приведение к трехмерке, чтобы
+запросы на реальных данных потом работали корректно.<br><br>3.
+Приходилось разбираться после загрузки, в какой проекции какие данные и
+уже потом выправлять SRID. Ну а пока не проверил все слои (загружались
+неинтерактивно, скриптом) и не знал их проекцию естественно использовал
+SRID = -1. А проекцию, указанную в запросе, легко можно поправить
+непосредственно из приложения.<br><br>4. Надо рассказывать, как добавить запись в таблицу с описаниями координатных систем? Имхо тривиально.<br><br>P.S.
+О чем писать и как писать решает автор, удивительно видеть советы
+писать "о более насущном". Для меня этот проект просто хобби, работаю я
+в другой области, потому и писать буду на интересные мне темы.</p>
+            
+          </dd>
+          <dd class="comment-footer">
+            <span class="comment-timestamp">
+              <a href="http://geomapx.blogspot.com/2007/06/postgis.html#c1897491244698320644" title="comment permalink">
+                3 Июль 2007 г. 0:55
+              </a>
+              
+  <span class="item-control blog-admin pid-174497795">
+    <a href="http://www.blogger.com/delete-comment.g?blogID=3597410985907051565&amp;postID=1897491244698320644" title="Удалить комментарий">
+      <span class="delete-comment-icon">&nbsp;</span>
+    </a>
+  </span>
+
+            </span>
+          </dd>
+        
+          <dt class="comment-author" id="c5256930897149123667">
+            <a name="c5256930897149123667"></a>
+            
+              <a href="http://www.blogger.com/profile/11904874713490692624" rel="nofollow">alexrush</a>
+            
+            комментирует...
+          </dt>
+          <dd class="comment-body">
+            
+              <p>если для Вас это хобби - no questions. Для меня это работа и хлеб насущный.<br><i>удивительно видеть советы писать "о более насущном"</i>
+- вы же пишите не в свой локальный notepad на диск C: (или /home). Вы
+пишите в блогах. Для того, чтобы другие увидели, прочли и оценили. Чему
+же Вы удивляетесь?<br>Тем не менее, пишите еще. Буду читать, и естественно, комментировать.</p>
+            
+          </dd>
+          <dd class="comment-footer">
+            <span class="comment-timestamp">
+              <a href="http://geomapx.blogspot.com/2007/06/postgis.html#c5256930897149123667" title="comment permalink">
+                3 Июль 2007 г. 1:38
+              </a>
+              
+  <span class="item-control blog-admin pid-1010852751">
+    <a href="http://www.blogger.com/delete-comment.g?blogID=3597410985907051565&amp;postID=5256930897149123667" title="Удалить комментарий">
+      <span class="delete-comment-icon">&nbsp;</span>
+    </a>
+  </span>
+
+            </span>
+          </dd>
+        
+          <dt class="comment-author" id="c739884160393362739">
+            <a name="c739884160393362739"></a>
+            
+              <a href="http://www.blogger.com/profile/11456235518086085574" rel="nofollow">Печников Алексей</a>
+            
+            комментирует...
+          </dt>
+          <dd class="comment-body">
+            
+              <p>Если
+у Вас есть интересные идеи, предлагайте конкретные темы для
+рассмотрения. Если они будут интересны мне или читателям, исследуем их
+подробнее, а выбирать темы, которые кажутся более денежными не хочу. Уж
+не обессудьте :-)</p>
+            
+          </dd>
+          <dd class="comment-footer">
+            <span class="comment-timestamp">
+              <a href="http://geomapx.blogspot.com/2007/06/postgis.html#c739884160393362739" title="comment permalink">
+                3 Июль 2007 г. 2:01
+              </a>
+              
+  <span class="item-control blog-admin pid-174497795">
+    <a href="http://www.blogger.com/delete-comment.g?blogID=3597410985907051565&amp;postID=739884160393362739" title="Удалить комментарий">
+      <span class="delete-comment-icon">&nbsp;</span>
+    </a>
+  </span>
+
+            </span>
+          </dd>
+        
+          <dt class="comment-author" id="c3575069830015294696">
+            <a name="c3575069830015294696"></a>
+            
+              <a href="http://www.blogger.com/profile/11904874713490692624" rel="nofollow">alexrush</a>
+            
+            комментирует...
+          </dt>
+          <dd class="comment-body">
+            
+              <p>++Я
+склоняюсь к "деньгам" именно потому, что человеческий интерес,
+основанный на деньгах - в большинстве случаев самый сильный и
+искренний.++<br>а "праздношатающаяся публика" {(с) Андропов Ю.В.} меня интересует мало.<br><br>Интересных
+тем много, я в настоящее время делаю ресурс на тему открытых ГИС и
+PostGIS в частности. Планирую в начале следующего конце месяца
+запустить в бету. инвайт гаратнтирую :)</p>
+            
+          </dd>
+          <dd class="comment-footer">
+            <span class="comment-timestamp">
+              <a href="http://geomapx.blogspot.com/2007/06/postgis.html#c3575069830015294696" title="comment permalink">
+                7 Июль 2007 г. 0:06
+              </a>
+              
+  <span class="item-control blog-admin pid-1010852751">
+    <a href="http://www.blogger.com/delete-comment.g?blogID=3597410985907051565&amp;postID=3575069830015294696" title="Удалить комментарий">
+      <span class="delete-comment-icon">&nbsp;</span>
+    </a>
+  </span>
+
+            </span>
+          </dd>
+        
+          <dt class="comment-author" id="c8874051223344844108">
+            <a name="c8874051223344844108"></a>
+            
+              <a href="http://www.blogger.com/profile/11456235518086085574" rel="nofollow">Печников Алексей</a>
+            
+            комментирует...
+          </dt>
+          <dd class="comment-body">
+            
+              <p>Ресурс
+по открытым ГИС это хорошо, а есть ли к ним интерес? Многих устраивает
+краденый MapInfo и ArcView. Сомневаюсь, что Вам удастся сделать
+продукт, который имеет функциональность и документацию лучше всех
+платных аналогов и стоит меньше, чем стоимость пиратского диска (3$
+примерно). <br><br>Но поскольку все же есть люди, кто не крадет (по
+тем или иным причинам), мне с ними интересно пообщаться, ради этого уже
+стоит создать свой информационный ресурс. <br><br>Для заработка логичнее создать англоязычный сайт и торговать за бугром. Не думали?</p>
+            
+          </dd>
+          <dd class="comment-footer">
+            <span class="comment-timestamp">
+              <a href="http://geomapx.blogspot.com/2007/06/postgis.html#c8874051223344844108" title="comment permalink">
+                7 Июль 2007 г. 10:04
+              </a>
+              
+  <span class="item-control blog-admin pid-174497795">
+    <a href="http://www.blogger.com/delete-comment.g?blogID=3597410985907051565&amp;postID=8874051223344844108" title="Удалить комментарий">
+      <span class="delete-comment-icon">&nbsp;</span>
+    </a>
+  </span>
+
+            </span>
+          </dd>
+        
+      </dl>
+
+      <p class="comment-footer">
+        <a href="http://www.blogger.com/comment.g?blogID=3597410985907051565&amp;postID=635905215838153682" onclick="">Отправить комментарий</a>
+      </p>
+    
+
+    <div id="backlinks-container">
+    <div id="Blog1_backlinks-container">
+       
+    </div>
+    </div>
+  </div>
+
+      
+      
+    
+    <!-- google_ad_section_end -->
+  </div>
+
+  
+  
+  <div class="blog-pager" id="blog-pager">
+    
+      <span id="blog-pager-newer-link">
+      <a class="blog-pager-newer-link" href="http://geomapx.blogspot.com/2007/06/blog-post_18.html" id="Blog1_blog-pager-newer-link" title="Следующее">Следующее</a>
+      </span>
+    
+
+    
+      <span id="blog-pager-older-link">
+      <a class="blog-pager-older-link" href="http://geomapx.blogspot.com/2007/06/mapserver_5203.html" id="Blog1_blog-pager-older-link" title="Предыдущее">Предыдущее</a>
+      </span>
+    
+
+    
+      <a class="home-link" href="http://geomapx.blogspot.com/">Главная страница</a>
+      
+
+  </div>
+  <div class="clear"></div>
+
+
+  
+  
+   
+    <div class="post-feeds">
+      
+        
+          
+            
+  <div class="feed-links">
+  Подписаться на:
+  
+     <a class="feed-link" href="http://geomapx.blogspot.com/feeds/635905215838153682/comments/default" target="_blank" type="application/atom+xml">Комментарии к сообщению (Atom)</a>
+  
+  </div>
+
+          
+        
+      
+    </div>
+  
+
+</div><div class="widget HTML" id="HTML1">
+  
+  
+  <div class="widget-content">
+    <br>
+<center>
+(C) Печников Алексей, <a href="http://mobigroup.ru/">mobigroup.ru</a> 
+<br>
+<a href="http://support.mobigroup.ru/files/blog/copyright_pechnikov.html">Правила использования материалов блога</a>
+</center>
+  </div>
+
+  
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=HTML&amp;widgetId=HTML1&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("HTML1"));' target="configHTML1" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+</div></div>
+      </div>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar"><div class="widget HTML" id="HTML5">
+  
+  
+  <div class="widget-content">
+    <table style="padding: 5px;" border="0" cellspacing="0">
+  <tbody><tr><td style="padding-left: 5px;"> <b>Подпишитесь на рассылку</b> </td></tr>
+  <form action="http://groups.google.com/group/geomapx/boxsubscribe"></form>
+  <tr><td style="padding-left: 5px;"> Электронная почта: <input name="email" type="text">
+           <input value="Подписка" name="sub" type="submit">
+  </td></tr>
+
+<tr><td align="right"> <a href="http://groups.google.com/group/geomapx">Перейти в эту рассылку</a> </td></tr>
+</tbody></table>
+  </div>
+
+  
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=HTML&amp;widgetId=HTML5&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("HTML5"));' target="configHTML5" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+</div><div class="widget BlogArchive" id="BlogArchive1">
+  
+    <h2>Архив GeoMapX</h2>
+  
+  <div class="widget-content">
+  <div id="ArchiveList">
+  <div id="BlogArchive1_ArchiveList">
+    
+     
+  
+      <ul>
+        <li class="archivedate expanded">
+          
+  
+  
+    <a class="toggle" href="http://geomapx.blogspot.com/2007/06/postgis.html?widgetType=BlogArchive&amp;widgetId=BlogArchive1&amp;action=toggle&amp;dir=close&amp;toggle=YEARLY-1167638400000&amp;toggleopen=MONTHLY-1191222000000">
+        <span class="zippy toggle-open">▼ </span>
+    </a>
+  
+ 
+
+          <a class="post-count-link" href="http://geomapx.blogspot.com/search?updated-min=2007-01-01T00%3A00%3A00-08%3A00&amp;updated-max=2008-01-01T00%3A00%3A00-08%3A00&amp;max-results=48">2007</a>
+            (<span class="post-count">48</span>)
+          
+            
+  
+      <ul>
+        <li class="archivedate expanded">
+          
+  
+  
+    <a class="toggle" href="http://geomapx.blogspot.com/2007/06/postgis.html?widgetType=BlogArchive&amp;widgetId=BlogArchive1&amp;action=toggle&amp;dir=close&amp;toggle=MONTHLY-1191222000000&amp;toggleopen=MONTHLY-1191222000000">
+        <span class="zippy toggle-open">▼ </span>
+    </a>
+  
+ 
+
+          <a class="post-count-link" href="http://geomapx.blogspot.com/2007_10_01_archive.html">Октябрь</a>
+            (<span class="post-count">1</span>)
+          
+          
+            
+  <ul class="posts">
+    
+      <li><a href="http://geomapx.blogspot.com/2007/10/rendering-roads-on-google-maps-using.html">Использование Java и PostGIS для отображения карты...</a></li>
+    
+  </ul>
+
+          
+        </li>
+      </ul>
+  
+      <ul>
+        <li class="archivedate collapsed">
+          
+  
+  
+    <a class="toggle" href="http://geomapx.blogspot.com/2007/06/postgis.html?widgetType=BlogArchive&amp;widgetId=BlogArchive1&amp;action=toggle&amp;dir=open&amp;toggle=MONTHLY-1183273200000&amp;toggleopen=MONTHLY-1191222000000">
+          <span class="zippy">► </span>
+    </a>
+  
+ 
+
+          <a class="post-count-link" href="http://geomapx.blogspot.com/2007_07_01_archive.html">Июль</a>
+            (<span class="post-count">23</span>)
+          
+          
+            
+  <ul class="posts">
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/mapserver-fonts-howto.html">Настройка шрифтов в mapserver (mapserver fonts how...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/google-maps-strange.html">Удивительное рядом: карты Google Maps</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/navigation-systems-modeling.html">Построение навигационных систем</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/postgis-globexplorer.html">PostGIS GlobeXplorer</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/pure-html-for-google-maps-creation-4.html">Только HTML для создания карт Google Maps. Часть 4...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/pure-html-for-google-maps-creation-3.html">Только HTML для создания карт Google Maps. Часть 3...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/pure-html-for-google-maps-creation-2.html">Только HTML для создания карт Google Maps. Часть 2...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/pure-html-for-google-maps-creation.html">Только HTML для создания карт Google Maps. Часть 1...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/google-maps-visual-editor.html">Моя карта Google Maps за полчаса</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/some-experiments-with-google-maps.html">Эксперименты с Google Maps</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/google-maps-and-custom-layer-of-nizhny.html">Карта Google Maps интегрированная с картой Нижнего...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/converter-from-google-mapsroute.html">Конвертор из маршрутов Google Maps</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/about-google-earth-and-google-maps.html">История и некоторые курьезы Google Maps и Google E...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/kml-converter-russian.html">Конвертор трэков в формат KML</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/gps-convertor.html">Веб-конверторы для GPS-навигации</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/kml-documentation.html">Формат KML как ключ к миру геоинформации</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/kml-basic.html">Формат KML. Часть 2. Основные возможности</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/kml-introduction.html">Формат KML. Часть 1. Введение</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/google-maps-explore.html">Google Maps для начинающих</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/google-maps-examples.html">Google Maps в примерах</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/google-mapplets-maps-api.html">Google Mapplets: Отличие "настоящих" маплетов от с...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/google-mapplets.html">Google Mapplets: Концепция и примеры. Практикум</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/07/falcom-a2d-3-jp3.html">Мой архив: прошивка для навигационного терминала F...</a></li>
+    
+  </ul>
+
+          
+        </li>
+      </ul>
+  
+      <ul>
+        <li class="archivedate collapsed">
+          
+  
+  
+    <a class="toggle" href="http://geomapx.blogspot.com/2007/06/postgis.html?widgetType=BlogArchive&amp;widgetId=BlogArchive1&amp;action=toggle&amp;dir=open&amp;toggle=MONTHLY-1180681200000&amp;toggleopen=MONTHLY-1191222000000">
+          <span class="zippy">► </span>
+    </a>
+  
+ 
+
+          <a class="post-count-link" href="http://geomapx.blogspot.com/2007_06_01_archive.html">Июнь</a>
+            (<span class="post-count">24</span>)
+          
+          
+            
+  <ul class="posts">
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/google-earth-examples.html">Google Earth: Примеры</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/google-mapplets_28.html">Google Mapplets: Начинаем работу</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/google-mapplets.html">Google Mapplets: Концепция и примеры. Введение</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/faq.html">По отзывам читателей: FAQ по созданию и использова...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/gpsbabel-gps.html">GPSBabel: загрузка и получение данных с GPS-приемн...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/mapserver_18.html">Mapserver: клиентское приложение</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/blog-post_18.html">По отзывам читателей: список интересных тем</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/postgis.html">PostGIS: Пространственный анализ в PostGIS с испол...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/mapserver_5203.html">Mapserver: Примеры реализации серверной части</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/google-earth-kml-shp-nmea-gpx.html">Google Earth: конвертация в формат KML шейпфайлов ...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/mapserver-ogr.html">Mapserver: Использование библиотеки OGR</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/mapserver_385.html">Mapserver: растры (перевод)</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/mapserver_16.html">Mapserver: быстрый старт (перевод)</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/mapserver.html">Mapserver: движок для публикации растровых и векто...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/quantum-gis-qgis.html">Quantum GIS (QGIS): обзор</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/postgis-postgresql.html">PostGIS: начинаем работу с модулем пространственны...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/blog-post_3625.html">Методика работ: изучение и анализ топографических ...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/blog-post_3370.html">КТО ВЫИГРЫВАЕТ ОТ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ С ОТКРЫ...</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/blog-post_1100.html">Экономика и ГИС</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/blog-post_1559.html">ГИС и коммерция</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/blog-post_1340.html">ПУБЛИКАЦИЯ ВЕКТОРНЫХ КАРТ</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/blog-post_16.html">ПУБЛИКАЦИЯ РАСТРОВЫХ КАРТ</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/blog-post.html">ПРОЕКТИРОВАНИЕ ГЕОИНФОРМАЦИОННЫХ СИСТЕМ</a></li>
+    
+      <li><a href="http://geomapx.blogspot.com/2007/06/lowrance-gps.html">RiverBottom: Программа обработки данных эхолота Lo...</a></li>
+    
+  </ul>
+
+          
+        </li>
+      </ul>
+  
+
+          
+          
+        </li>
+      </ul>
+  
+
+    
+    
+    
+  </div>
+  </div>
+  
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=BlogArchive&amp;widgetId=BlogArchive1&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("BlogArchive1"));' target="configBlogArchive1" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+  </div>
+</div><div class="widget Profile" id="Profile1">
+    
+      <h2>Обо мне</h2>
+    
+    <div class="widget-content">
+     
+
+      
+        <a href="http://www.blogger.com/profile/11456235518086085574"><img ilo-ph-fix="fixed" ilo-full-src="http://bp2.blogger.com/_txZVSsgUan0/RnKD4rw43tI/AAAAAAAAAAM/CXR_0xgOIT0/s320/mylogo.jpg" alt="Моя фотография" class="profile-img" src="postgis_files/mylogo.jpg" height="80" width="53"></a>
+      
+
+      <dl class="profile-datablock">
+        <dt class="profile-data">Печников Алексей</dt>
+
+        
+
+        
+      </dl>
+      <a class="profile-link" href="http://www.blogger.com/profile/11456235518086085574">Просмотреть полную версию профиля</a>
+    
+
+     
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=Profile&amp;widgetId=Profile1&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("Profile1"));' target="configProfile1" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+    </div>
+  </div><div class="widget HTML" id="HTML3">
+  
+  
+  <div class="widget-content">
+    <script type="text/javascript"><!--
+google_ad_client = "pub-1572148954270629";
+google_ad_width = 180;
+google_ad_height = 60;
+google_ad_format = "180x60_as_rimg";
+google_cpa_choice = "CAAQ97X8zwEaCG4aaZGCkVE3KLXhl3QwAA";
+//-->
+</script>
+<script src="postgis_files/show_ads.js" type="text/javascript">
+</script><iframe style="display: none;" name="google_ads_frame" src="postgis_files/ads_002.html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" frameborder="0" height="60" scrolling="no" width="180"></iframe>
+  </div>
+
+  
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=HTML&amp;widgetId=HTML3&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("HTML3"));' target="configHTML3" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+</div><div class="widget Feed" id="Feed1">
+    <h2>Проект PostgresTips</h2>
+    <div class="widget-content">
+    <ul id="Feed1_feedItemListDisplay">
+      
+        <li>
+          <span class="item-title">
+            <a href="http://postgrestips.blogspot.com/2007/07/temp.html">
+              Временные таблицы и виды
+            </a>
+          </span>
+          
+          
+        </li>
+      
+        <li>
+          <span class="item-title">
+            <a href="http://postgrestips.blogspot.com/2007/07/functional.html">
+              Функционалы
+            </a>
+          </span>
+          
+          
+        </li>
+      
+        <li>
+          <span class="item-title">
+            <a href="http://postgrestips.blogspot.com/2007/07/optimizationtime.html">
+              Оптимизация времени разработки
+            </a>
+          </span>
+          
+          
+        </li>
+      
+        <li>
+          <span class="item-title">
+            <a href="http://postgrestips.blogspot.com/2007/07/optimizationlogic.html">
+              Логическая оптимизация
+            </a>
+          </span>
+          
+          
+        </li>
+      
+        <li>
+          <span class="item-title">
+            <a href="http://postgrestips.blogspot.com/2007/07/optimizationdataset.html">
+              Оптимизация хранения и доступа
+            </a>
+          </span>
+          
+          
+        </li>
+      
+    </ul>
+    
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=Feed&amp;widgetId=Feed1&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("Feed1"));' target="configFeed1" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+    </div>
+  </div><div class="widget Feed" id="Feed2">
+    <h2>И за этим поворотом...</h2>
+    <div class="widget-content">
+    <ul id="Feed2_feedItemListDisplay">
+      
+        <li>
+          <span class="item-title">
+            <a href="http://pechnikov.blogspot.com/2007/08/aolserver4-manual-customizing.html">
+              Ручная доводка AolServer4
+            </a>
+          </span>
+          
+          
+        </li>
+      
+        <li>
+          <span class="item-title">
+            <a href="http://pechnikov.blogspot.com/2007/08/rsync.html">
+              Бэкап удаленного сервера с помощью rsync с сертификатом
+            </a>
+          </span>
+          
+          
+        </li>
+      
+        <li>
+          <span class="item-title">
+            <a href="http://pechnikov.blogspot.com/2007/07/mirroring-livejornal-blog.html">
+              Зеркалирование блога из ЖЖ
+            </a>
+          </span>
+          
+          
+        </li>
+      
+        <li>
+          <span class="item-title">
+            <a href="http://pechnikov.blogspot.com/2007/07/video.html">
+              Фильмы Керженского заповедника
+            </a>
+          </span>
+          
+          
+        </li>
+      
+        <li>
+          <span class="item-title">
+            <a href="http://pechnikov.blogspot.com/2007/06/2007.html">
+              Керженский заповедник в начале июня 2007 года
+            </a>
+          </span>
+          
+          
+        </li>
+      
+    </ul>
+    
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=Feed&amp;widgetId=Feed2&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("Feed2"));' target="configFeed2" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+    </div>
+  </div><div class="widget Feed" id="Feed3">
+    <h2>Мультимедиа</h2>
+    <div class="widget-content">
+    <ul id="Feed3_feedItemListDisplay">
+      
+        <li>
+          <span class="item-title">
+            <a href="http://nikav.blogspot.com/2007/07/mencoder.html">
+              Кодирование в mencoder
+            </a>
+          </span>
+          
+          
+        </li>
+      
+        <li>
+          <span class="item-title">
+            <a href="http://nikav.blogspot.com/2007/07/mkv.html">
+              Работа с mkv файлами.
+            </a>
+          </span>
+          
+          
+        </li>
+      
+    </ul>
+    
+  <div class="clear"></div>
+  <span class="widget-item-control">
+  <span class="item-control blog-admin">
+    <a class="quickedit" href="http://www.blogger.com/rearrange?blogID=3597410985907051565&amp;widgetType=Feed&amp;widgetId=Feed3&amp;action=editWidget" onclick='return _WidgetManager._PopupConfig(document.getElementById("Feed3"));' target="configFeed3" title="Изменить">
+      <span class="quick-edit-icon">&nbsp;</span>
+    </a>
+  </span>
+  </span>
+  <div class="clear"></div>
+
+    </div>
+  </div></div>
+      </div>
+
+      <!-- spacer for skins that want sidebar and main to be the same height-->
+      <div class="clear">&nbsp;</div>
+
+    </div> <!-- end content-wrapper -->
+  </div></div> <!-- end outer-wrapper -->
+<script src="postgis_files/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-2212558-1";
+urchinTracker();
+</script>
+<script type="text/javascript">
+_WidgetManager._Init('http://www.blogger.com/rearrange?blogID=3597410985907051565', 'http://geomapx.blogspot.com/2007/06/postgis.html','3597410985907051565');
+_WidgetManager._SetPageActionUrl('http://www.blogger.com/display?blogID=3597410985907051565', 'fl1HgqDaVz6nLg8Cb0GTxKcS69M=:1194285921055');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'title': 'Проект GeoMapX', 'pageType': 'item', 'url': 'http://geomapx.blogspot.com/2007/06/postgis.html', 'homepageUrl': 'http://geomapx.blogspot.com/', 'pageTitle': 'Проект GeoMapX: PostGIS: Пространственный анализ в PostGIS с использованием множества координатных систем', 'encoding': 'UTF-8', 'isPrivate': false, 'languageDirection': 'ltr', 'feedLinks': '\u003clink rel\u003d\"alternate\" type\u003d\"application/atom+xml\" title\u003d\"Проект GeoMapX - Atom\" href\u003d\"http://geomapx.blogspot.com/feeds/posts/default\" /\>\n\u003clink rel\u003d\"alternate\" type\u003d\"application/rss+xml\" title\u003d\"Проект GeoMapX - RSS\" href\u003d\"http://geomapx.blogspot.com/feeds/posts/default?alt\u003drss\" /\>\n\u003clink rel\u003d\"service.post\" type\u003d\"application/atom+xml\" title\u003d\"Проект GeoMapX - Atom\" href\u003d\"http://www.blogger.com/feeds/3597410985907051565/posts/default\" /\>\n\u003clink rel\u003d\"EditURI\" type\u003d\"application/rsd+xml\" title\u003d\"RSD\" href\u003d\"http://www.blogger.com/rsd.g?blogID\u003d3597410985907051565\" /\>\n\u003clink rel\u003d\"alternate\" type\u003d\"application/atom+xml\" title\u003d\"Проект GeoMapX - Atom\" href\u003d\"http://geomapx.blogspot.com/feeds/635905215838153682/comments/default\" /\>\n'}}]);
+_WidgetManager._SetSystemMarkup({'layout': {'varName': '', 'template': '\u003cdiv class\u003d\'widget-wrap1\'\>  \u003cdiv class\u003d\'widget-wrap2\'\> \u003cdiv class\u003d\'widget-wrap3\'\> \u003cdiv class\u003d\'widget-content\'\> \u003cdiv class\u003d\'layout-title\'\>\u003cdata:layout-title\>\u003c/data:layout-title\>\u003c/div\> \u003ca class\u003d\'editlink\' expr:href\u003d\'data:widget.quickEditUrl\' expr:onclick\u003d\'\"return _WidgetManager._PopupConfig(document.getElementById(\\\"\" +       data:widget.instanceId + \"\\\"));\"\' target\u003d\'chooseWidget\'\>\u003cdata:edit-link\>\u003c/data:edit-link\>\u003c/a\> \u003c/div\> \u003c/div\> \u003c/div\> \u003c/div\>'}, 'quickedit': {'varName': '', 'template': '\u003cdiv class\u003d\'clear\'\>\u003c/div\> \u003cspan class\u003d\'widget-item-control\'\> \u003cspan class\u003d\'item-control blog-admin\'\> \u003ca class\u003d\'quickedit\' expr:href\u003d\'data:widget.quickEditUrl\' expr:onclick\u003d\'\"return _WidgetManager._PopupConfig(document.getElementById(\\\"\" +       data:widget.instanceId + \"\\\"));\"\' expr:target\u003d\'\"config\" + data:widget.instanceId\' expr:title\u003d\'data:edit-link\'\> \u003cspan class\u003d\'quick-edit-icon\'\>&#160;\u003c/span\> \u003c/a\> \u003c/span\> \u003c/span\> \u003cdiv class\u003d\'clear\'\>\u003c/div\>'}, 'all-head-content': {'varName': 'page', 'template': '\u003cmeta expr:content\u003d\'\"text/html; charset\u003d\" + data:page.encoding\' http-equiv\u003d\'Content-Type\'/\> \u003cmeta content\u003d\'true\' name\u003d\'MSSmartTagsPreventParsing\'/\> \u003cmeta content\u003d\'blogger\' name\u003d\'generator\'/\> \u003cdata:blog.feedLinks\>\u003c/data:blog.feedLinks\> \u003cb:if cond\u003d\'data:page.isPrivate\'\> \u003cmeta content\u003d\'NOINDEX,NOFOLLOW\' name\u003d\'robots\'/\> \u003c/b:if\>'}});
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML5',  'sidebar',{'main': {'varName': '', 'template': '\u003cb:if cond\u003d\'data:title !\u003d \"\"\'\> \u003ch2 class\u003d\'title\'\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003c/b:if\> \u003cdiv class\u003d\'widget-content\'\> \u003cdata:content\>\u003c/data:content\> \u003c/div\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\>'}}, document.getElementById('HTML5'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1',  'sidebar',{'main': {'varName': '', 'template': '\u003cb:if cond\u003d\'data:title\'\> \u003ch2\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003c/b:if\> \u003cdiv class\u003d\'widget-content\'\> \u003cdiv id\u003d\'ArchiveList\'\> \u003cdiv expr:id\u003d\'data:widget.instanceId + \"_ArchiveList\"\'\> \u003cb:if cond\u003d\'data:style \u003d\u003d \"HIERARCHY\"\'\> \u003cb:include data\u003d\'data\' name\u003d\'interval\'\>\u003c/b:include\> \u003c/b:if\> \u003cb:if cond\u003d\'data:style \u003d\u003d \"FLAT\"\'\> \u003cb:include data\u003d\'data\' name\u003d\'flat\'\>\u003c/b:include\> \u003c/b:if\> \u003cb:if cond\u003d\'data:style \u003d\u003d \"MENU\"\'\> \u003cb:include data\u003d\'data\' name\u003d\'menu\'\>\u003c/b:include\> \u003c/b:if\> \u003c/div\> \u003c/div\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\> \u003c/div\>'}, 'flat': {'varName': 'data', 'template': '\u003cul\> \u003cb:loop values\u003d\'data:data\' var\u003d\'i\'\> \u003cli class\u003d\'archivedate\'\> \u003ca expr:href\u003d\'data:i.url\'\>\u003cdata:i.name\>\u003c/data:i.name\>\u003c/a\> (\u003cdata:i.post-count\>\u003c/data:i.post-count\>) \u003c/li\> \u003c/b:loop\> \u003c/ul\>'}, 'menu': {'varName': 'data', 'template': '\u003cselect expr:id\u003d\'data:widget.instanceId + \"_ArchiveMenu\"\'\> \u003coption value\u003d\'\'\>\u003cdata:title\>\u003c/data:title\>\u003c/option\> \u003cb:loop values\u003d\'data:data\' var\u003d\'i\'\> \u003coption expr:value\u003d\'data:i.url\'\>\u003cdata:i.name\>\u003c/data:i.name\> (\u003cdata:i.post-count\>\u003c/data:i.post-count\>)\u003c/option\> \u003c/b:loop\> \u003c/select\>'}, 'interval': {'varName': 'intervalData', 'template': '\u003cb:loop values\u003d\'data:intervalData\' var\u003d\'i\'\> \u003cul\> \u003cli expr:class\u003d\'\"archivedate \" + data:i.expclass\'\> \u003cb:include data\u003d\'i\' name\u003d\'toggle\'\>\u003c/b:include\> \u003ca class\u003d\'post-count-link\' expr:href\u003d\'data:i.url\'\>\u003cdata:i.name\>\u003c/data:i.name\>\u003c/a\> (\u003cspan class\u003d\'post-count\'\>\u003cdata:i.post-count\>\u003c/data:i.post-count\>\u003c/span\>) \u003cb:if cond\u003d\'data:i.data\'\> \u003cb:include data\u003d\'i.data\' name\u003d\'interval\'\>\u003c/b:include\> \u003c/b:if\> \u003cb:if cond\u003d\'data:i.posts\'\> \u003cb:include data\u003d\'i.posts\' name\u003d\'posts\'\>\u003c/b:include\> \u003c/b:if\> \u003c/li\> \u003c/ul\> \u003c/b:loop\>'}, 'toggle': {'varName': 'interval', 'template': '\u003cb:if cond\u003d\'data:interval.toggleId\'\> \u003cb:if cond\u003d\'data:interval.expclass \u003d\u003d \"expanded\"\'\> \u003ca class\u003d\'toggle\' expr:href\u003d\'data:widget.actionUrl + \"&amp;action\u003dtoggle\" +       \"&amp;dir\u003dclose&amp;toggle\u003d\" + data:interval.toggleId +       \"&amp;toggleopen\u003d\" + data:toggleopen\'\> \u003cspan class\u003d\'zippy toggle-open\'\>&#9660; \u003c/span\> \u003c/a\> \u003cb:else\>\u003c/b:else\> \u003ca class\u003d\'toggle\' expr:href\u003d\'data:widget.actionUrl + \"&amp;action\u003dtoggle\" +         \"&amp;dir\u003dopen&amp;toggle\u003d\" + data:interval.toggleId +         \"&amp;toggleopen\u003d\" + data:toggleopen\'\> \u003cspan class\u003d\'zippy\'\>&#9658; \u003c/span\> \u003c/a\> \u003c/b:if\> \u003c/b:if\>'}, 'posts': {'varName': 'posts', 'template': '\u003cul class\u003d\'posts\'\> \u003cb:loop values\u003d\'data:posts\' var\u003d\'i\'\> \u003cli\>\u003ca expr:href\u003d\'data:i.url\'\>\u003cdata:i.title\>\u003c/data:i.title\>\u003c/a\>\u003c/li\> \u003c/b:loop\> \u003c/ul\>'}}, document.getElementById('BlogArchive1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_ProfileView', new _WidgetInfo('Profile1',  'sidebar',{'main': {'varName': '', 'template': '\u003cb:if cond\u003d\'data:title !\u003d \"\"\'\> \u003ch2\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003c/b:if\> \u003cdiv class\u003d\'widget-content\'\> \u003cb:if cond\u003d\'data:team \u003d\u003d \"true\"\'\>  \u003cul\> \u003cb:loop values\u003d\'data:authors\' var\u003d\'i\'\> \u003cli\>\u003ca expr:href\u003d\'data:i.userUrl\'\>\u003cdata:i.display-name\>\u003c/data:i.display-name\>\u003c/a\>\u003c/li\> \u003c/b:loop\> \u003c/ul\> \u003cb:else\>\u003c/b:else\>  \u003cb:if cond\u003d\'data:photo.url !\u003d \"\"\'\> \u003ca expr:href\u003d\'data:userUrl\'\>\u003cimg class\u003d\'profile-img\' expr:alt\u003d\'data:photo.alt\' expr:height\u003d\'data:photo.height\' expr:src\u003d\'data:photo.url\' expr:width\u003d\'data:photo.width\'/\>\u003c/a\> \u003c/b:if\> \u003cdl class\u003d\'profile-datablock\'\> \u003cdt class\u003d\'profile-data\'\>\u003cdata:displayname\>\u003c/data:displayname\>\u003c/dt\> \u003cb:if cond\u003d\'data:showlocation \u003d\u003d \"true\"\'\> \u003cdd class\u003d\'profile-data\'\>\u003cdata:location\>\u003c/data:location\>\u003c/dd\> \u003c/b:if\> \u003cb:if cond\u003d\'data:aboutme !\u003d \"\"\'\>\u003cdd class\u003d\'profile-textblock\'\>\u003cdata:aboutme\>\u003c/data:aboutme\>\u003c/dd\>\u003c/b:if\> \u003c/dl\> \u003ca class\u003d\'profile-link\' expr:href\u003d\'data:userUrl\'\>\u003cdata:viewProfileMsg\>\u003c/data:viewProfileMsg\>\u003c/a\> \u003c/b:if\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\> \u003c/div\>'}}, document.getElementById('Profile1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML3',  'sidebar',{'main': {'varName': '', 'template': '\u003cb:if cond\u003d\'data:title !\u003d \"\"\'\> \u003ch2 class\u003d\'title\'\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003c/b:if\> \u003cdiv class\u003d\'widget-content\'\> \u003cdata:content\>\u003c/data:content\> \u003c/div\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\>'}}, document.getElementById('HTML3'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_FeedView', new _WidgetInfo('Feed1',  'sidebar',{'main': {'varName': '', 'template': '\u003ch2\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003cdiv class\u003d\'widget-content\'\> \u003cul expr:id\u003d\'data:widget.instanceId + \"_feedItemListDisplay\"\'\> \u003cb:loop values\u003d\'data:feedData.items\' var\u003d\'i\'\> \u003cli\> \u003cspan class\u003d\'item-title\'\> \u003ca expr:href\u003d\'data:i.alternate.href\'\> \u003cdata:i.title\>\u003c/data:i.title\> \u003c/a\> \u003c/span\> \u003cb:if cond\u003d\'data:showItemDate\'\> \u003cb:if cond\u003d\'data:i.str_published !\u003d \"\"\'\> \u003cspan class\u003d\'item-date\'\> &#160;-&#160;\u003cdata:i.str_published\>\u003c/data:i.str_published\> \u003c/span\> \u003c/b:if\> \u003c/b:if\> \u003cb:if cond\u003d\'data:showItemAuthor\'\> \u003cb:if cond\u003d\'data:i.author !\u003d \"\"\'\> \u003cspan class\u003d\'item-author\'\> &#160;-&#160;\u003cdata:i.author\>\u003c/data:i.author\> \u003c/span\> \u003c/b:if\> \u003c/b:if\> \u003c/li\> \u003c/b:loop\> \u003c/ul\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\> \u003c/div\>'}}, document.getElementById('Feed1'), {'title': 'Проект PostgresTips', 'showItemDate': false, 'showItemAuthor': false, 'feedUrl': 'http://postgrestips.blogspot.com/feeds/posts/default', 'numItemsShow': 5, 'locale': 'ru', 'timeZone': 'America/Los_Angeles', 'feedReaderJsonBaseUrl': '/feedReaderJson', 'feedWidgetRefreshIntervalSec': 1800, 'feedData': {'title': 'Проект Postgres Tips', 'items': [{'guid': 'tag:blogger.com,1999:blog-4133798542555048617.post-3065305485022983440', 'title': 'Временные таблицы и виды', 'published': 1183828500, 'updated': 1184153246, 'alternate': {'href': 'http://postgrestips.blogspot.com/2007/07/temp.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'При проведении анализа данных и построении отчетов нередко требуется реализовать сложную логику обработки данных. Написание множества огромных и малопонятных (которые с течением времени становятся и вовсе непонятными) SQL-запросов становится тяжким роком разработчика. Необходимость расширить функциональность или изменить алгоритм вычисления способна привести к тому, что все запросы переписываются', 'str_published': '07.07.2007', 'str_updated': '11.07.2007', 'custom_content': []}, {'guid': 'tag:blogger.com,1999:blog-4133798542555048617.post-4958549788037597957', 'title': 'Функционалы', 'published': 1183793940, 'updated': 1184153261, 'alternate': {'href': 'http://postgrestips.blogspot.com/2007/07/functional.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'Функционал (functional) &#8212; функция, обычно определённая на множестве функций со значениями обычно в вещественных числах. \n\nОдним из важнейших шагов при проектировании базы данных является выбор функционалов (вычисленных функций от наборов данных), необходимых для эффективного анализа данных. Вы думаете, что набор функционалов нужен только для ускорения выборки данных? Конечно, нет! Кроме повышения', 'str_published': '07.07.2007', 'str_updated': '11.07.2007', 'custom_content': []}, {'guid': 'tag:blogger.com,1999:blog-4133798542555048617.post-1413092984561597644', 'title': 'Оптимизация времени разработки', 'published': 1183413600, 'updated': 1184153274, 'alternate': {'href': 'http://postgrestips.blogspot.com/2007/07/optimizationtime.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'В сети Вы можете встретить множество вариантов эмуляции в PostgreSQL возможностей из других СУБД. Некоторые из этих реализаций интересны и даже остроумны. Вот только идеи, заложенные в них, часто способны привести в тупик. Есть много заманчивых ловушек, например, материализованные виды (это вид, который вместо создания набора данных при каждом обращении хранит заранее вычисленный набор данных и', 'str_published': '02.07.2007', 'str_updated': '11.07.2007', 'custom_content': []}, {'guid': 'tag:blogger.com,1999:blog-4133798542555048617.post-7872069861695911225', 'title': 'Логическая оптимизация', 'published': 1183413420, 'updated': 1184153291, 'alternate': {'href': 'http://postgrestips.blogspot.com/2007/07/optimizationlogic.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'Сложные отчеты, требующие обработки гигабайтов данных, не могут быть построены используя только средства оптимизации хранения и доступа. Если предположить, что скорость чтения с жесткого диска составляет 60 Мб/с, то даже на простое чтение 1Гб данных потребуется около 15 секунд времени и это при одном-единственном пользователе, а при многопользовательском доступе такая ситуация совершенно', 'str_published': '02.07.2007', 'str_updated': '11.07.2007', 'custom_content': []}, {'guid': 'tag:blogger.com,1999:blog-4133798542555048617.post-1267060460129075042', 'title': 'Оптимизация хранения и доступа', 'published': 1183413420, 'updated': 1184153313, 'alternate': {'href': 'http://postgrestips.blogspot.com/2007/07/optimizationdataset.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'Для построения простых отчетов, обрабатывающих относительно небольшую выборку, достаточно использования методов оптимизации хранения и доступа - разделение таблиц, создание индексов и кластеризация и обязательно в указанном порядке. Современные СУБД реализуют отличные алгоритмы для выполнения такого типа оптимизации, и если правильно использовать встроенные средства СУБД, ничего изобретать не', 'str_published': '02.07.2007', 'str_updated': '11.07.2007', 'custom_content': []}]}}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_FeedView', new _WidgetInfo('Feed2',  'sidebar',{'main': {'varName': '', 'template': '\u003ch2\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003cdiv class\u003d\'widget-content\'\> \u003cul expr:id\u003d\'data:widget.instanceId + \"_feedItemListDisplay\"\'\> \u003cb:loop values\u003d\'data:feedData.items\' var\u003d\'i\'\> \u003cli\> \u003cspan class\u003d\'item-title\'\> \u003ca expr:href\u003d\'data:i.alternate.href\'\> \u003cdata:i.title\>\u003c/data:i.title\> \u003c/a\> \u003c/span\> \u003cb:if cond\u003d\'data:showItemDate\'\> \u003cb:if cond\u003d\'data:i.str_published !\u003d \"\"\'\> \u003cspan class\u003d\'item-date\'\> &#160;-&#160;\u003cdata:i.str_published\>\u003c/data:i.str_published\> \u003c/span\> \u003c/b:if\> \u003c/b:if\> \u003cb:if cond\u003d\'data:showItemAuthor\'\> \u003cb:if cond\u003d\'data:i.author !\u003d \"\"\'\> \u003cspan class\u003d\'item-author\'\> &#160;-&#160;\u003cdata:i.author\>\u003c/data:i.author\> \u003c/span\> \u003c/b:if\> \u003c/b:if\> \u003c/li\> \u003c/b:loop\> \u003c/ul\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\> \u003c/div\>'}}, document.getElementById('Feed2'), {'title': 'И за этим поворотом...', 'showItemDate': false, 'showItemAuthor': false, 'feedUrl': 'http://pechnikov.blogspot.com/feeds/posts/default', 'numItemsShow': 5, 'locale': 'ru', 'timeZone': 'America/Los_Angeles', 'feedReaderJsonBaseUrl': '/feedReaderJson', 'feedWidgetRefreshIntervalSec': 1800, 'feedData': {'title': 'И за этим поворотом...', 'items': [{'guid': 'tag:blogger.com,1999:blog-2399176432182185365.post-8697046964015728251', 'title': 'Ручная доводка AolServer4', 'published': 1186819980, 'updated': 1186823508, 'alternate': {'href': 'http://pechnikov.blogspot.com/2007/08/aolserver4-manual-customizing.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'Веб-сервер AolServer4 является платформой промышленного уровня для создания мощных, надежных и высокоэффективных веб-приложений. В нем предусмотрены возможности управления огромными множествами виртуальных хостов, пулы соединений с базой данных, пулы клиентских подключений, эффективные схемы кэширования статического и динамического содержимого, встроенная поддержка языка tcl и многое другое.', 'str_published': '11.08.2007', 'str_updated': '11.08.2007', 'custom_content': []}, {'guid': 'tag:blogger.com,1999:blog-2399176432182185365.post-7779555675104516399', 'title': 'Бэкап удаленного сервера с помощью rsync с сертификатом', 'published': 1186646100, 'updated': 1186648244, 'alternate': {'href': 'http://pechnikov.blogspot.com/2007/08/rsync.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'Наконец-то дошли руки сделать бэкап сервера на другую машину. Соответственно, потребовалось обеспечить из скрипта доступ на удаленный сервер без указания пароля и непосредственно создание бэкапа (инкрементального). Беспарольный доступ обеспечить понятно как - создать сертификат. Потом пытался замонтировать через fuse sshfs, но тут sudo требует пароль. Некоторые размышления и rtfm показали, что', 'str_published': '09.08.2007', 'str_updated': '09.08.2007', 'custom_content': []}, {'guid': 'tag:blogger.com,1999:blog-2399176432182185365.post-202692233773984484', 'title': 'Зеркалирование блога из ЖЖ', 'published': 1184512920, 'updated': 1184513708, 'alternate': {'href': 'http://pechnikov.blogspot.com/2007/07/mirroring-livejornal-blog.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'Один из однокурсников матушки возымел желание опубликовать фотки после встречи в Пустыни в интернет и воспользовался для этой цели аккаунтом на Живом Журнале (LiveJornal, сокращенно ЖЖ). Как и следовало ожидать, матушка пожелала получить \"это\" в виде оффлайн-версии, что привело меня к печальному осознанию всей кривизны реализации этого самого ЖЖ и некоторых размышлений на тему, как же сделать эту', 'str_published': '15.07.2007', 'str_updated': '15.07.2007', 'custom_content': []}, {'guid': 'tag:blogger.com,1999:blog-2399176432182185365.post-7447482119613864574', 'title': 'Фильмы Керженского заповедника', 'published': 1183321740, 'updated': 1183324114, 'alternate': {'href': 'http://pechnikov.blogspot.com/2007/07/video.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'С любезного разрешения администрации Керженского заповедника выкладываю два фильма из жизни зверушек. Фильмы сняты силами сотрудников заповедника. \n\nВнимание: все представленные материалы предназначены только для некоммерческого использования! В случае возникновения вопросов свяжитесь с администрацией заповедника (контакты приведены в титрах и на обложке диска).\n\n601134, Нижний Новгород, ул.', 'str_published': '01.07.2007', 'str_updated': '01.07.2007', 'custom_content': []}, {'guid': 'tag:blogger.com,1999:blog-2399176432182185365.post-1943104422036706120', 'title': 'Керженский заповедник в начале июня 2007 года', 'published': 1181913720, 'updated': 1181999099, 'alternate': {'href': 'http://pechnikov.blogspot.com/2007/06/2007.html', 'type': 'application/octet-stream'}, 'author': 'Печников Алексей', 'summary': 'Давно хотел съездить в заповедник, и не просто искупаться в Керженце, а узнать о живности, его населяющей. Оказалось, это не так просто, без опытного гида много увидеть не удается. Когда-то мы ездили с друзьями на Керженец, купались, видели ужа и медведку :-) Этого мне показалось мало, хотелось встретить зверя покрупнее. И вот в этом году поехал на сутки вместе с сотрудниками заповедника, которые', 'str_published': '15.06.2007', 'str_updated': '16.06.2007', 'custom_content': []}]}}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_FeedView', new _WidgetInfo('Feed3',  'sidebar',{'main': {'varName': '', 'template': '\u003ch2\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003cdiv class\u003d\'widget-content\'\> \u003cul expr:id\u003d\'data:widget.instanceId + \"_feedItemListDisplay\"\'\> \u003cb:loop values\u003d\'data:feedData.items\' var\u003d\'i\'\> \u003cli\> \u003cspan class\u003d\'item-title\'\> \u003ca expr:href\u003d\'data:i.alternate.href\'\> \u003cdata:i.title\>\u003c/data:i.title\> \u003c/a\> \u003c/span\> \u003cb:if cond\u003d\'data:showItemDate\'\> \u003cb:if cond\u003d\'data:i.str_published !\u003d \"\"\'\> \u003cspan class\u003d\'item-date\'\> &#160;-&#160;\u003cdata:i.str_published\>\u003c/data:i.str_published\> \u003c/span\> \u003c/b:if\> \u003c/b:if\> \u003cb:if cond\u003d\'data:showItemAuthor\'\> \u003cb:if cond\u003d\'data:i.author !\u003d \"\"\'\> \u003cspan class\u003d\'item-author\'\> &#160;-&#160;\u003cdata:i.author\>\u003c/data:i.author\> \u003c/span\> \u003c/b:if\> \u003c/b:if\> \u003c/li\> \u003c/b:loop\> \u003c/ul\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\> \u003c/div\>'}}, document.getElementById('Feed3'), {'title': 'Мультимедиа', 'showItemDate': false, 'showItemAuthor': false, 'feedUrl': 'http://nikav.blogspot.com/feeds/posts/default', 'numItemsShow': 5, 'locale': 'ru', 'timeZone': 'America/Los_Angeles', 'feedReaderJsonBaseUrl': '/feedReaderJson', 'feedWidgetRefreshIntervalSec': 1800, 'feedData': {'title': 'nikolaev', 'items': [{'guid': 'tag:blogger.com,1999:blog-5559316031367563905.post-696436516396933515', 'title': 'Кодирование в mencoder', 'published': 1184777160, 'updated': 1184846520, 'alternate': {'href': 'http://nikav.blogspot.com/2007/07/mencoder.html', 'type': 'text/html'}, 'author': 'nikolaev.a.v.', 'summary': '\u003cspan style\u003d\"font-size:85%\"\>\u003cspan style\u003d\"font-family:verdana\"\>После появления более-менее нормального компьютера и как следствие - кучи фильмов на нем, появилось желание что-то перекодировать, что-то ужать ( например впихнуть пару двухслойных двд в один ;) ). Пока сидел под \u003cspan style\u003d\"font-style:italic\"\>Windows\u003c/span\>, пользовался \u003cspan style\u003d\"font-style:italic\"\>VirtualDub\u003c/span\>, ...\u003c/span\>\u003c/span\>', 'str_published': '18.07.2007', 'str_updated': '19.07.2007', 'custom_content': []}, {'guid': 'tag:blogger.com,1999:blog-5559316031367563905.post-1542232132588171825', 'title': 'Работа с mkv файлами.', 'published': 1184759280, 'updated': 1184846556, 'alternate': {'href': 'http://nikav.blogspot.com/2007/07/mkv.html', 'type': 'text/html'}, 'author': 'nikolaev.a.v.', 'summary': '\u003cspan style\u003d\"font-size:85%\"\>\u003cspan style\u003d\"font-family:verdana\"\>Последнее время часто попадается видео в формате mkv вместо привычного avi. В mkv файлы  зашивается несколько звуковых дорожек, несколько дорожек субтитров. Если просто смотришь видео, то все ок. А вот если видео редактируешь, то иногда бывает очень неудобно разбираться со всеми этими дорожками и вариантами субтитров. К тому же ...\u003c/span\>\u003c/span\>', 'str_published': '18.07.2007', 'str_updated': '19.07.2007', 'custom_content': []}]}}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_NavbarView', new _WidgetInfo('Navbar1',  'navbar',{'main': {'varName': '', 'template': '&lt;iframe src\u003d&quot;http://www.blogger.com/navbar.g?targetBlogID\u003d3597410985907051565&amp;amp;blogName\u003d%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82+GeoMapX&amp;amp;publishMode\u003dPUBLISH_MODE_BLOGSPOT&amp;amp;navbarType\u003dBLUE&amp;amp;layoutType\u003dLAYOUTS&amp;amp;homepageUrl\u003dhttp%3A%2F%2Fgeomapx.blogspot.com%2F&amp;amp;searchRoot\u003dhttp%3A%2F%2Fgeomapx.blogspot.com%2Fsearch&quot; marginwidth\u003d&quot;0&quot; marginheight\u003d&quot;0&quot; scrolling\u003d&quot;no&quot; frameborder\u003d&quot;0&quot; height\u003d&quot;30px&quot; width\u003d&quot;100%&quot; id\u003d&quot;navbar-iframe&quot;&gt;&lt;/iframe&gt; &lt;div id\u003d&quot;space-for-ie&quot;&gt;&lt;/div&gt;'}}, document.getElementById('Navbar1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML2',  'main',{'main': {'varName': '', 'template': '\u003cb:if cond\u003d\'data:title !\u003d \"\"\'\> \u003ch2 class\u003d\'title\'\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003c/b:if\> \u003cdiv class\u003d\'widget-content\'\> \u003cdata:content\>\u003c/data:content\> \u003c/div\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\>'}}, document.getElementById('HTML2'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML4',  'main',{'main': {'varName': '', 'template': '\u003cb:if cond\u003d\'data:title !\u003d \"\"\'\> \u003ch2 class\u003d\'title\'\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003c/b:if\> \u003cdiv class\u003d\'widget-content\'\> \u003cdata:content\>\u003c/data:content\> \u003c/div\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\>'}}, document.getElementById('HTML4'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1',  'main',{'main': {'varName': 'top', 'template': '\u003cdiv class\u003d\'blog-posts hfeed\'\> \u003cb:include data\u003d\'top\' name\u003d\'status-message\'\>\u003c/b:include\> \u003cdata:adStart\>\u003c/data:adStart\> \u003cb:loop values\u003d\'data:posts\' var\u003d\'post\'\> \u003cb:if cond\u003d\'data:post.dateHeader\'\> \u003ch2 class\u003d\'date-header\'\>\u003cdata:post.dateHeader\>\u003c/data:post.dateHeader\>\u003c/h2\> \u003c/b:if\> \u003cb:include data\u003d\'post\' name\u003d\'post\'\>\u003c/b:include\> \u003cb:if cond\u003d\'data:blog.pageType \u003d\u003d \"item\"\'\> \u003cb:include data\u003d\'post\' name\u003d\'comments\'\>\u003c/b:include\> \u003c/b:if\> \u003cb:if cond\u003d\'data:post.includeAd\'\> \u003cdata:adEnd\>\u003c/data:adEnd\> \u003cdata:adCode\>\u003c/data:adCode\> \u003cdata:adStart\>\u003c/data:adStart\> \u003c/b:if\> \u003c/b:loop\> \u003cdata:adEnd\>\u003c/data:adEnd\> \u003c/div\>  \u003cb:include name\u003d\'nextprev\'\>\u003c/b:include\>  \u003cb:include name\u003d\'feedLinks\'\>\u003c/b:include\>'}, 'nextprev': {'varName': '', 'template': '\u003cdiv class\u003d\'blog-pager\' id\u003d\'blog-pager\'\> \u003cb:if cond\u003d\'data:newerPageUrl\'\> \u003cspan id\u003d\'blog-pager-newer-link\'\> \u003ca class\u003d\'blog-pager-newer-link\' expr:href\u003d\'data:newerPageUrl\' expr:id\u003d\'data:widget.instanceId + \"_blog-pager-newer-link\"\' expr:title\u003d\'data:newerPageTitle\'\>\u003cdata:newerPageTitle\>\u003c/data:newerPageTitle\>\u003c/a\> \u003c/span\> \u003c/b:if\> \u003cb:if cond\u003d\'data:olderPageUrl\'\> \u003cspan id\u003d\'blog-pager-older-link\'\> \u003ca class\u003d\'blog-pager-older-link\' expr:href\u003d\'data:olderPageUrl\' expr:id\u003d\'data:widget.instanceId + \"_blog-pager-older-link\"\' expr:title\u003d\'data:olderPageTitle\'\>\u003cdata:olderPageTitle\>\u003c/data:olderPageTitle\>\u003c/a\> \u003c/span\> \u003c/b:if\> \u003cb:if cond\u003d\'data:blog.homepageUrl !\u003d data:blog.url\'\> \u003ca class\u003d\'home-link\' expr:href\u003d\'data:blog.homepageUrl\'\>\u003cdata:homeMsg\>\u003c/data:homeMsg\>\u003c/a\> \u003cb:else\>\u003c/b:else\> \u003cb:if cond\u003d\'data:newerPageUrl\'\> \u003ca class\u003d\'home-link\' expr:href\u003d\'data:blog.homepageUrl\'\>\u003cdata:homeMsg\>\u003c/data:homeMsg\>\u003c/a\> \u003c/b:if\> \u003c/b:if\> \u003c/div\> \u003cdiv class\u003d\'clear\'\>\u003c/div\>'}, 'post': {'varName': 'post', 'template': '\u003cdiv class\u003d\'post hentry uncustomized-post-template\'\> \u003ca expr:name\u003d\'data:post.id\'\>\u003c/a\> \u003cb:if cond\u003d\'data:post.title\'\> \u003ch3 class\u003d\'post-title entry-title\'\> \u003cb:if cond\u003d\'data:post.link\'\> \u003ca expr:href\u003d\'data:post.link\'\>\u003cdata:post.title\>\u003c/data:post.title\>\u003c/a\> \u003cb:else\>\u003c/b:else\> \u003cb:if cond\u003d\'data:post.url\'\> \u003ca expr:href\u003d\'data:post.url\'\>\u003cdata:post.title\>\u003c/data:post.title\>\u003c/a\> \u003cb:else\>\u003c/b:else\> \u003cdata:post.title\>\u003c/data:post.title\> \u003c/b:if\> \u003c/b:if\> \u003c/h3\> \u003c/b:if\> \u003cdiv class\u003d\'post-header-line-1\'\>\u003c/div\> \u003cdiv class\u003d\'post-body entry-content\'\> \u003cp\>\u003cdata:post.body\>\u003c/data:post.body\>\u003c/p\> \u003cdiv style\u003d\'clear: both;\'\>\u003c/div\>  \u003c/div\> \u003cdiv class\u003d\'post-footer\'\> \u003cp class\u003d\'post-footer-line post-footer-line-1\'\> \u003cspan class\u003d\'post-author vcard\'\> \u003cb:if cond\u003d\'data:top.showAuthor\'\> \u003cdata:top.authorLabel\>\u003c/data:top.authorLabel\> \u003cspan class\u003d\'fn\'\>\u003cdata:post.author\>\u003c/data:post.author\>\u003c/span\> \u003c/b:if\> \u003c/span\> \u003cspan class\u003d\'post-timestamp\'\> \u003cb:if cond\u003d\'data:top.showTimestamp\'\> \u003cdata:top.timestampLabel\>\u003c/data:top.timestampLabel\> \u003cb:if cond\u003d\'data:post.url\'\> \u003ca class\u003d\'timestamp-link\' expr:href\u003d\'data:post.url\' rel\u003d\'bookmark\' title\u003d\'permanent link\'\>\u003cabbr class\u003d\'published\' expr:title\u003d\'data:post.timestampISO8601\'\>\u003cdata:post.timestamp\>\u003c/data:post.timestamp\>\u003c/abbr\>\u003c/a\> \u003c/b:if\> \u003c/b:if\> \u003c/span\> \u003cspan class\u003d\'post-comment-link\'\> \u003cb:if cond\u003d\'data:blog.pageType !\u003d \"item\"\'\> \u003cb:if cond\u003d\'data:post.allowComments\'\> \u003ca class\u003d\'comment-link\' expr:href\u003d\'data:post.addCommentUrl\' expr:onclick\u003d\'data:post.addCommentOnclick\'\>\u003cb:if cond\u003d\'data:post.numComments \u003d\u003d 1\'\>1 \u003cdata:top.commentLabel\>\u003c/data:top.commentLabel\>\u003cb:else\>\u003c/b:else\>\u003cdata:post.numComments\>\u003c/data:post.numComments\> \u003cdata:top.commentLabelPlural\>\u003c/data:top.commentLabelPlural\>\u003c/b:if\>\u003c/a\> \u003c/b:if\> \u003c/b:if\> \u003c/span\>  \u003cspan class\u003d\'post-backlinks post-comment-link\'\> \u003cb:if cond\u003d\'data:blog.pageType !\u003d \"item\"\'\> \u003cb:if cond\u003d\'data:post.showBacklinks\'\> \u003ca class\u003d\'comment-link\' expr:href\u003d\'data:post.url + \"#links\"\'\>\u003cdata:top.backlinkLabel\>\u003c/data:top.backlinkLabel\>\u003c/a\> \u003c/b:if\> \u003c/b:if\> \u003c/span\> \u003cspan class\u003d\'post-icons\'\>  \u003cb:if cond\u003d\'data:post.emailPostUrl\'\> \u003cspan class\u003d\'item-action\'\> \u003ca expr:href\u003d\'data:post.emailPostUrl\' expr:title\u003d\'data:top.emailPostMsg\'\> \u003cspan class\u003d\'email-post-icon\'\>&#160;\u003c/span\> \u003c/a\> \u003c/span\> \u003c/b:if\>  \u003cb:include data\u003d\'post\' name\u003d\'postQuickEdit\'\>\u003c/b:include\> \u003c/span\> \u003c/p\> \u003cp class\u003d\'post-footer-line post-footer-line-2\'\> \u003cspan class\u003d\'post-labels\'\> \u003cb:if cond\u003d\'data:post.labels\'\> \u003cdata:postLabelsLabel\>\u003c/data:postLabelsLabel\> \u003cb:loop values\u003d\'data:post.labels\' var\u003d\'label\'\> \u003ca expr:href\u003d\'data:label.url\' rel\u003d\'tag\'\>\u003cdata:label.name\>\u003c/data:label.name\>\u003c/a\>\u003cb:if cond\u003d\'data:label.isLast !\u003d \"true\"\'\>,\u003c/b:if\> \u003c/b:loop\> \u003c/b:if\> \u003c/span\> \u003c/p\> \u003cp class\u003d\'post-footer-line post-footer-line-3\'\>\u003c/p\> \u003c/div\> \u003c/div\>'}, 'postQuickEdit': {'varName': 'post', 'template': '\u003cb:if cond\u003d\'data:post.editUrl\'\> \u003cspan expr:class\u003d\'\"item-control \" + data:post.adminClass\'\> \u003ca expr:href\u003d\'data:post.editUrl\' expr:title\u003d\'data:top.editPostMsg\'\> \u003cspan class\u003d\'quick-edit-icon\'\>&#160;\u003c/span\> \u003c/a\> \u003c/span\> \u003c/b:if\>'}, 'commentDeleteIcon': {'varName': 'comment', 'template': '\u003cspan expr:class\u003d\'\"item-control \" + data:comment.adminClass\'\> \u003ca expr:href\u003d\'data:comment.deleteUrl\' expr:title\u003d\'data:top.deleteCommentMsg\'\> \u003cspan class\u003d\'delete-comment-icon\'\>&#160;\u003c/span\> \u003c/a\> \u003c/span\>'}, 'backlinkDeleteIcon': {'varName': 'backlink', 'template': '\u003cspan expr:class\u003d\'\"item-control \" + data:backlink.adminClass\'\> \u003ca expr:href\u003d\'data:backlink.deleteUrl\' expr:title\u003d\'data:top.deleteBacklinkMsg\'\> \u003cspan class\u003d\'delete-comment-icon\'\>&#160;\u003c/span\> \u003c/a\> \u003c/span\>'}, 'comments': {'varName': 'post', 'template': '\u003cdiv class\u003d\'comments\' id\u003d\'comments\'\> \u003ca name\u003d\'comments\'\>\u003c/a\> \u003cb:if cond\u003d\'data:post.allowComments\'\> \u003ch4\> \u003cb:if cond\u003d\'data:post.numComments \u003d\u003d 1\'\> 1 \u003cdata:commentLabel\>\u003c/data:commentLabel\>: \u003cb:else\>\u003c/b:else\> \u003cdata:post.numComments\>\u003c/data:post.numComments\> \u003cdata:commentLabelPlural\>\u003c/data:commentLabelPlural\>: \u003c/b:if\> \u003c/h4\> \u003cdl id\u003d\'comments-block\'\> \u003cb:loop values\u003d\'data:post.comments\' var\u003d\'comment\'\> \u003cdt class\u003d\'comment-author\' expr:id\u003d\'data:comment.anchorName\'\> \u003ca expr:name\u003d\'data:comment.anchorName\'\>\u003c/a\> \u003cb:if cond\u003d\'data:comment.authorUrl\'\> \u003ca expr:href\u003d\'data:comment.authorUrl\' rel\u003d\'nofollow\'\>\u003cdata:comment.author\>\u003c/data:comment.author\>\u003c/a\> \u003cb:else\>\u003c/b:else\> \u003cdata:comment.author\>\u003c/data:comment.author\> \u003c/b:if\> \u003cdata:commentPostedByMsg\>\u003c/data:commentPostedByMsg\> \u003c/dt\> \u003cdd class\u003d\'comment-body\'\> \u003cb:if cond\u003d\'data:comment.isDeleted\'\> \u003cspan class\u003d\'deleted-comment\'\>\u003cdata:comment.body\>\u003c/data:comment.body\>\u003c/span\> \u003cb:else\>\u003c/b:else\> \u003cp\>\u003cdata:comment.body\>\u003c/data:comment.body\>\u003c/p\> \u003c/b:if\> \u003c/dd\> \u003cdd class\u003d\'comment-footer\'\> \u003cspan class\u003d\'comment-timestamp\'\> \u003ca expr:href\u003d\'data:comment.url\' title\u003d\'comment permalink\'\> \u003cdata:comment.timestamp\>\u003c/data:comment.timestamp\> \u003c/a\> \u003cb:include data\u003d\'comment\' name\u003d\'commentDeleteIcon\'\>\u003c/b:include\> \u003c/span\> \u003c/dd\> \u003c/b:loop\> \u003c/dl\> \u003cp class\u003d\'comment-footer\'\> \u003ca expr:href\u003d\'data:post.addCommentUrl\' expr:onclick\u003d\'data:post.addCommentOnclick\'\>\u003cdata:postCommentMsg\>\u003c/data:postCommentMsg\>\u003c/a\> \u003c/p\> \u003c/b:if\> \u003cdiv id\u003d\'backlinks-container\'\> \u003cdiv expr:id\u003d\'data:widget.instanceId + \"_backlinks-container\"\'\> \u003cb:if cond\u003d\'data:post.showBacklinks\'\> \u003cb:include data\u003d\'post\' name\u003d\'backlinks\'\>\u003c/b:include\> \u003c/b:if\> \u003c/div\> \u003c/div\> \u003c/div\>'}, 'backlinks': {'varName': 'post', 'template': '\u003ca name\u003d\'links\'\>\u003c/a\>\u003ch4\>\u003cdata:post.backlinksLabel\>\u003c/data:post.backlinksLabel\>\u003c/h4\> \u003cb:if cond\u003d\'data:post.numBacklinks !\u003d 0\'\> \u003cdl class\u003d\'comments-block\' id\u003d\'comments-block\'\> \u003cb:loop values\u003d\'data:post.backlinks\' var\u003d\'backlink\'\> \u003cdiv class\u003d\'collapsed-backlink backlink-control\'\> \u003cdt class\u003d\'comment-title\'\> \u003cspan class\u003d\'backlink-toggle-zippy\'\>&#160;\u003c/span\> \u003ca expr:href\u003d\'data:backlink.url\' rel\u003d\'nofollow\'\>\u003cdata:backlink.title\>\u003c/data:backlink.title\>\u003c/a\> \u003cb:include data\u003d\'backlink\' name\u003d\'backlinkDeleteIcon\'\>\u003c/b:include\> \u003c/dt\> \u003cdd class\u003d\'comment-body collapseable\'\> \u003cdata:backlink.snippet\>\u003c/data:backlink.snippet\> \u003c/dd\> \u003cdd class\u003d\'comment-footer collapseable\'\> \u003cspan class\u003d\'comment-author\'\>\u003cdata:post.authorLabel\>\u003c/data:post.authorLabel\> \u003cdata:backlink.author\>\u003c/data:backlink.author\>\u003c/span\> \u003cspan class\u003d\'comment-timestamp\'\>\u003cdata:post.timestampLabel\>\u003c/data:post.timestampLabel\> \u003cdata:backlink.timestamp\>\u003c/data:backlink.timestamp\>\u003c/span\> \u003c/dd\> \u003c/div\> \u003c/b:loop\> \u003c/dl\> \u003c/b:if\> \u003cp class\u003d\'comment-footer\'\> \u003ca class\u003d\'comment-link\' expr:href\u003d\'data:post.createLinkUrl\' expr:id\u003d\'data:widget.instanceId + \"_backlinks-create-link\"\' target\u003d\'_blank\'\>\u003cdata:post.createLinkLabel\>\u003c/data:post.createLinkLabel\>\u003c/a\> \u003c/p\>'}, 'feedLinks': {'varName': '', 'template': '\u003cb:if cond\u003d\'data:blog.pageType !\u003d \"item\"\'\>  \u003cb:if cond\u003d\'data:feedLinks\'\> \u003cdiv class\u003d\'blog-feeds\'\> \u003cb:include data\u003d\'feedLinks\' name\u003d\'feedLinksBody\'\>\u003c/b:include\> \u003c/div\> \u003c/b:if\> \u003cb:else\>\u003c/b:else\>  \u003cdiv class\u003d\'post-feeds\'\> \u003cb:loop values\u003d\'data:posts\' var\u003d\'post\'\> \u003cb:if cond\u003d\'data:post.allowComments\'\> \u003cb:if cond\u003d\'data:post.feedLinks\'\> \u003cb:include data\u003d\'post.feedLinks\' name\u003d\'feedLinksBody\'\>\u003c/b:include\> \u003c/b:if\> \u003c/b:if\> \u003c/b:loop\> \u003c/div\> \u003c/b:if\>'}, 'feedLinksBody': {'varName': 'links', 'template': '\u003cdiv class\u003d\'feed-links\'\> \u003cdata:feedLinksMsg\>\u003c/data:feedLinksMsg\> \u003cb:loop values\u003d\'data:links\' var\u003d\'f\'\> \u003ca class\u003d\'feed-link\' expr:href\u003d\'data:f.url\' expr:type\u003d\'data:f.mimeType\' target\u003d\'_blank\'\>\u003cdata:f.name\>\u003c/data:f.name\> (\u003cdata:f.feedType\>\u003c/data:f.feedType\>)\u003c/a\> \u003c/b:loop\> \u003c/div\>'}, 'status-message': {'varName': '', 'template': '\u003cb:if cond\u003d\'data:navMessage\'\> \u003cdiv class\u003d\'status-msg-wrap\'\> \u003cdiv class\u003d\'status-msg-body\'\> \u003cdata:navMessage\>\u003c/data:navMessage\> \u003c/div\> \u003cdiv class\u003d\'status-msg-border\'\> \u003cdiv class\u003d\'status-msg-bg\'\> \u003cdiv class\u003d\'status-msg-hidden\'\>\u003cdata:navMessage\>\u003c/data:navMessage\>\u003c/div\> \u003c/div\> \u003c/div\> \u003c/div\> \u003cdiv style\u003d\'clear: both;\'\>\u003c/div\> \u003c/b:if\>'}}, document.getElementById('Blog1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML1',  'main',{'main': {'varName': '', 'template': '\u003cb:if cond\u003d\'data:title !\u003d \"\"\'\> \u003ch2 class\u003d\'title\'\>\u003cdata:title\>\u003c/data:title\>\u003c/h2\> \u003c/b:if\> \u003cdiv class\u003d\'widget-content\'\> \u003cdata:content\>\u003c/data:content\> \u003c/div\> \u003cb:include name\u003d\'quickedit\'\>\u003c/b:include\>'}}, document.getElementById('HTML1'), {}, 'displayModeFull'));
+</script>
+</body></html>

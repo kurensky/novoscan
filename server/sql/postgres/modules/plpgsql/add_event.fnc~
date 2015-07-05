@@ -1,0 +1,82 @@
+CREATE OR REPLACE FUNCTION add_event (IN i_type          integer,
+                                      IN i_user          CHARACTER VARYING,
+                                      IN i_code          integer,
+                                      IN i_prefix_code   CHARACTER VARYING,
+                                      IN i_modtype       integer,
+                                      IN i_modname       CHARACTER VARYING,
+                                      IN i_text          text,
+                                      IN i_info          text
+                                      )
+   RETURNS int8
+AS
+   $BODY$
+   BEGIN
+      INSERT INTO event_log (evlg_user,
+                             evlg_scheme,
+                             evlg_version,
+                             evlg_modtype,
+                             evlg_modname,
+                             evlg_prefix_code,
+                             evlg_code,
+                             evlg_text,
+                             evlg_info,
+                             evlg_repeat)
+           VALUES (i_user,
+                   'OWNER_TRACK',
+                   '2.0',
+                   i_modtype,
+                   i_modname,
+                   i_prefix_code,
+                   i_code,
+                   i_text,
+                   i_info,
+                   1);
+     RETURN 0;
+   END;
+   $BODY$
+   LANGUAGE plpgsql;
+ALTER FUNCTION add_event
+ (integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  text,
+  text) OWNER TO owner_track;
+GRANT EXECUTE ON FUNCTION add_event
+ (integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  text,
+  text) TO owner_track;
+GRANT EXECUTE ON FUNCTION add_event
+ (integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  text,
+  text) TO t02_adm_www;
+GRANT EXECUTE ON FUNCTION add_event
+ (integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  text,
+  text) TO t02_adm_dev;
+COMMENT ON FUNCTION add_event
+ (integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  integer,
+  CHARACTER VARYING,
+  text,
+  text) IS 'Процедура регистрации событий';

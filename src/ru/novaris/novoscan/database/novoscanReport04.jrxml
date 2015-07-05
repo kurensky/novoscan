@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="novoscanReport01" language="groovy" pageWidth="600" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5eec7acb-b54b-410b-8906-6a0abd62d6f6">
-	<property name="ireport.zoom" value="1.7715610000000066"/>
+	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="332"/>
+	<property name="ireport.y" value="78"/>
 	<style name="Title" fontName="DejaVu Sans" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" mode="Opaque" backcolor="#FFFFCC" fontName="DejaVu Sans" fontSize="18" isBold="true">
 		<box>
@@ -124,26 +124,6 @@ ORDER BY d.rec_spob_name, d.rec_datetime]]>
 	<field name="rec_spob_name" class="java.lang.String">
 		<fieldDescription><![CDATA[Объект]]></fieldDescription>
 	</field>
-	<variable name="rec_group_long" class="java.lang.Long" incrementType="Group" incrementGroup="rec_group">
-		<variableExpression><![CDATA[($F{rec_type} == 1)
-? $V{rec_group_long}+$F{rec_long}
-: $V{rec_group_long}]]></variableExpression>
-		<initialValueExpression><![CDATA[0]]></initialValueExpression>
-	</variable>
-	<variable name="rec_group_mileage" class="java.lang.Long" incrementType="Group" incrementGroup="rec_group">
-		<variableExpression><![CDATA[$F{rec_mileage}+$V{rec_group_mileage}]]></variableExpression>
-		<initialValueExpression><![CDATA[0]]></initialValueExpression>
-	</variable>
-	<variable name="rec_group_long_stop" class="java.lang.Long" incrementType="Group" incrementGroup="rec_group">
-		<variableExpression><![CDATA[($F{rec_type} == 2) ? $V{rec_group_long_stop} + $F{rec_long}  : $V{rec_group_long_stop}]]></variableExpression>
-		<initialValueExpression><![CDATA[0]]></initialValueExpression>
-	</variable>
-	<variable name="rec_group_long_unknown" class="java.lang.Long" incrementType="Group" incrementGroup="rec_group">
-		<variableExpression><![CDATA[($F{rec_type} == 3) ? $V{rec_group_long_unknown}
-+ $F{rec_long}
-: $V{rec_group_long_unknown}]]></variableExpression>
-		<initialValueExpression><![CDATA[0]]></initialValueExpression>
-	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -202,74 +182,6 @@ ORDER BY d.rec_spob_name, d.rec_datetime]]>
 	<columnHeader>
 		<band height="50" splitType="Stretch"/>
 	</columnHeader>
-	<detail>
-		<band height="15" splitType="Stretch">
-			<frame>
-				<reportElement uuid="e9924868-7831-4c49-a174-25174db56fde" style="Row" mode="Opaque" x="0" y="0" width="560" height="15"/>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="d54e526c-383d-499a-ae8f-50bba3621f1b" style="Detail" stretchType="RelativeToTallestObject" x="0" y="0" width="23" height="15"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
-					</textElement>
-					<textFieldExpression><![CDATA[String.valueOf($F{rec_id})]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="9b1259ae-630b-4e32-bade-7127ecf466e1" style="Detail" stretchType="RelativeToTallestObject" x="23" y="0" width="70" height="15"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
-					</textElement>
-					<textFieldExpression><![CDATA[($F{rec_type} == 1) ? "Движение" :
-($F{rec_type} == 2) ? "Стоянка" : "Нет данных"]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="58063f12-6f19-4142-9847-8ed3dc113262" style="Detail" stretchType="RelativeToTallestObject" x="93" y="0" width="52" height="15"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{rec_date}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="a9aa16b8-484d-4f9e-95c4-93dfb006d857" style="Detail" stretchType="RelativeToTallestObject" x="145" y="0" width="45" height="15"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{rec_time}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="">
-					<reportElement uuid="959cb2dd-2243-4638-953b-fe44921d886a" style="Detail" stretchType="RelativeToTallestObject" x="190" y="0" width="70" height="15"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
-					</textElement>
-					<textFieldExpression><![CDATA[new java.text.DecimalFormat("00").format((Integer) $F{rec_long}/3600)
-+":"+
-new java.text.DecimalFormat("00").format((Integer) ($F{rec_long}.intValue()%3600)/60)
-+":"+
-new java.text.DecimalFormat("00").format((Integer) ($F{rec_long}.intValue()%60))]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="ce96120f-3e3a-4255-a790-42692a85cd45" style="Detail" stretchType="RelativeToTallestObject" x="260" y="0" width="50" height="15"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
-					</textElement>
-					<textFieldExpression><![CDATA[new java.text.DecimalFormat("##0.0").format($F{rec_speed})]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="">
-					<reportElement uuid="fb3b2fab-0f50-4fa2-acbc-a1b905bb3621" style="Detail" stretchType="RelativeToTallestObject" x="310" y="0" width="50" height="15"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
-					</textElement>
-					<textFieldExpression><![CDATA[new java.text.DecimalFormat("##0.0").format($F{rec_mileage}/1000)]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="f18eb247-5731-4241-8e9d-4a30279c72ce" style="Detail" stretchType="RelativeToTallestObject" x="360" y="0" width="200" height="15"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{rec_address}]]></textFieldExpression>
-				</textField>
-			</frame>
-		</band>
-	</detail>
 	<lastPageFooter>
 		<band height="49">
 			<frame>

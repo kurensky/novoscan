@@ -1,0 +1,269 @@
+/*
+The bar.
+--------------------------------------------*/
+#b-navbar 
+  {
+  width:100%;
+  padding-bottom:7px;
+  border-bottom:1px solid #024;
+  min-height:24px;
+  font:small "Trebuchet MS",Verdana,Arial,Sans-serif !important;
+  color:#47a;
+  margin-bottom:10px;
+  position:absolute !important;
+  top:0;
+  left:0;
+  z-index:1;
+  display:block !important;
+  }
+
+
+.bt1 {
+ height: 1px;
+ margin: 0px 1px;
+ font-size: 1px;
+ position: relative;
+ line-height:1px;
+}
+
+.bt2 {
+ font-size: 83%;
+ padding: 2px;
+ position:relative;
+}
+
+#b-next {
+ padding-left: 5px;
+ }
+
+#b-search-this {
+ margin: 0px 0px;
+ position: relative;
+ text-decoration: none;
+ text-transform: uppercase;
+ cursor: pointer;
+ white-space: nowrap;
+}
+
+#b-flag-this {
+ margin: 0px 0px;
+ position: relative;
+ text-decoration: none;
+ text-transform: uppercase;
+ cursor: pointer;
+ white-space: nowrap;
+ padding-left:5px;
+ 
+}
+
+#b-navbar #b-logo 
+  {
+    position:absolute !important;
+    top:.15em;
+    left:5px;
+    border-width:0;
+  }
+
+@media all
+  {
+    #b-search {
+      background-color:#147;
+      margin:0 0 0 34px;
+      height:1em;
+    }
+    #b-search table {
+      padding-right:5px;
+    }
+    #b-search td {
+      font-size:100%;
+      line-height:.8em;
+    }
+    #b-more {
+      float:right;
+    }
+    #b-searchbtn {
+      margin-right:5px;
+    }
+
+    #b-more {
+      float:right;
+    }
+
+    #b-search table {
+      float:left;
+      padding: 2px 0 2px;
+      _padding: 1px 2px 1px;
+    }
+
+    #b-search a, #b-search a:hover {
+      line-height:1em;
+      text-decoration:none;
+    }
+
+    #b-search td {
+      padding-top:2px;
+      line-height:.8;
+    }
+
+    #b-search td td {
+      padding:0;
+    }
+
+    #b-searchbtn {
+      display:block;
+    }
+   }
+@media handheld
+  {
+    #b-search
+    {
+      display:none !important;
+    }
+
+    #b-more
+    {
+      display:none !important;
+    }
+  }
+  
+.navbar-right {
+  padding-right:10px;
+}
+
+td.navbutton {
+  _padding-top:.3em;
+  padding-right: 5px;
+}
+
+td.navsearch {
+  padding-left:5px;
+}
+
+#b-query {
+  vertical-align:top;
+  margin-right:.25em;
+  width:12em;
+}
+  
+/* hide from IE5-Mac \*/
+#b-query {
+  font-size:x-small !important;
+}
+/* end hide */
+
+@media all
+  {
+    body div.b-mobile {
+      display:none;
+    }
+    #b-sms
+    {
+      display:none !important;
+    }
+  }
+@media handheld
+  {
+    body div.b-mobile {
+      display:block;
+    }
+
+    #b-sms
+    {
+      display:block !important;
+      margin:0 0 0 100px;
+      padding:4px 7px;
+      line-height:1em;
+      font-size:100%;
+      text-align:left;
+    }
+
+    #b-sms a
+    {
+      margin-right:.5em;
+      white-space:nowrap;
+      text-decoration:none;
+      line-height:1em;
+    }
+
+    #b-sms a:hover
+    {
+      color:#fff;
+      text-decoration:underline;
+    }
+  }
+
+ /*
+  drop down for the flag as objectionable button 
+ */
+@media all
+  {
+    #flagi
+    {
+      top:7px;
+      background-color:#333;
+      display:none;
+      z-index:300;
+      padding: 1px;
+    }
+    #unflagi
+    {
+      background-color:#333;
+      display:none;
+      z-index:300;
+      top: 7px;
+      padding: 1px;
+    }
+  }
+@media handheld 
+  {
+    #flagi
+    {
+      display:none !important;
+    }
+    #unflagi
+    {
+      display:none !important;
+    }
+  } 
+#flagi-body
+  {
+    background-color:#ffff99;     
+    font-weight:bold;
+    line-height: 14px;
+    font-size:10px;
+    text-align: center; 
+    font-family:"Trebuchet MS", Vedana, Arial, Sans-serif;
+    padding:3px;
+  }
+#flagi-body a
+  {
+    color:#3366cc;
+    font-size:10px; 
+    text-decoration:none;
+  }
+  
+#flagi-body a:hover 
+  {
+    text-decoration:underline;
+  }
+#unflagi-body
+  {
+    background-color:#ffff99;     
+    font-weight:bold;
+    line-height: 14px;
+    font-size:10px;
+    text-align: center; 
+    font-family:"Trebuchet MS", Vedana, Arial, Sans-serif;
+    padding:3px;
+  }
+#unflagi-body a
+  {
+    color:#3366cc;
+    font-size:10px;
+    text-decoration:none;
+  }
+  
+#unflagi-body a:hover 
+  {
+    text-decoration:underline;
+  }

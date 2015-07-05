@@ -1,0 +1,72 @@
+/**
+ * Copyright 2005 Google Inc.
+ * Author: Lexi Baugher
+ *
+ * CSS for collapsible hierarchy of archive links
+ */
+
+#ArchiveList .toggle { 
+  cursor: pointer;
+  font-family: Arial, sans-serif; /* this font has support for the dingbats */
+}
+
+#ArchiveList .toggle-open { 
+  /* Work around IE's differently-sized dingbat by resizing up to look like the
+     rest of the characters for this font size. */
+  _font-size: 1.7em;
+  line-height: 0.6em;
+}
+
+#ArchiveList { 
+  text-align: left;
+} 
+
+#ArchiveList a.post-count-link,
+#ArchiveList a.post-count-link:link,
+#ArchiveList a.post-count-link:visited {
+  text-decoration: none;
+}
+
+#ArchiveList a.toggle,
+#ArchiveList a.toggle:link,
+#ArchiveList a.toggle:visited,
+#ArchiveList a.toggle:hover {
+  color: inherit; /* done in JS for IE */
+  text-decoration: none;
+}
+
+.BlogArchive #ArchiveList ul li { 
+  background: none;
+  list-style: none;
+  list-style-image: none;
+  list-style-position: outside;
+  border-width: 0;
+  padding-left: 15px;
+  text-indent: -15px;
+  margin-left: 0;
+  background-image: none;
+ }
+
+.BlogArchive #ArchiveList ul ul li { 
+  padding-left: 1.2em;
+}
+
+.BlogArchive #ArchiveList ul { 
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  list-style-image: none;
+  border-width: 0;
+}
+
+.BlogArchive #ArchiveList ul ul { 
+  margin-top: 5px;
+}
+
+.BlogArchive #ArchiveList ul.posts li { 
+  padding-left: 1.3em;
+}
+
+#ArchiveList .collapsed ul { 
+  display: none;
+}

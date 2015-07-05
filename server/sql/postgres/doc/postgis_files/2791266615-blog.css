@@ -1,0 +1,61 @@
+/* backlinks controls */
+.backlink-toggle-zippy { 
+  padding-right: 11px;
+  margin-right: 0.1em;
+  cursor: pointer;
+  cursor: hand;
+  background: url("http://www.blogger.com/img/triangle.gif") no-repeat left center;
+}
+
+.expanded-backlink .backlink-toggle-zippy { 
+ background-image: url("http://www.blogger.com/img/triangle_open.gif")
+}
+
+.collapsed-backlink .collapseable { 
+  display: none;
+}
+
+.status-msg-wrap {
+  font-size: 110%;
+  width: 90%;
+  margin: 10px auto;
+  position: relative;
+}
+
+.status-msg-border {
+  border: 1px solid #000000;
+  filter:alpha(opacity=40);
+  -moz-opacity:.40;
+  opacity:.40;
+  width: 100%;
+  position: relative;
+}
+
+.status-msg-bg {
+  background-color: #cccccc;
+  opacity:.80;
+  filter:alpha(opacity=30);
+  -moz-opacity:.80;
+  width: 100%;
+  position: relative;
+  z-index: 1; 
+}
+
+.status-msg-body {
+  text-align: center;
+  padding: .3em 0;
+  width: 100%;
+
+  position: absolute;
+  z-index: 4;
+}
+
+.status-msg-hidden {
+  visibility: hidden;
+  padding: .3em 0;
+}
+
+.status-msg-wrap a { 
+  padding-left: .4em;
+  text-decoration: underline;
+}

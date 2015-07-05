@@ -1,0 +1,1 @@
+select * from rep_001(1268::int8,(now() - interval '24 hour')::timestamp,now()::timestamp);
