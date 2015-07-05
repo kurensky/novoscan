@@ -1,0 +1,56 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	<ui:style>
+		
+	</ui:style>
+	<g:HTMLPanel width="100%">
+		<g:Label text="Расчёт расстояния между городами" height="30"/>
+		<g:HorizontalPanel height="30" width="450">
+			<g:Cell horizontalAlignment="ALIGN_CENTER">
+				<g:PushButton text="Добавить" ui:field="addRecord">Добавить запись</g:PushButton>
+			</g:Cell>
+			<g:Cell horizontalAlignment="ALIGN_CENTER">
+				<g:PushButton text="Удалить" ui:field="delRecord">Удалить выбранные строки</g:PushButton>
+			</g:Cell>
+			<g:Cell horizontalAlignment="ALIGN_CENTER">
+				<g:PushButton text="Рассчёт" ui:field="calc">Рассчитать расстояние</g:PushButton>
+			</g:Cell>
+			<g:Cell horizontalAlignment="ALIGN_CENTER">
+				<g:PushButton text="Очистить" ui:field="clear">Удалить все строки</g:PushButton>
+			</g:Cell>
+			<g:Cell horizontalAlignment="ALIGN_CENTER">
+				<g:PushButton text="Сохранить" ui:field="add">Сохранить рейс</g:PushButton>
+			</g:Cell>
+			
+			<g:Cell horizontalAlignment="ALIGN_CENTER">
+				<g:PushButton text="Изменить" ui:field="modify">Изменить рейс</g:PushButton>
+			</g:Cell>
+ 		    <g:Cell horizontalAlignment="ALIGN_CENTER">
+				<g:PushButton text="Удалить" ui:field="delete">Удалить рейс</g:PushButton>
+			</g:Cell>
+			<g:Cell horizontalAlignment="ALIGN_CENTER">
+				<g:PushButton text="Поиск" ui:field="filter">Фильтр рейсов</g:PushButton>
+			</g:Cell>
+		</g:HorizontalPanel>
+		<g:HorizontalPanel width="450">
+			<g:Label  text="Расч." width="40"/>
+			<g:DoubleBox ui:field="fullDistance" alignment="LEFT" readOnly="true" styleName="strongText" width="90"/>
+			<g:Label text="Расч." width="40"/>
+			<g:DoubleBox ui:field="fullCost" alignment="LEFT" readOnly="true" styleName="strongText" width="90"/>
+			<g:Label text=" Средняя расч." width="60"/>
+			<g:DoubleBox ui:field="averageCost" alignment="LEFT" readOnly="true" styleName="strongText" width="90"/>
+		</g:HorizontalPanel>
+		<g:HorizontalPanel width="450">
+			<g:Label text="Факт. (км.)" width="40"/>
+			<g:DoubleBox alignment="LEFT" readOnly="true" styleName="strongText" width="90" ui:field="fullDistanceFact"/>
+			<g:Label text="Факт. (руб.)" width="40"/>
+			<g:DoubleBox alignment="LEFT" readOnly="true" styleName="strongText" width="90" ui:field="fullCostFact"/>
+			<g:Label text="Факт   руб./км." width="60"/>
+			<g:DoubleBox alignment="LEFT" readOnly="true" styleName="strongText" width="90" ui:field="averageCostFact"/>
+		</g:HorizontalPanel>
+		<g:FlexTable width="90%" ui:field="flexTable" styleName="FlexTable"/>
+		<c:SimplePager ui:field='pager' />
+	</g:HTMLPanel>
+</ui:UiBinder> 

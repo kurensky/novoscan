@@ -1,0 +1,81 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+
+	<ui:style>
+	.cellTable {
+		border-bottom: 1px solid #ccc;
+		text-align: left;
+		margin-bottom: 4px;
+	}
+	
+	.buttonPanel {
+		padding: 8px 10px;
+		border-top: 1px solid #ccc;
+		width: 100%;
+	}
+	
+	.button {
+		text-align: center;
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:DockLayoutPanel unit="EM" ui:field="dockLayoutPanel" width="300" height="150">
+		<g:center>
+			<g:HTMLPanel>
+				<table cellspacing='0' cellpadding='1' style='width:100%;'>
+					<tr>					
+					<td colspan="2"><g:HTML ui:field="objName" width="100%"
+								horizontalAlignment="ALIGN_CENTER" height="">Объект</g:HTML>
+					</td>				
+					</tr>
+					<tr>
+						<td>
+							<g:Label text="Начало" styleName="italicText"
+								horizontalAlignment="ALIGN_LEFT" />
+						</td>
+						<td>
+							<g:SimplePanel ui:field="boxDateTimeBegin" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<g:Label text="Конец" styleName="italicText"
+								horizontalAlignment="ALIGN_LEFT" />
+						</td>
+						<td>
+							<g:SimplePanel ui:field="boxDateTimeEnd" />
+						</td>
+					</tr>
+					<tr>
+					<td colspan="2"><g:HTML ui:field="objInfo" width="100%"
+								horizontalAlignment="ALIGN_CENTER">Интервал</g:HTML>
+					</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
+		</g:center>
+		<g:south size="3">
+			<g:HTMLPanel addStyleNames="{style.buttonPanel}">
+				<table cellspacing='5' cellpadding='0'>
+					<tr>
+						<td>
+							<g:PushButton text="Cancel" ui:field="cancel"
+								addStyleNames="{style.button}" />
+						</td>
+						<td>
+							<g:PushButton text="Clear" ui:field="clear"
+								addStyleNames="{style.button}" />
+						</td>
+						<td>
+							<g:PushButton text="Ok" ui:field="ok" addStyleNames="{style.button}" />
+						</td>
+						<td>
+							<g:PushButton text="Upload" ui:field="upload" addStyleNames="{style.button}" />
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
+		</g:south>
+	</g:DockLayoutPanel>
+</ui:UiBinder>

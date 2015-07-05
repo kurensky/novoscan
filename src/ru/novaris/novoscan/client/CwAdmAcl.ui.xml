@@ -1,0 +1,66 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+
+	<ui:style>
+	.cellTable {
+		border-bottom: 1px solid #ccc;
+		text-align: left;
+		margin-bottom: 4px;
+	}
+	
+	.buttonPanel {
+		padding: 8px 20px;
+		border-top: 1px solid #ccc;
+		width: 100%;
+	}
+	
+	.button {
+		text-align: center;
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:DockLayoutPanel unit="EM">
+		<g:north size="4">
+			<g:HTMLPanel addStyleNames="{style.buttonPanel}">
+				<table cellspacing='0' cellpadding='0'>
+					<tr>
+						<td>
+							<g:PushButton text="Add" ui:field="add"
+								addStyleNames="{style.button}" />
+						</td>
+						<td>
+							<g:PushButton text="Modify" ui:field="modify"
+								addStyleNames="{style.button}" />
+						</td>
+						<td>
+							<g:PushButton text="Delete" ui:field="delete"
+								addStyleNames="{style.button}" />
+						</td>
+						<td>
+							<g:PushButton text="Filter" ui:field="filter"
+								addStyleNames="{style.button}" />
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
+		</g:north>
+		<g:center>
+			<g:HTMLPanel>
+				<table cellspacing='0' cellpadding='0' style='width:100%;'>
+					<tr>
+						<td valign='top'>
+							<c:CellTable addStyleNames='{style.cellTable}'
+								pageSize='15' ui:field='cellTable' focus="true" />
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
+		</g:center>
+		<g:south size="4">
+			<c:SimplePager ui:field='pager' />
+        </g:south>
+
+
+	</g:DockLayoutPanel>
+</ui:UiBinder>

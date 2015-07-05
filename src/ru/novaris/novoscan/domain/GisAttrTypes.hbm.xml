@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.GisAttrTypes" table="gis_attr_types">
+  <id name="gsttId" type="int">
+   <column name="gstt_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="gsttName" type="string">
+   <column length="30" name="gstt_name" not-null="true">
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="gsttDesc" type="string">
+   <column length="1024" name="gstt_desc" not-null="true">
+   </column>
+  </property>
+  <!-- set fetch="select" inverse="true" lazy="true" name="gisObjectsAttrs"
+   sort="unsorted" table="gis_objects_attr">
+   <key>
+    <column name="gsat_gstt_id"/>
+   </key>
+   <one-to-many class="GisObjectsAttr"/>
+  </set -->
+ </class>
+</hibernate-mapping>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.SprvCisInfo" table="sprv_cis_info">
+  <id name="spciId" type="int">
+   <column name="spci_id"/>
+   <generator class="assigned"/>
+  </id>
+  <many-to-one class="ru.novaris.novoscan.domain.GisTypes"
+   fetch="select" name="gisTypes">
+   <column name="spci_gstp_id" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="spciCode" type="int">
+   <column name="spci_code" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="spciDesc" type="string">
+   <column length="240" name="spci_desc"/>
+  </property>
+ </class>
+</hibernate-mapping>

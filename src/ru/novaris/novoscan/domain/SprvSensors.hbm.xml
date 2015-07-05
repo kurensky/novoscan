@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.SprvSensors" table="sprv_sensors">
+  <id name="spsnId" type="long">
+   <column name="spsn_id"/>
+   <generator class="sequence">
+    <param name="sequence">spsn_seq</param>
+   </generator>
+  </id>
+  <many-to-one class="ru.novaris.novoscan.domain.SprvSensorTypes"
+   fetch="select" name="sprvSensorTypes">
+   <column name="spsn_spst_id"/>
+  </many-to-one>
+  <many-to-one class="ru.novaris.novoscan.domain.SprvModules"
+   fetch="select" name="sprvModules">
+   <column name="spsn_spmd_id" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="spsnUin" type="double">
+   <column name="spsn_uin" not-null="true" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="spsnName" type="string">
+   <column length="30" name="spsn_name" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="spsnDesc" type="string">
+   <column length="1024" name="spsn_desc"/>
+  </property>
+  <!-- set fetch="select" inverse="true" lazy="true" name="dataSensors"
+   sort="unsorted" table="data_sensor">
+   <key>
+    <column name="dasn_spsn_id" not-null="true"/>
+   </key>
+   <one-to-many class="DataSensor"/>
+  </set 
+ set fetch="select" inverse="true" lazy="true" name="sprvCalibrates"
+   sort="unsorted" table="sprv_calibrate">
+   <key>
+    <column name="spcb_spsn_id" not-null="true"/>
+   </key>
+   <one-to-many class="SprvCalibrate"/>
+  </set -->
+ </class>
+</hibernate-mapping>

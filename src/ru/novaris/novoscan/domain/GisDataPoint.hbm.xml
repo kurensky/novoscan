@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.GisDataPoint" table="gis_data">
+  <id name="gsdtId" type="int">
+   <column name="gsdt_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="gsdtGsobId" type="long">
+   <column name="gsdt_gsob_id" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="gsdtGsptId" type="long">
+   <column name="gsdt_gspt_id" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="gsdtDt" type="date">
+   <column length="13" name="gsdt_dt" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="gsdtPiket" type="big_decimal">
+   <column name="gsdt_piket" not-null="true" precision="12" scale="3"/>
+  </property>
+  <property generated="never" lazy="false" name="gsdtInfo" type="string">
+   <column length="100" name="gsdt_info"/>
+  </property>
+  <property generated="never" lazy="false" name="gsdtPoint" type="text">
+   <formula>(select  ST_ASTEXT(gsdt_multiline_geom))</formula>
+  </property>
+ </class>
+</hibernate-mapping>

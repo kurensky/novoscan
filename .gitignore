@@ -14,6 +14,7 @@ gwt-unitCache/
 # more caches and things from deploy #
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
+war/temp/
 
 #compilation logs
 .gwt/
@@ -26,3 +27,16 @@ www-test/
 
 #old GWT (1.5) created this dir
 .gwt-tmp/
+
+#svn files
+.svn/
+svn-commit.tmp
+
+# java local class path 
+.classpath
+
+# target file 
+target/
+
+# Hibernate temp files
+hibernate/

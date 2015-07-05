@@ -1,0 +1,582 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+	<head>
+		<title>Hibernate Mappings - Table Info</title>
+		<link rel="stylesheet" type="text/css" href="../../assets/doc-style.css" title="Style"/>
+	</head>
+	<body>
+
+	<div id="header">
+
+		<div id="logo">
+			<a href="http://www.hibernate.org/" target="_blank">
+				<img src="../../assets/hibernate_logo.gif" alt="Hibernate"/>
+			</a>
+		</div>
+
+		<ul><li><a href="../index.html" target="_top">Tables</a></li><li><a href="../../entities/index.html" target="_top">Entities</a></li></ul>
+
+		<hr/>
+
+	</div>
+
+		<h4>Schema owner_track</h4>
+		<h2>Table gis_objects_attr</h2>
+
+
+		<table id="column_summary">
+			<thead>
+				<tr>
+					<th class="MainTableHeading" colspan="7">
+						Column Summary
+					</th>
+				</tr>
+				<tr>
+					<th style="width: 14%">
+						Name
+					</th>
+					<th style="width: 14%">
+						SqlType
+					</th>
+					<th style="width: 14%">
+						Length
+					</th>
+					<th style="width: 14%">
+						Precision
+					</th>
+					<th style="width: 14%">
+						Scale
+					</th>
+					<th style="width: 14%">
+						Nullable
+					</th>
+					<th style="width: 14%">
+						Unique
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+					<tr>
+						<td>
+							<a href="#column_detail_gsat_id">
+								gsat_id
+							</a>
+						</td>
+						<td>
+							int4
+						</td>
+						<td>
+							255
+						</td>
+						<td>
+							19
+						</td>
+						<td>
+							2
+						</td>
+						<td>
+							false
+						</td>
+						<td>
+							true
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="#column_detail_gsat_attr">
+								gsat_attr
+							</a>
+						</td>
+						<td>
+							int4
+						</td>
+						<td>
+							255
+						</td>
+						<td>
+							19
+						</td>
+						<td>
+							2
+						</td>
+						<td>
+							true
+						</td>
+						<td>
+							false
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="#column_detail_gsat_attr1">
+								gsat_attr1
+							</a>
+						</td>
+						<td>
+							float8
+						</td>
+						<td>
+							255
+						</td>
+						<td>
+							17
+						</td>
+						<td>
+							17
+						</td>
+						<td>
+							true
+						</td>
+						<td>
+							false
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="#column_detail_gsat_attr2">
+								gsat_attr2
+							</a>
+						</td>
+						<td>
+							float8
+						</td>
+						<td>
+							255
+						</td>
+						<td>
+							17
+						</td>
+						<td>
+							17
+						</td>
+						<td>
+							true
+						</td>
+						<td>
+							false
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="#column_detail_gsat_gsob_id">
+								gsat_gsob_id
+							</a>
+						</td>
+						<td>
+							N/D
+						</td>
+						<td>
+							255
+						</td>
+						<td>
+							19
+						</td>
+						<td>
+							2
+						</td>
+						<td>
+							true
+						</td>
+						<td>
+							false
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="#column_detail_gsat_gstt_id">
+								gsat_gstt_id
+							</a>
+						</td>
+						<td>
+							N/D
+						</td>
+						<td>
+							255
+						</td>
+						<td>
+							19
+						</td>
+						<td>
+							2
+						</td>
+						<td>
+							true
+						</td>
+						<td>
+							false
+						</td>
+					</tr>
+			</tbody>
+		</table>
+
+		<table id="primary_key">
+			<thead>
+				<tr>
+					<th class="MainTableHeading" colspan="2">
+						Primary Key
+					</th>
+				</tr>
+				<tr>
+					<th style="width: 50%">
+						Name
+					</th>
+					<th style="width: 50%">
+						Columns
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+					<tr>
+						<td>
+								gsat_pk
+						</td>
+						<td>
+								<a href="#column_detail_gsat_id">
+									gsat_id
+								</a>
+						</td>
+					</tr>
+			</tbody>
+		</table>
+
+			<table id="foreign_keys">
+				<thead>
+					<tr>
+						<th class="MainTableHeading" colspan="3">
+							Foreign Keys
+						</th>
+					</tr>
+					<tr>
+						<th style="width: 33%">
+							Name
+						</th>
+						<th style="width: 33%">
+							Referenced Table
+						</th>
+						<th style="width: 33%">
+							Columns
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+						<tr>
+							<td>
+								FK7EF8AFEAC23FDC05
+							</td>
+							<td>
+								<a href="gis_attr_types.html" target="generalFrame">
+									gis_attr_types
+								</a>
+							</td>
+							<td>
+									<a href="#column_detail_gsat_gstt_id">
+										gsat_gstt_id
+									</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								FK7EF8AFEA94A8679E
+							</td>
+							<td>
+								<a href="gis_objects.html" target="generalFrame">
+									gis_objects
+								</a>
+							</td>
+							<td>
+									<a href="#column_detail_gsat_gsob_id">
+										gsat_gsob_id
+									</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								gsat_gstt_fk
+							</td>
+							<td>
+								<a href="gis_attr_types.html" target="generalFrame">
+									gis_attr_types
+								</a>
+							</td>
+							<td>
+									<a href="#column_detail_gsat_gstt_id">
+										gsat_gstt_id
+									</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								gsat_gsob_fk
+							</td>
+							<td>
+								<a href="gis_objects.html" target="generalFrame">
+									gis_objects
+								</a>
+							</td>
+							<td>
+									<a href="#column_detail_gsat_gsob_id">
+										gsat_gsob_id
+									</a>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+			
+			<table id="unique_keys">
+				<thead>
+					<tr>
+						<th class="MainTableHeading" colspan="2">
+							Unique Keys
+						</th>
+					</tr>
+					<tr>
+						<th style="width: 50%">
+							Name
+						</th>
+						<th style="width: 50%">
+							Columns
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+						<tr>
+							<td>
+								gsat_pk
+							</td>
+							<td>
+									<a href="#column_detail_gsat_id">
+										gsat_id
+									</a>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+		
+			<table id="indexes">
+				<thead>
+					<tr>
+						<th class="MainTableHeading" colspan="2">
+							Indexes
+						</th>
+					</tr>
+					<tr>
+						<th style="width: 50%">
+							Name
+						</th>
+						<th style="width: 50%">
+							Columns
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+						<tr>
+							<td>
+								gsat_gsob_fk_i
+							</td>
+							<td>
+									<a href="#column_detail_gsat_gsob_id">
+										gsat_gsob_id
+									</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								gsat_attr_i
+							</td>
+							<td>
+									<a href="#column_detail_gsat_attr">
+										gsat_attr
+									</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								gsat_gstt_fk_i
+							</td>
+							<td>
+									<a href="#column_detail_gsat_gstt_id">
+										gsat_gstt_id
+									</a>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+		
+			<p id="column_detail" class="MainTableHeading">
+				Column Detail
+			</p>
+				
+				<h3 id="column_detail_gsat_id">gsat_id</h3>
+				
+				<ul>
+					<li>
+						<strong>Type:</strong> int4
+					</li>
+					<li>
+						<strong>Length:</strong> 255
+					</li>
+					<li>
+						<strong>Precision:</strong> 19
+					</li>
+					<li>
+						<strong>Scale:</strong> 2
+					</li>
+					<li>
+						<strong>Nullable:</strong> false
+					</li>
+					<li>
+						<strong>Unique:</strong> true
+					</li>
+					<li>
+						<strong>Comment:</strong> 
+					</li>
+				</ul>
+
+
+				<hr/>
+				<h3 id="column_detail_gsat_attr">gsat_attr</h3>
+				
+				<ul>
+					<li>
+						<strong>Type:</strong> int4
+					</li>
+					<li>
+						<strong>Length:</strong> 255
+					</li>
+					<li>
+						<strong>Precision:</strong> 19
+					</li>
+					<li>
+						<strong>Scale:</strong> 2
+					</li>
+					<li>
+						<strong>Nullable:</strong> true
+					</li>
+					<li>
+						<strong>Unique:</strong> false
+					</li>
+					<li>
+						<strong>Comment:</strong> Атрибут типа INTEGER
+					</li>
+				</ul>
+
+
+				<hr/>
+				<h3 id="column_detail_gsat_attr1">gsat_attr1</h3>
+				
+				<ul>
+					<li>
+						<strong>Type:</strong> float8
+					</li>
+					<li>
+						<strong>Length:</strong> 255
+					</li>
+					<li>
+						<strong>Precision:</strong> 17
+					</li>
+					<li>
+						<strong>Scale:</strong> 17
+					</li>
+					<li>
+						<strong>Nullable:</strong> true
+					</li>
+					<li>
+						<strong>Unique:</strong> false
+					</li>
+					<li>
+						<strong>Comment:</strong> Начало интервального атрибута
+					</li>
+				</ul>
+
+
+				<hr/>
+				<h3 id="column_detail_gsat_attr2">gsat_attr2</h3>
+				
+				<ul>
+					<li>
+						<strong>Type:</strong> float8
+					</li>
+					<li>
+						<strong>Length:</strong> 255
+					</li>
+					<li>
+						<strong>Precision:</strong> 17
+					</li>
+					<li>
+						<strong>Scale:</strong> 17
+					</li>
+					<li>
+						<strong>Nullable:</strong> true
+					</li>
+					<li>
+						<strong>Unique:</strong> false
+					</li>
+					<li>
+						<strong>Comment:</strong> Конец интервального атрибута
+					</li>
+				</ul>
+
+
+				<hr/>
+				<h3 id="column_detail_gsat_gsob_id">gsat_gsob_id</h3>
+				
+				<ul>
+					<li>
+						<strong>Type:</strong> N/D
+					</li>
+					<li>
+						<strong>Length:</strong> 255
+					</li>
+					<li>
+						<strong>Precision:</strong> 19
+					</li>
+					<li>
+						<strong>Scale:</strong> 2
+					</li>
+					<li>
+						<strong>Nullable:</strong> true
+					</li>
+					<li>
+						<strong>Unique:</strong> false
+					</li>
+					<li>
+						<strong>Comment:</strong> 
+					</li>
+				</ul>
+
+
+				<hr/>
+				<h3 id="column_detail_gsat_gstt_id">gsat_gstt_id</h3>
+				
+				<ul>
+					<li>
+						<strong>Type:</strong> N/D
+					</li>
+					<li>
+						<strong>Length:</strong> 255
+					</li>
+					<li>
+						<strong>Precision:</strong> 19
+					</li>
+					<li>
+						<strong>Scale:</strong> 2
+					</li>
+					<li>
+						<strong>Nullable:</strong> true
+					</li>
+					<li>
+						<strong>Unique:</strong> false
+					</li>
+					<li>
+						<strong>Comment:</strong> 
+					</li>
+				</ul>
+
+
+				<hr/>
+				
+
+	</body>
+</html>

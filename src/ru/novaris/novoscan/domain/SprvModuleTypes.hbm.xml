@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.SprvModuleTypes" table="sprv_module_types">
+  <id name="spmtId" type="long">
+   <column name="spmt_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="spmtName" type="string">
+   <column length="100" name="spmt_name" not-null="true">
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="spmtDesc" type="string">
+   <column length="2048" name="spmt_desc" not-null="true">
+   </column>
+  </property>
+  <!-- set fetch="select" inverse="true" lazy="true" name="sprvModuleses"
+   sort="unsorted" table="sprv_modules">
+   <key>
+    <column name="spmd_spmt_id" not-null="true"/>
+   </key>
+   <one-to-many class="SprvModules"/>
+  </set -->
+ </class>
+</hibernate-mapping>

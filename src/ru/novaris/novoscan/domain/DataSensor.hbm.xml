@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.DataSensor" table="data_sensor">
+  <id name="dasnId" type="long">
+   <column name="dasn_id"/>
+   <generator class="assigned"/>
+  </id>
+  <!-- many-to-one class="ru.novaris.novoscan.domain.SprvSensors"
+   fetch="select" name="sprvSensors">
+   <column name="dasn_spsn_id" not-null="true"/>
+  </many-to-one -->
+  <property generated="never" lazy="false" name="dasnSpsnId" type="long">
+   <column name="dasn_spsn_id" not-null="true"/>
+  </property>
+  
+  <property generated="never" lazy="false" name="dasnUid" type="long">
+   <column name="dasn_uid" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnDatetime" type="timestamp">
+   <column length="29" name="dasn_datetime" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnLatitude" type="double">
+   <column name="dasn_latitude" not-null="true" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnLongitude" type="double">
+   <column name="dasn_longitude" not-null="true" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnStatus" type="long">
+   <column name="dasn_status" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnSatUsed" type="java.lang.Long">
+   <column name="dasn_sat_used"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnZoneAlarm" type="java.lang.Long">
+   <column name="dasn_zone_alarm"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnMacroId" type="java.lang.Long">
+   <column name="dasn_macro_id"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnMacroSrc" type="java.lang.Long">
+   <column name="dasn_macro_src"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnSog" type="java.lang.Double">
+   <column name="dasn_sog" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnCourse" type="java.lang.Double">
+   <column name="dasn_course" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnHdop" type="java.lang.Double">
+   <column name="dasn_hdop" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnHgeo" type="java.lang.Double">
+   <column name="dasn_hgeo" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnHmet" type="java.lang.Double">
+   <column name="dasn_hmet" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnGpio" type="java.lang.Long">
+   <column name="dasn_gpio"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnAdc" type="java.lang.Long">
+   <column name="dasn_adc"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnTemp" type="java.lang.Double">
+   <column name="dasn_temp" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnType" type="long">
+   <column name="dasn_type" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnXml" type="string">
+   <column name="dasn_xml" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnDtm" type="timestamp">
+   <column length="29" name="dasn_dtm" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="dasnVehicle" type="string">
+   <column name="dasn_vehicle"/>
+  </property>
+ </class>
+</hibernate-mapping>

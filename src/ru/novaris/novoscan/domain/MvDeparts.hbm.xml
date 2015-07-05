@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.MvDeparts" table="mv_departs">
+  <composite-id class="MvDepartsId" mapped="false" name="id" unsaved-value="undefined">
+   <key-property name="spdpId" type="java.lang.Long">
+    <column name="spdp_id"/>
+   </key-property>
+   <key-property name="spdpName" type="string">
+    <column length="2048" name="spdp_name"/>
+   </key-property>
+   <key-property name="acctId" type="java.lang.Long">
+    <column name="acct_id"/>
+   </key-property>
+  </composite-id>
+ </class>
+</hibernate-mapping>

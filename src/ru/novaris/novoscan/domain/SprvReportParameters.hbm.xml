@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.SprvReportParameters" table="sprv_report_parameters">
+  <id name="spprId" type="long">
+   <column name="sppr_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="spprName" type="string">
+   <column length="100" name="sppr_name" not-null="true">
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="spprDesc" type="string">
+   <column length="1024" name="sppr_desc" not-null="false">
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="spprType" type="string">
+   <column length="100" name="sppr_type" not-null="true">
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="spprSprpId" type="long">
+   <column name="sppr_sprp_id" not-null="true">
+   </column>
+  </property>  
+  <property generated="never" lazy="false" name="spprValuen" type="big_decimal">
+   <column name="sppr_valuen" not-null="false">
+   </column>  
+  </property>
+  <property generated="never" lazy="false" name="spprValuev" type="string">
+   <column length="1024" name="sppr_valuev" not-null="false">
+   </column>
+  </property>  
+  <property generated="never" lazy="false" name="spprValued" type="timestamp">
+   <column name="sppr_valued" not-null="false">
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="spprHashMap" type="string">
+   <column length="32768" name="sppr_hash_map" not-null="false">
+   </column>   
+  </property>
+ </class>
+</hibernate-mapping>

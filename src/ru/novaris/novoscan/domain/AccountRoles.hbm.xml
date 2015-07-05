@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.05.2014 18:53:45 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.AccountRoles" table="account_roles">
+  <id name="acrlId" type="long">
+   <column name="acrl_id" not-null="true" unique="true"/>
+   <generator class="sequence">
+    <param name="sequence">acrl_seq</param>
+   </generator>
+  </id>
+   <property name="acrlAcctId" type="long">
+    <column name="acrl_acct_id" not-null="true"/>
+   </property>
+   <property name="acrlRoleId" type="long">
+    <column name="acrl_role_id" not-null="true"/>
+   </property>
+   <property generated="never" lazy="false" name="acrlRoleName" type="string">
+    <formula>get_role_name(acrl_role_id)</formula>
+   </property>
+   <property generated="never" lazy="false" name="acrlLoginName" type="string">
+    <formula>get_login_name(acrl_acct_id)</formula>
+   </property>
+  </class>
+</hibernate-mapping>
