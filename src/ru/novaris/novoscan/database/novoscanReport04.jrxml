@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="novoscanReport01" language="groovy" pageWidth="600" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5eec7acb-b54b-410b-8906-6a0abd62d6f6">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="78"/>
+	<property name="ireport.y" value="179"/>
 	<style name="Title" fontName="DejaVu Sans" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" mode="Opaque" backcolor="#FFFFCC" fontName="DejaVu Sans" fontSize="18" isBold="true">
 		<box>
@@ -210,15 +210,12 @@ ORDER BY d.rec_spob_name, d.rec_datetime]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat("##0.0")
-.format($V{rec_group_mileage}/1000)]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="6879869a-7fb9-41a8-aa40-183d79abaf9c" style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="38" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="708b95e9-bc5a-46c5-85a6-947ed22439fc" style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="58" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -239,10 +236,6 @@ ORDER BY d.rec_spob_name, d.rec_datetime]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($V{rec_group_long} > 0)?
-new java.text.DecimalFormat("##0.0")
-.format(($V{rec_group_mileage}*3.6)/$V{rec_group_long})
-: ""]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="02c230e4-4c4f-4f8c-b1ca-1e28ac8b74a5" style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="98" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -256,11 +249,7 @@ new java.text.DecimalFormat("##0.0")
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat("00").format((Integer) $V{rec_group_long}/3600)
-+":"+
-new java.text.DecimalFormat("00").format((Integer) ($V{rec_group_long}.intValue()%3600)/60)
-+":"+
-new java.text.DecimalFormat("00").format((Integer) ($V{rec_group_long}.intValue()%60))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="1e59db47-6297-44f1-a2c0-625267c45907" style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="118" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -274,11 +263,7 @@ new java.text.DecimalFormat("00").format((Integer) ($V{rec_group_long}.intValue(
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat("00").format((Integer) $V{rec_group_long_stop}/3600)
-+":"+
-new java.text.DecimalFormat("00").format((Integer) ($V{rec_group_long_stop}.intValue()%3600)/60)
-+":"+
-new java.text.DecimalFormat("00").format((Integer) ($V{rec_group_long_stop}.intValue()%60))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="3984b365-7a28-4963-8b96-784402906185" style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="139" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -292,11 +277,7 @@ new java.text.DecimalFormat("00").format((Integer) ($V{rec_group_long_stop}.intV
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat("00").format((Integer) $V{rec_group_long_unknown}/3600)
-+":"+
-new java.text.DecimalFormat("00").format((Integer) ($V{rec_group_long_unknown}.intValue()%3600)/60)
-+":"+
-new java.text.DecimalFormat("00").format((Integer) ($V{rec_group_long_unknown}.intValue()%60))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="7eff3dea-69c6-4977-99eb-f2e0e69135f1" style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="360" y="38" width="200" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
