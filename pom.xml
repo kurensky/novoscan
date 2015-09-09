@@ -8,14 +8,22 @@
 	<version>1.1.0</version>
 	<name>Novoscan :: GWT Form</name>
 	<description>Novoscan GWT Form for object monitoring</description>
+	<developers>
+		<developer>
+			<name>Evgeny Kurensky</name>
+			<email>kurensky@novaris.ru</email>
+		</developer>
+	</developers>
 
 	<!-- convenience to define GWT version in one place -->
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<gwtVersion>2.7.0</gwtVersion>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<!-- GAE properties -->
 		<gae.version>1.9.13</gae.version>
+		<hibernate.version>3.6.0.Final</hibernate.version>
 		<gae.home>${user.home}/.m2/repository/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}</gae.home>
 		<gae.application.version>1</gae.application.version>
 	</properties>
@@ -74,22 +82,8 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>4.1.0.Final</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.xml.bind</groupId>
-					<artifactId>jaxb-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.xml.bind</groupId>
-					<artifactId>jaxb-impl</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
+		<!-- Hibernate bean validation source for the GWT client -->
 		<!-- Required by Hibernate validator because slf4j-log4j is optional in 
 			the hibernate-validator POM -->
 		<dependency>
@@ -189,6 +183,16 @@
 			<version>6.1.0</version>
 		</dependency>
 		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>6.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.12</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>2.3</version>
@@ -198,16 +202,27 @@
 			<artifactId>jxl</artifactId>
 			<version>2.6.12</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>3.2.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.4.4</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<!-- Output classes directly into the webapp, so that IDEs and ""mvn process-classes"" 
 			update them in DevMode -->
-		<outputDirectory>war/WEB-INF/classes</outputDirectory>
-		<resources>
-			<resource>
-				<directory>./src</directory>
-			</resource>
-		</resources>
+		<!-- outputDirectory>war/WEB-INF/classes</outputDirectory> <resources> 
+			<resource> <directory>./src</directory> </resource> </resources -->
 		<plugins>
 			<!-- GWT Maven Plugin -->
 			<plugin>
@@ -238,7 +253,7 @@
 					<!-- URL that should be opened by DevMode (gwt:run). -->
 					<runTarget>Novoscan.html</runTarget>
 					<hostedWebapp>war</hostedWebapp>
-					<webXml>war/WEB-INF/web.xml</webXml>
+					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
 					<!-- Ask GWT to create the Story of Your Compile (SOYC) (gwt:compile) -->
 					<compileReport>true</compileReport>
 					<compilerMetrics>true</compilerMetrics>
@@ -249,24 +264,24 @@
 					<style>${gwt.style}</style>
 					<!-- Tests patterns -->
 					<includes>**/Test*.java,**/*Test.java,**/*TestCase.java</includes>
-					<warSourceDirectory>${basedir}/war</warSourceDirectory>
+					<!-- warSourceDirectory>${basedir}/war</warSourceDirectory -->
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.7</version>
 				<executions>
 					<execution>
-						<id>copyWebXml</id>
+						<id>copy-report-resource</id>
 						<phase>compile</phase>
 						<configuration>
-							<outputDirectory>${basedir}/target/${project.artifactId}-${project.version}/WEB-INF/</outputDirectory>
+							<outputDirectory>${basedir}/src/main/webapp/WEB-INF/reports</outputDirectory>
 							<encoding>UTF-8</encoding>
 							<resources>
 								<resource>
-									<directory>${basedir}/war/WEB-INF/</directory>
+									<directory>${basedir}/src/reports</directory>
 									<includes>
-										<include>**/web.xml</include>
+										<include>**/*.jasper</include>
 									</includes>
 								</resource>
 							</resources>
