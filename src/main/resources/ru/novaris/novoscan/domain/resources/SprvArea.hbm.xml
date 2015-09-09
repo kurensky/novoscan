@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.SprvArea" table="sprv_area">
+  <id name="sparId" type="long">
+   <column name="spar_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="sparName" type="string">
+   <column length="1024" name="spar_name" not-null="true" unique="true">
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="sparDt" type="timestamp">
+   <column length="29" name="spar_dt" not-null="true">
+   </column>
+  </property>
+  <!--  set fetch="select" inverse="true" lazy="true" name="sprvClientses"
+   sort="unsorted" table="sprv_clients">
+   <key>
+    <column name="spcl_spar_id"/>
+   </key>
+   <one-to-many class="SprvClients"/>
+  </set -->
+ </class>
+</hibernate-mapping>

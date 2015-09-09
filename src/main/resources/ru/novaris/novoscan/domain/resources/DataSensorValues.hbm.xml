@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.DataSensorValues" table="data_sensor_values">
+  <id column="dasvId" name="dasvId" type="long">
+   <generator class="identity"/>
+  </id>
+  <property generated="never" lazy="false" name="dasvDasnId" type="long">
+   <column name="dasv_dasn_id" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="dasvKey" type="string">
+   <column name="dasv_key" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="dasvValue" type="float">
+   <column name="dasv_value" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="dasvDatetime" type="timestamp">
+   <column length="29" name="dasv_datetime" not-null="true"/>
+  </property>
+ </class>
+</hibernate-mapping>

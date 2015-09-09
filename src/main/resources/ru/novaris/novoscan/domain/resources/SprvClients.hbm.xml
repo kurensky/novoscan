@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.SprvClients" table="sprv_clients">
+  <id name="spclId" type="long">
+   <column name="spcl_id"/>
+   <generator class="sequence">
+    <param name="sequence">spcl_seq</param>
+   </generator>
+  </id>
+  <property generated="never" lazy="false" name="spclName" type="string">
+   <column length="100" name="spcl_name" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="spclType" type="int">
+   <column name="spcl_type" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="spclDesc" type="string">
+   <column length="1024" name="spcl_desc"/>
+  </property>
+  <property name="spclSpdpId" type="long">
+   <column name="spcl_spdp_id" not-null="true"/>
+  </property>
+  <property name="spclSpdpName" type="string">
+   <formula>(select t.spdp_name from sprv_departs t where t.spdp_id = spcl_spdp_id)</formula>
+  </property>
+  <property name="spclTypeName" type="string">
+   <formula>(select get_cltp_name(spcl_type))</formula>
+  </property>
+ </class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.SysVariables" table="sys_variables">
+  <id name="svarId" type="long">
+   <column name="svar_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="svarName" type="string">
+   <column length="100" name="svar_name" not-null="true" unique="true"/>
+  </property>
+  <property generated="never" lazy="false" name="svarNvalue" type="java.lang.Double">
+   <column name="svar_nvalue" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="svarCvalue" type="string">
+   <column length="240" name="svar_cvalue"/>
+  </property>
+  <property generated="never" lazy="false" name="svarDvalue" type="timestamp">
+   <column length="29" name="svar_dvalue"/>
+  </property>
+  <property generated="never" lazy="false" name="svarDtCreate" type="timestamp">
+   <column length="29" name="svar_dt_create" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="svarDtModify" type="timestamp">
+   <column length="29" name="svar_dt_modify" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="svarDesc" type="string">
+   <column length="240" name="svar_desc" not-null="true"/>
+  </property>
+ </class>
+</hibernate-mapping>

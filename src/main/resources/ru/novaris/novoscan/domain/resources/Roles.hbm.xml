@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.05.2014 18:53:45 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="ru.novaris.novoscan.domain.Roles" table="roles">
+        <id name="roleId" type="long">
+            <column name="role_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="roleName" type="string">
+            <column name="role_name" length="30" not-null="true" unique="true" />
+        </property>
+        <property name="roleDesc" type="string">
+            <column name="role_desc" />
+        </property>
+        <property name="roleDate" type="timestamp">
+            <column name="role_date" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

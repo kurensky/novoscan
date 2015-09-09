@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 06.09.2013 13:10:53 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.EventLog" table="event_log">
+  <id name="evlgId" type="long">
+   <column name="evlg_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property name="evlgType" type="integer">
+   <column name="evlg_type"/>
+  </property>
+     <property name="evlgUser" type="string">
+    <column length="20" name="evlg_user"/>
+   </property>
+   <property name="evlgScheme" type="string">
+    <column length="50" name="evlg_scheme"/>
+   </property>
+   <property name="evlgVersion" type="string">
+    <column length="50" name="evlg_version"/>
+   </property>
+   <property name="evlgModtype" type="int">
+    <column name="evlg_modtype"/>
+   </property>
+   <property name="evlgModname" type="string">
+    <column length="50" name="evlg_modname"/>
+   </property>
+   <property name="evlgPrefixCode" type="string">
+    <column length="4" name="evlg_prefix_code"/>
+   </property>
+   <property name="evlgCode" type="long">
+    <column name="evlg_code"/>
+   </property>
+   <property name="evlgText" type="string">
+    <column name="evlg_text"/>
+   </property>
+   <property name="evlgInfo" type="string">
+    <column name="evlg_info"/>
+   </property>
+   <property name="evlgRepeat" type="int">
+    <column name="evlg_repeat"/>
+   </property>
+   <property name="evlgDt" type="timestamp">
+    <column length="29" name="evlg_dt"/>
+   </property>
+ </class>
+</hibernate-mapping>

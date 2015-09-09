@@ -1,0 +1,3 @@
+# Module novoscan
+# RPC service class, partial path of RPC policy file
+ru.novaris.novoscan.client.DatabaseRead, E0EF198C6876DE65A428EAF82D0C8A3C.gwt.rpc

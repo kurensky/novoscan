@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.05.2014 18:53:45 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.Profiles" table="profiles">
+  <id name="profId" type="long">
+   <column name="prof_id" not-null="true" unique="true"/>
+   <generator class="sequence">
+    <param name="sequence">prof_seq</param>
+   </generator>
+  </id>
+  <property generated="never" lazy="false" name="profAcctId" type="long">
+   <column name="prof_acct_id" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="profAttrId" type="long">
+   <column name="prof_attr_id" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="profAttrName" type="string">
+   <formula>get_attribute_name(prof_attr_id)</formula>
+  </property>
+  <property generated="never" lazy="false" name="profAttrType" type="string">
+   <formula>get_attribute_type(prof_attr_id)</formula>
+  </property>
+  <property generated="never" lazy="false" name="profValuen" type="float">
+   <column name="prof_valuen" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="profValuev" type="string">
+   <column length="1024" name="prof_valuev" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="profValued" type="timestamp">
+   <column length="29" name="prof_valued" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="profDate" type="timestamp">
+   <column length="29" name="prof_date" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="profXml" type="ru.novaris.novoscan.domain.SqlXmlType">
+   <column name="prof_xml" not-null="false"/>
+  </property>
+ </class>
+</hibernate-mapping>

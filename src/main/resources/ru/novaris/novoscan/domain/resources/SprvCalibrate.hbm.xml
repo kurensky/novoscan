@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.SprvCalibrate" table="sprv_calibrate">
+  <id name="spcbId" type="int">
+   <column name="spcb_id"/>
+   <generator class="assigned"/>
+  </id>
+  <many-to-one class="ru.novaris.novoscan.domain.SprvUnits"
+   fetch="select" name="sprvUnits">
+   <column name="spcb_spun_id" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="ru.novaris.novoscan.domain.SprvSensors"
+   fetch="select" name="sprvSensors">
+   <column name="spcb_spsn_id" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="spcbData" type="string">
+   <column name="spcb_data" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="spcbType" type="int">
+   <column name="spcb_type" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="spcbDtCreate" type="date">
+   <column length="13" name="spcb_dt_create" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="spcbDtModify" type="date">
+   <column length="13" name="spcb_dt_modify" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="spcbDtClose" type="date">
+   <column length="13" name="spcb_dt_close"/>
+  </property>
+ </class>
+</hibernate-mapping>

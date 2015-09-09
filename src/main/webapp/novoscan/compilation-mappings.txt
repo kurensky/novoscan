@@ -1,0 +1,81 @@
+21F0807AE239BA2263D2E8239904AA51.cache.js
+supportsDateTimeInput n
+user.agent ie8
+
+21F0807AE239BA2263D2E8239904AA51.cache.js
+supportsDateTimeInput y
+user.agent ie8
+
+21F0807AE239BA2263D2E8239904AA51.cache.js
+supportsDateTimeInput n
+user.agent ie8
+
+21F0807AE239BA2263D2E8239904AA51.cache.js
+supportsDateTimeInput y
+user.agent ie8
+
+235285D64EAF1F8847525614B13CC27B.cache.js
+supportsDateTimeInput n
+user.agent gecko1_8
+
+235285D64EAF1F8847525614B13CC27B.cache.js
+supportsDateTimeInput y
+user.agent gecko1_8
+
+235285D64EAF1F8847525614B13CC27B.cache.js
+supportsDateTimeInput n
+user.agent gecko1_8
+
+235285D64EAF1F8847525614B13CC27B.cache.js
+supportsDateTimeInput y
+user.agent gecko1_8
+
+335421D71DF2CE3D546CB8301F4C80D9.cache.js
+supportsDateTimeInput n
+user.agent ie10
+
+335421D71DF2CE3D546CB8301F4C80D9.cache.js
+supportsDateTimeInput y
+user.agent ie10
+
+335421D71DF2CE3D546CB8301F4C80D9.cache.js
+supportsDateTimeInput n
+user.agent ie10
+
+335421D71DF2CE3D546CB8301F4C80D9.cache.js
+supportsDateTimeInput y
+user.agent ie10
+
+6DF8186BAEDF7606F7FB5492E2C54C86.cache.js
+supportsDateTimeInput n
+user.agent ie9
+
+6DF8186BAEDF7606F7FB5492E2C54C86.cache.js
+supportsDateTimeInput y
+user.agent ie9
+
+6DF8186BAEDF7606F7FB5492E2C54C86.cache.js
+supportsDateTimeInput n
+user.agent ie9
+
+6DF8186BAEDF7606F7FB5492E2C54C86.cache.js
+supportsDateTimeInput y
+user.agent ie9
+
+A6DF244EFCA5A3EEC09FE3D7C3CF0572.cache.js
+supportsDateTimeInput n
+user.agent safari
+
+A6DF244EFCA5A3EEC09FE3D7C3CF0572.cache.js
+supportsDateTimeInput y
+user.agent safari
+
+A6DF244EFCA5A3EEC09FE3D7C3CF0572.cache.js
+supportsDateTimeInput n
+user.agent safari
+
+A6DF244EFCA5A3EEC09FE3D7C3CF0572.cache.js
+supportsDateTimeInput y
+user.agent safari
+
+Devmode:devmode.js

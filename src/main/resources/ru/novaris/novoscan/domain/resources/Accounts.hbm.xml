@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.Accounts" table="accounts">
+  <id name="acctId" type="long">
+   <column name="acct_id" not-null="true" unique="true"/>
+   <generator class="sequence">
+    <param name="sequence">acct_seq</param>
+   </generator>
+  </id>
+  <property generated="never" lazy="false" name="acctLogin" type="string">
+   <column length="30" name="acct_login" not-null="true" unique="true">
+    <comment>Login</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="acctPasswd" type="string">
+   <column length="1024" name="acct_passwd" not-null="true">
+    <comment>Crypt Password</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="acctName" type="string">
+   <column length="1024" name="acct_name" not-null="true">
+    <comment>First Name</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="acctDt" type="timestamp">
+   <column length="29" name="acct_dt" not-null="true">
+    <comment>Create Date</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="acctEmail" type="string">
+   <column length="300" name="acct_email">
+    <comment>Email</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="acctName2" type="string">
+   <column length="1024" name="acct_name2">
+    <comment>Last Name</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="acctName3" type="string">
+   <column length="1024" name="acct_name3">
+    <comment>Middle Name</comment>
+   </column>
+  </property>
+ </class>
+</hibernate-mapping>

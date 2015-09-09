@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.RequestRoute" table="request_route">
+  <id name="reqrId" type="long">
+   <column name="reqr_id"/>
+   <generator class="sequence">
+    <param name="sequence">reqr_seq</param>
+   </generator>
+  </id>
+  <property generated="never" lazy="false" name="reqrReqId" type="long">
+   <column name="reqr_req_id" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="reqrReqrId" type="long">
+   <column name="reqr_reqr_id" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="reqrPointName" type="string">
+   <column length="256" name="reqr_point_name" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="reqrDateArrival" type="date">
+   <column length="13" name="reqr_date_arrival" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="reqrTimeStay" type="long">
+   <column name="reqr_time_stay" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="reqrDistance" type="big_decimal">
+   <column name="reqr_distance" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="reqrRate" type="big_decimal">
+   <column name="reqr_rate" not-null="false"/>
+  </property>
+ </class>
+</hibernate-mapping>

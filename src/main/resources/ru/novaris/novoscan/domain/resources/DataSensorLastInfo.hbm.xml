@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.DataSensorLastInfo" table="data_sensor_last">
+  <id name="daslId" type="long">
+   <column name="dasl_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="daslUid" type="long">
+   <column name="dasl_uid" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="daslDatetime" type="timestamp">
+   <column length="29" name="dasl_datetime" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="daslLatitude" type="double">
+   <column name="dasl_latitude" not-null="true" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="daslLongitude" type="double">
+   <column name="dasl_longitude" not-null="true" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="daslStatus" type="long">
+   <column name="dasl_status" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="daslSatUsed" type="java.lang.Long">
+   <column name="dasl_sat_used"/>
+  </property>
+  <property generated="never" lazy="false" name="daslZoneAlarm" type="java.lang.Long">
+   <column name="dasl_zone_alarm"/>
+  </property>
+  <property generated="never" lazy="false" name="daslMacroId" type="java.lang.Long">
+   <column name="dasl_macro_id"/>
+  </property>
+  <property generated="never" lazy="false" name="daslMacroSrc" type="java.lang.Long">
+   <column name="dasl_macro_src"/>
+  </property>
+  <property generated="never" lazy="false" name="daslSog" type="java.lang.Double">
+   <column name="dasl_sog" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="daslCourse" type="java.lang.Double">
+   <column name="dasl_course" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="daslHdop" type="java.lang.Double">
+   <column name="dasl_hdop" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="daslHgeo" type="java.lang.Double">
+   <column name="dasl_hgeo" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="daslHmet" type="java.lang.Double">
+   <column name="dasl_hmet" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="daslGpio" type="java.lang.Long">
+   <column name="dasl_gpio"/>
+  </property>
+  <property generated="never" lazy="false" name="daslAdc" type="java.lang.Long">
+   <column name="dasl_adc"/>
+  </property>
+  <property generated="never" lazy="false" name="daslTemp" type="java.lang.Double">
+   <column name="dasl_temp" precision="17" scale="17"/>
+  </property>
+  <property generated="never" lazy="false" name="daslType" type="long">
+   <column name="dasl_type" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="daslXml" type="string">
+   <column name="dasl_xml" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="daslDtm" type="timestamp">
+   <column length="29" name="dasl_dtm" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="daslSpsnId" type="long">
+   <column name="dasl_spsn_id" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="daslVehicle" type="string">
+   <column name="dasl_vehicle"/>
+  </property>
+  <property generated="never" lazy="false" name="daslDasnId" type="long">
+   <column name="dasl_dasn_id" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="spobName">
+   <meta attribute="spob_name">unknown</meta>
+  </property>
+  <property generated="never" lazy="false" name="spobDesc">
+   <meta attribute="spob_desc">unknown</meta>
+  </property>
+ </class>
+</hibernate-mapping>

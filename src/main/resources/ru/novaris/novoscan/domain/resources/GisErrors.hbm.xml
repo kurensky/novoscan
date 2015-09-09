@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.GisErrors" table="gis_errors">
+  <id name="gserId" type="int">
+   <column name="gser_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="gserDesc" type="string">
+   <column length="1024" name="gser_desc">
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="gserDt" type="date">
+   <column length="13" name="gser_dt" not-null="true">
+   </column>
+  </property>
+  <!-- set fetch="select" inverse="true" lazy="true" name="gisObjectses"
+   sort="unsorted" table="gis_objects">
+   <key>
+    <column name="gsob_gser_id"/>
+   </key>
+   <one-to-many class="GisObjects"/>
+  </set -->
+ </class>
+</hibernate-mapping>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory name="">
+  <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+  <property name="hibernate.connection.password">dctvgjrtlf</property>
+  <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/dbtrack</property>
+  <property name="hibernate.connection.username">owner_track</property>
+  <property name="hibernate.default_schema">owner_track</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+  <!-- Enable Hibernate's automatic session context management -->
+  <property name="current_session_context_class">thread</property>
+  <!-- <property name="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</property> 
+ Echo all executed SQL to stdout -->
+  <property name="show_sql">true</property>
+  <!-- mapping class="ru.novaris.novoscan.domain.QueueModuleExec" resource="ru/novaris/novoscan/domain/resources/QueueModuleExec.hbm.xml"/ -->
+  <mapping class="ru.novaris.novoscan.domain.SysVariables" resource="ru/novaris/novoscan/domain/resources/SysVariables.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SysDictonary" resource="ru/novaris/novoscan/domain/resources/SysDictonary.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SysConsts" resource="ru/novaris/novoscan/domain/resources/SysConsts.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvUnits" resource="ru/novaris/novoscan/domain/resources/SprvUnits.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvSensorTypes" resource="ru/novaris/novoscan/domain/resources/SprvSensorTypes.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvObjectTypes" resource="ru/novaris/novoscan/domain/resources/SprvObjectTypes.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvModuleTypes" resource="ru/novaris/novoscan/domain/resources/SprvModuleTypes.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvDeparts" resource="ru/novaris/novoscan/domain/resources/SprvDeparts.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvClients" resource="ru/novaris/novoscan/domain/resources/SprvClients.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvObjects" resource="ru/novaris/novoscan/domain/resources/SprvObjects.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvModules" resource="ru/novaris/novoscan/domain/resources/SprvModules.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvSensors" resource="ru/novaris/novoscan/domain/resources/SprvSensors.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvCalibrate" resource="ru/novaris/novoscan/domain/resources/SprvCalibrate.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.Accounts" resource="ru/novaris/novoscan/domain/resources/Accounts.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.AccountLists" resource="ru/novaris/novoscan/domain/resources/AccountLists.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvArea" resource="ru/novaris/novoscan/domain/resources/SprvArea.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.DataSensor" resource="ru/novaris/novoscan/domain/resources/DataSensor.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.DataSensorLast" resource="ru/novaris/novoscan/domain/resources/DataSensorLast.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.EventLog" resource="ru/novaris/novoscan/domain/resources/EventLog.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.Roles" resource="ru/novaris/novoscan/domain/resources/Roles.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.AccountRoles" resource="ru/novaris/novoscan/domain/resources/AccountRoles.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.Profiles" resource="ru/novaris/novoscan/domain/resources/Profiles.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.RussiaOsmPoint" resource="ru/novaris/novoscan/domain/resources/RussiaOsmPoint.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.Request" resource="ru/novaris/novoscan/domain/resources/Request.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.RequestRoute" resource="ru/novaris/novoscan/domain/resources/RequestRoute.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvReports" resource="ru/novaris/novoscan/domain/resources/SprvReports.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.DataSensorValues" resource="ru/novaris/novoscan/domain/resources/DataSensorValues.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.DataSensorLastValues" resource="ru/novaris/novoscan/domain/resources/DataSensorLastValues.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvReportTypes" resource="ru/novaris/novoscan/domain/resources/SprvReportTypes.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.SprvReportParameters" resource="ru/novaris/novoscan/domain/resources/SprvReportParameters.hbm.xml"/>
+  <mapping class="ru.novaris.novoscan.domain.GisDataPoint" resource="ru/novaris/novoscan/domain/resources/GisDataPoint.hbm.xml"/>
+ </session-factory>
+</hibernate-configuration>

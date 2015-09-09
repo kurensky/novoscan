@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.GisObjectsAttr" table="gis_objects">
+  <id name="gsobId" type="int">
+   <column name="gsob_id"/>
+   <generator class="assigned"/>
+  </id>
+  <many-to-one class="ru.novaris.novoscan.domain.GisTypes"
+   fetch="select" name="gisTypes">
+   <column name="gsob_gstp_id"/>
+  </many-to-one>
+  <many-to-one class="ru.novaris.novoscan.domain.GisErrors"
+   fetch="select" name="gisErrors">
+   <column name="gsob_gser_id"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="gsobName" type="string">
+   <column length="30" name="gsob_name" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="gsobDesc" type="string">
+   <column length="2048" name="gsob_desc" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="gsobDt" type="date">
+   <column length="13" name="gsob_dt" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="gsobDtClose" type="date">
+   <column length="13" name="gsob_dt_close"/>
+  </property>
+  <property generated="never" lazy="false" name="gsobCode" type="string">
+   <column length="100" name="gsob_code"/>
+  </property>
+  <!-- set fetch="select" inverse="true" lazy="true" name="gisObjectsAttrs"
+   sort="unsorted" table="gis_objects_attr">
+   <key>
+    <column name="gsat_gsob_id"/>
+   </key>
+   <one-to-many class="GisObjectsAttr"/>
+  </set 
+ set fetch="select" inverse="true" lazy="true" name="gisDatas"
+   sort="unsorted" table="gis_data">
+   <key>
+    <column name="gsdt_gsob_id" not-null="true"/>
+   </key>
+   <one-to-many class="GisData"/>
+  </set -->
+ </class>
+</hibernate-mapping>

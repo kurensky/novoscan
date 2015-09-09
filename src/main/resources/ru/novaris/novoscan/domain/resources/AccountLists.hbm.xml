@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12.10.2011 18:15:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ru.novaris.novoscan.domain.Acl" table="account_lists">
+  <id name="acclId" type="long">
+   <column name="accl_id" not-null="true" unique="true"/>
+   <generator class="sequence">
+    <param name="sequence">accl_seq</param>
+   </generator>
+  </id>
+  <property generated="never" lazy="false" name="acclRefId1" type="long">
+   <column name="accl_ref_id1" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="acclRefType1" type="long">
+   <column name="accl_ref_type1" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="acclRefId2" type="long">
+   <column name="accl_ref_id2" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="acclRefType2" type="long">
+   <column name="accl_ref_type2" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="acclAcl" type="long">
+   <column name="accl_acl" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="acclDt" type="timestamp">
+   <column length="29" name="accl_dt" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="acclRefName1" type="string">
+   <formula>get_acl_obj_name(accl_ref_id1,accl_ref_type1)</formula>
+  </property>
+  <property generated="never" lazy="false" name="acclRefName2" type="string">
+   <formula>get_acl_obj_name(accl_ref_id2,accl_ref_type2)</formula>
+  </property>
+ </class>
+</hibernate-mapping>
