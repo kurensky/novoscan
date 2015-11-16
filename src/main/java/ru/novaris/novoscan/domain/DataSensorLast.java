@@ -66,6 +66,10 @@ public class DataSensorLast implements java.io.Serializable {
 	private String daslObjectName;
 	
 	private String daslAddress;
+
+	private String daslIgnition;
+	
+	private String daslFuel;
 	
 	public DataSensorLast() {
 	}
@@ -334,6 +338,22 @@ public class DataSensorLast implements java.io.Serializable {
 
 	public void setDaslAddress(String daslAddress) {
 		this.daslAddress = daslAddress;
+	}
+	
+	public void setDaslIgnition(String daslIgnition) {
+		this.daslIgnition = daslIgnition;
+	}	
+
+	public String getDaslIgnition() {
+		return daslIgnition;
+	}
+
+	public String getDaslFuel() {
+		return daslFuel;
+	}
+
+	public void setDaslFuel(String daslFuel) {
+		this.daslFuel = daslFuel;
 	}	
 
 }

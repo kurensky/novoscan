@@ -20,6 +20,7 @@ import ru.novaris.novoscan.domain.Profiles;
 import ru.novaris.novoscan.domain.SprvReports;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
@@ -158,6 +159,16 @@ public class Novoscan implements EntryPoint, ImplConstants, ImplConstantsGWT {
 	private void clearRoles() {
 		listRoles.clear();
 	}
+	
+	private String getWindowWidth() {
+		int width = Window.getClientWidth() + Window.getScrollLeft() - BAR_SIZE;
+		return width + Unit.PX.getType();
+	}
+
+	private String getWindowHeight() {
+		int height = Window.getClientHeight() + Window.getScrollTop() - BAR_SIZE - MENU_SIZE;
+		return height + Unit.PX.getType();
+	}
 
 	// ************************************************************************************
 
@@ -216,6 +227,7 @@ public class Novoscan implements EntryPoint, ImplConstants, ImplConstantsGWT {
 				Label emptyLabel = new Label(constants.WorkingInfo());
 				emptyLabel.addStyleName("screenMessage");
 				emptyPanel.add(emptyLabel);
+				emptyPanel.setSize(getWindowWidth(),getWindowHeight());
 				VerticalPanel panelInfo = new VerticalPanel();
 				panelInfo
 						.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);

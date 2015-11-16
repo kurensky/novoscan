@@ -24,6 +24,7 @@ import ru.novaris.novoscan.domain.DataSensorLast;
 import ru.novaris.novoscan.domain.EventLog;
 import ru.novaris.novoscan.domain.FilterTable;
 import ru.novaris.novoscan.domain.GisDataPoint;
+import ru.novaris.novoscan.domain.GisObjects;
 import ru.novaris.novoscan.domain.Request;
 import ru.novaris.novoscan.domain.RequestRoute;
 import ru.novaris.novoscan.domain.RussiaOsmPoint;
@@ -99,7 +100,7 @@ public class NovoscanReadImpl extends RemoteServiceServlet implements
 
 	private static Double MIN_PARKING_TIME; // минимальное время
 											// стоянки.
-	public Connection connection = null;
+	public static Connection connection = null;
 
 	private String resultINFO = null;
 
@@ -209,10 +210,10 @@ public class NovoscanReadImpl extends RemoteServiceServlet implements
 
 	public String getUserName() {
 		HttpServletRequest request = this.getThreadLocalRequest();
-		HttpSession session = request.getSession(false);
+		HttpSession httpSession = request.getSession(false);
 		String userName = null;
-		if (session != null) {
-			userName = session.getAttribute(COOKIE_TAG_NAME).toString();
+		if (httpSession != null) {
+			userName = httpSession.getAttribute(COOKIE_TAG_NAME).toString();
 		}
 		return userName;
 	}
@@ -226,10 +227,11 @@ public class NovoscanReadImpl extends RemoteServiceServlet implements
 	private void saveLoginInfo(Long userId, String userName) {
 		// create session and store userid
 		HttpServletRequest request = this.getThreadLocalRequest();
-		HttpSession session = request.getSession(true);
-		session.setAttribute(COOKIE_TAG_ID, userId);
-		session.setAttribute(COOKIE_TAG_NAME, userName);
-		session.setAttribute(COOKIE_TAG_IP, getIpAddress());
+		HttpSession httpSession = request.getSession(true);
+		httpSession.setAttribute(COOKIE_TAG_ID, userId);
+		httpSession.setAttribute(COOKIE_TAG_NAME, userName);
+		httpSession.setAttribute(COOKIE_TAG_IP, getIpAddress());
+		httpSession.setAttribute(COOKIE_LAST_SENSOR_DATE, (long) 0);
 	}
 
 	/**
@@ -430,6 +432,8 @@ public class NovoscanReadImpl extends RemoteServiceServlet implements
 				.append("      ,get_address(ds.dasl_Address,ds.dasl_Latitude,ds.dasl_Longitude) AS dasl_Address")
 				.append("      ,ob.spob_name||' ('||ob.spob_desc||')' dasl_Object_Info")
 				.append("      ,ob.spob_name dasl_Object_Name")
+				.append("      ,get_dasl_ignition(ds.dasl_Id) dasl_Ignition")
+				.append("      ,get_dasl_fuel(ds.dasl_Id) dasl_Fuel")
 				.append("  FROM (").append("       SELECT spob_id")
 				.append("             ,spcl_id")
 				.append("             ,spdp_id")
@@ -1835,16 +1839,15 @@ public class NovoscanReadImpl extends RemoteServiceServlet implements
 	public void logout() {
 		HttpServletRequest request = this.getThreadLocalRequest();
 		// dont create a new one -> false
-		HttpSession session = request.getSession(false);
-		if (session == null)
+		HttpSession httpSession = request.getSession(false);
+		if (httpSession == null)
 			return;
 		// do some logout stuff ...
-		session.removeAttribute(COOKIE_LAST_SENSOR_DATE);
-		session.removeAttribute(COOKIE_TAG_ID);
-		session.removeAttribute(COOKIE_TAG_NAME);
-		session.removeAttribute(COOKIE_TAG_IP);
-		session.removeAttribute(COOKIE_LAST_SENSOR_DATE);
-		session.invalidate();
+		httpSession.removeAttribute(COOKIE_LAST_SENSOR_DATE);
+		httpSession.removeAttribute(COOKIE_TAG_ID);
+		httpSession.removeAttribute(COOKIE_TAG_NAME);
+		httpSession.removeAttribute(COOKIE_TAG_IP);
+		httpSession.invalidate();
 	}
 
 	@Override
@@ -1852,8 +1855,8 @@ public class NovoscanReadImpl extends RemoteServiceServlet implements
 		int status = 0;
 		try {
 			HttpServletRequest request = this.getThreadLocalRequest();
-			HttpSession session = request.getSession(false);
-			if (session == null) {
+			HttpSession httpSession = request.getSession(false);
+			if (httpSession == null) {
 				status = -1;
 			}
 		} catch (Exception e) {
@@ -1928,6 +1931,24 @@ public class NovoscanReadImpl extends RemoteServiceServlet implements
 		}
 		List<GisDataPoint> uniqZones = new ArrayList<GisDataPoint>(new HashSet<GisDataPoint>(sqlResult));
 		return uniqZones;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<GisObjects> getListGisObjects() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<GisObjects> sqlResult = new ArrayList<GisObjects>();
+		try {
+			criteria = session.createCriteria(SprvReportTypes.class);
+			setCriteriaFilters("GisObjects");
+			sqlResult = new ArrayList<GisObjects>(criteria.list());
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+			throw e;
+		}
+		return sqlResult;
 	}
 
 }

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="novoscanReport01" language="groovy" pageWidth="600" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5eec7acb-b54b-410b-8906-6a0abd62d6f6">
 	<property name="ireport.zoom" value="1.7715610000000066"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="537"/>
+	<property name="ireport.y" value="115"/>
 	<style name="Title" fontName="DejaVu Sans" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" mode="Opaque" backcolor="#FFFFCC" fontName="DejaVu Sans" fontSize="18" isBold="true">
 		<box>
@@ -393,7 +393,7 @@ new java.text.DecimalFormat("00").format((Integer) ($F{rec_long}.intValue()%60))
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="false" pdfEncoding="Cp1251"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Дата формирования отчёта: "+new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format((new java.util.Date()).plus((int) $P{TimeZoneOffset}/6))]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Дата формирования отчёта: "+new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format((new java.util.Date(System.currentTimeMillis() - $P{TimeZoneOffset} * 60000 )))]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

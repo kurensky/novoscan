@@ -132,4 +132,6 @@ public interface DatabaseRead extends RemoteService {
 
 	List<GisDataPoint> getGeomPointObjects();
 
+	List<GisObjects> getListGisObjects();
+
 }

@@ -329,3 +329,15 @@ body {
 	font-size: x-small !important; 
 	color: black !important;
 }
+.daslIgnition {
+	font-family: courier, "courier new", monospace !important;
+	font-weight: bold !important;
+	font-size: x-small !important; 
+	color: black !important;
+}
+.daslFuel {
+	font-family: courier, "courier new", monospace !important;
+	font-weight: bold !important;
+	font-size: x-small !important; 
+	color: black !important;
+}

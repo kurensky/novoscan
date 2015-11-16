@@ -76,6 +76,8 @@ public interface ImplConstantsGWT {
 	
 	public static final int BAR_SIZE = 20;
 	
+	public static final int MENU_SIZE = 10;
+	
 	public static final int HEADER_ROW_INDEX = 0;
 	
 	public enum MessageType { ERROR, WARNING, INFO };
@@ -97,4 +99,11 @@ public interface ImplConstantsGWT {
 	public static final int UNAVAILABLE_TIME_LONG = 86400000; // 1000 * 3600 * 24
 	
 	public static final int STOP_TIME_LONG = 3600000; // 1000 * 3600
+	
+	public static final int WMS_NUM_ZOOM_LEVEL = 30; // 
+	
+	public static final String NOVOSCAN_MAP_SERVER = "http://maps.novaris.ru:8081/geoserver/novoscan/wms";
+
+	public static final String NOVOSCAN_MAP_LAYER = "novoscan:novoscan";
+	
 }

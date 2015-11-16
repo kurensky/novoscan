@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -87,6 +89,8 @@ public class ReportServlet extends HttpServlet implements ImplConstants {
 						.next();
 				String paramName = entry.getKey();
 				String[] paramValues = entry.getValue();
+				Locale locale = new Locale("ru", "RU");
+				params.put(JRParameter.REPORT_LOCALE, locale);
 				if (paramValues.length >= 1) {
 					if (paramName.equalsIgnoreCase(REPORT_FILE)) {
 						jasperFileName = paramValues[0];

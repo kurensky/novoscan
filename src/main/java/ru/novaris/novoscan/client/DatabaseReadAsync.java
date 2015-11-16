@@ -148,5 +148,7 @@ public interface DatabaseReadAsync {
 
 	void getGeomPointObjects(AsyncCallback<List<GisDataPoint>> callback);
 
+	void getListGisObjects(AsyncCallback<List<GisObjects>> callback);
+
 
 }

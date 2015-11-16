@@ -87,5 +87,11 @@
   <property generated="never" lazy="false" name="daslObjectInfo" type="string">
    <column name="dasl_object_info"/>
   </property>
+  <property generated="never" lazy="false" name="daslIgnition" type="string">
+   <column name="dasl_ignition"/>
+  </property>
+  <property generated="never" lazy="false" name="daslFuel" type="string">
+   <column name="dasl_fuel"/>
+  </property>
  </class>
 </hibernate-mapping>

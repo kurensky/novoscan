@@ -100,7 +100,7 @@ public class CwObjInfoTable extends ResizeComposite implements
 	private Column<DataSensorLast, String> daslDateTime;
 
 	private final int stopTimeLong;
-	
+
 	private final int unavTimeLong;
 
 	interface WidgObjInfoTableUiBinder extends UiBinder<Widget, CwObjInfoTable> {
@@ -114,7 +114,7 @@ public class CwObjInfoTable extends ResizeComposite implements
 		this.trackData = new MapTrackData(entryPoint);
 		stopTimeLong = entryPoint.getStopTimeLong();
 		unavTimeLong = entryPoint.getUnavTimeLong();
-		
+
 		initWidget(uiBinder.createAndBindUi(this));
 
 		/**
@@ -202,6 +202,64 @@ public class CwObjInfoTable extends ResizeComposite implements
 		dataGrid.addColumn(daslUid, constants.cwDataGridUid());
 		dataGrid.setColumnWidth(daslUid, 50, Unit.PCT);
 		daslUid.setCellStyleNames("daslUid");
+		// Зажигание ignition
+		Column<DataSensorLast, String> daslIgnition = new Column<DataSensorLast, String>(
+				new TextCell()) {
+			@Override
+			public String getValue(DataSensorLast object) {
+				return object.getDaslIgnition();
+			}
+		};
+		daslIgnition.setCellStyleNames("daslIgnition");
+		daslIgnition.setSortable(true);
+		sortHandler.setComparator(daslIgnition,
+				new Comparator<DataSensorLast>() {
+					@Override
+					public int compare(DataSensorLast o1, DataSensorLast o2) {
+						if (o1 == o2) {
+							return 0;
+						}
+
+						// Compare the name columns.
+						if (o1 != null) {
+							return (o2 != null) ? o1.getDaslIgnition()
+									.compareTo(o2.getDaslIgnition()) : 1;
+						}
+						return -1;
+					}
+				});
+		dataGrid.addColumn(daslIgnition, constants.cwDataGridIgnition()
+				.substring(0, 4) + ".");
+		dataGrid.setColumnWidth(daslIgnition, 20, Unit.PCT);
+		// топливо
+		Column<DataSensorLast, String> daslFuel = new Column<DataSensorLast, String>(
+				new TextCell()) {
+			@Override
+			public String getValue(DataSensorLast object) {
+				return object.getDaslFuel();
+			}
+		};
+		daslFuel.setCellStyleNames("daslFuel");
+		daslFuel.setSortable(true);
+		sortHandler.setComparator(daslFuel,
+				new Comparator<DataSensorLast>() {
+					@Override
+					public int compare(DataSensorLast o1, DataSensorLast o2) {
+						if (o1 == o2) {
+							return 0;
+						}
+
+						// Compare the name columns.
+						if (o1 != null) {
+							return (o2 != null) ? o1.getDaslFuel()
+									.compareTo(o2.getDaslFuel()) : 1;
+						}
+						return -1;
+					}
+				});
+		dataGrid.addColumn(daslFuel, constants.cwDataGridFuel());
+		dataGrid.setColumnWidth(daslFuel, 30, Unit.PCT);
+		
 		// Скорость
 		Column<DataSensorLast, String> daslSpeed = new Column<DataSensorLast, String>(
 				new TextCell()) {
@@ -271,7 +329,6 @@ public class CwObjInfoTable extends ResizeComposite implements
 		dataGrid.addColumn(daslDateTime, constants.cwDataGridDate());
 		dataGrid.setColumnWidth(daslDateTime, 80, Unit.PCT);
 
-
 		// Object name.
 		Column<DataSensorLast, String> daslAddress = new Column<DataSensorLast, String>(
 				new TextCell()) {
@@ -295,8 +352,7 @@ public class CwObjInfoTable extends ResizeComposite implements
 		daslAddress.setCellStyleNames("daslAddress");
 		dataGrid.addColumn(daslAddress, constants.cwDataAddress());
 		dataGrid.setColumnWidth(daslAddress, 200, Unit.PCT);
-		
-		
+
 		// для предпросмотра
 		previewHandler = new Handler<DataSensorLast>() {
 			@Override
@@ -325,7 +381,6 @@ public class CwObjInfoTable extends ResizeComposite implements
 		dataProvider.addDataDisplay(dataGrid);
 		refreshInfoTable();
 	}
-
 
 	/**
 	 * Refresh all displays.
@@ -526,5 +581,5 @@ public class CwObjInfoTable extends ResizeComposite implements
 	public void onResize() {
 
 	}
-	
+
 }

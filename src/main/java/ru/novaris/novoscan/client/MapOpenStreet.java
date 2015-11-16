@@ -47,8 +47,12 @@ import org.gwtopenmaps.openlayers.client.layer.GoogleV3;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3MapType;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3Options;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
+import org.gwtopenmaps.openlayers.client.layer.TransitionEffect;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
+import org.gwtopenmaps.openlayers.client.layer.WMS;
+import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
+import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 import org.gwtopenmaps.openlayers.client.popup.FramedCloud;
 import org.gwtopenmaps.openlayers.client.popup.Popup;
 import org.gwtopenmaps.openlayers.client.protocol.ProtocolType;
@@ -58,6 +62,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 
@@ -204,8 +209,9 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 						+ eventObject.getUnits());
 			}
 		});
-		// measure
-		mapWidget = new MapWidget("100%", "100%", mapOptions);
+		// measure\
+		mapWidget = new MapWidget(String.valueOf(entryPoint.getWidth()),
+				String.valueOf(entryPoint.getHeight()), mapOptions);
 		map = mapWidget.getMap();
 		map.addControl(new PanZoom());
 		map.addControl(new MousePosition(mousePositionOptions));
@@ -273,6 +279,21 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 				BingType.AERIAL);
 		bingOptionRoad.setProtocol(ProtocolType.HTTP);
 		Bing bAerial = new Bing(bingOptionAerial);
+		
+		// WMS
+		// Create a WMS layer as base layer
+		WMSParams wmsParams = new WMSParams();
+		wmsParams.setFormat("image/png");
+		wmsParams.setLayers(NOVOSCAN_MAP_LAYER);
+		wmsParams.setStyles("");
+		WMSOptions wmsLayerParams = new WMSOptions();
+		wmsLayerParams.setUntiled();
+		wmsLayerParams.setProjection(DST_PROJ_NAME);
+		wmsLayerParams.setIsBaseLayer(true);
+		wmsLayerParams.setNumZoomLevels(WMS_NUM_ZOOM_LEVEL);
+		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
+		String wmsUrl = NOVOSCAN_MAP_SERVER;
+		WMS wmsLayer = new WMS("Карта", wmsUrl, wmsParams, wmsLayerParams);
 
 		map.addLayer(openStreetMap);
 		map.addLayer(openStreetMapCycle);
@@ -283,6 +304,7 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 		map.addLayer(bHybrid);
 		map.addLayer(bRoad);
 		map.addLayer(bAerial);
+		map.addLayer(wmsLayer);
 		//
 		Style style = new Style();
 		style.setStrokeColor("blue");
@@ -348,7 +370,6 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 				eventObject.getVectorFeature().resetPopup();
 			}
 		});
-
 		map.addMapZoomListener(new MapZoomListener() {
 
 			@Override
@@ -898,6 +919,7 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 		// Геозоны
 		geoZones = new Vector("Геозоны");
 		geoZones.setIsBaseLayer(false);
+		geoZones.setIsVisible(false);
 		map.addLayer(geoZones);
 		final DrawFeatureOptions drawGeoZoneOptions = new DrawFeatureOptions();
 		// HandlerOptions geoZonesHandlerOptions = new HandlerOptions();
@@ -908,7 +930,17 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 		drawPolygonControl = new DrawFeature(geoZones, drawPolygonHandler,
 				drawGeoZoneOptions);
 		map.addControl(drawPolygonControl);
+	    final SelectFeature selectFeature = new SelectFeature(geoZones);
+	    selectFeature.setAutoActivate(true);
+	    map.addControl(selectFeature);
 		drawGeoZones();
+		geoZones.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
+            public void onFeatureSelected(FeatureSelectedEvent eventObject) {
+            	Window.alert("Идентификатор объекта : " + eventObject.getVectorFeature().getFeatureId());
+            	
+                selectFeature.unSelect(eventObject.getVectorFeature());
+            }
+        });
 	}
 
 	private void drawGeoZones() {
@@ -959,6 +991,7 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 						zoneStyle.setLabel(gisDataPoint.getGsdtInfo());
 						VectorFeature zoneFeature = new VectorFeature(
 								linearRing, zoneStyle);
+						zoneFeature.setFeatureId(String.valueOf(gisDataPoint.getGsdtId()));
 						geoZones.addFeature(zoneFeature);
 					}
 
