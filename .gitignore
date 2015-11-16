@@ -40,3 +40,8 @@ target/
 
 # Hibernate temp files
 hibernate/
+
+# binary 
+src/main/webapp/WEB-INF/deploy
+src/main/webapp/WEB-INF/deploy/novoscan/symbolMaps
+src/main/webapp/novoscan
