@@ -1,0 +1,29 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c='urn:import:com.google.gwt.user.cellview.client'>
+
+		<g:DockLayoutPanel unit="EM" ui:field="panel" width="600" height="300">
+					<g:north size="4">
+				<g:HTMLPanel addStyleNames="buttonPanel">
+					<table cellspacing='0' cellpadding='0'>
+						<tr>
+							<td>
+								<g:PushButton text="Cancel" ui:field="cancel"
+									addStyleNames="button" />
+							</td>
+							<td>
+								<g:PushButton text="Apply" ui:field="apply"
+									addStyleNames="button" />
+							</td>
+						</tr>
+					</table>
+				</g:HTMLPanel>
+			</g:north>
+		<g:center size="4">
+				<g:HTMLPanel>
+					<g:ScrollPanel ui:field="scrollPanel"/>
+				</g:HTMLPanel>
+			</g:center>
+		</g:DockLayoutPanel>
+
+</ui:UiBinder>
