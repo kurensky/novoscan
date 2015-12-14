@@ -60,14 +60,17 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 	@UiField
 	PushButton cancel;
 	@UiField
-	TabLayoutPanel panel = new TabLayoutPanel(BAR_SIZE,  Unit.PX);	
+	TabLayoutPanel panel = new TabLayoutPanel(BAR_SIZE, Unit.PX);
 	@UiField
 	ScrollPanel scrollPanel = new ScrollPanel();
 	@UiField
 	FlexTable flexTable = new FlexTable();
-	@UiField Frame frame = new Frame();
-	@UiField HTMLPanel paramsPanel;
-	@UiField Label reportName = new Label();
+	@UiField
+	Frame frame = new Frame();
+	@UiField
+	HTMLPanel paramsPanel;
+	@UiField
+	Label reportName = new Label();
 
 	private List<SprvReportParameters> parameters = new ArrayList<SprvReportParameters>();
 	private final SprvReports sprvReports;
@@ -84,12 +87,12 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 		this.sprvReports = sprvReports;
 		this.setTitle(constants.Reports());
 		setWidget(uiBinder.createAndBindUi(this));
-		reportHeight = RootPanel.get(DIV_CONTENT).getOffsetHeight()*9/10;
-		reportWidth = RootPanel.get(DIV_CONTENT).getOffsetWidth()*9/10;
+		reportHeight = RootPanel.get(DIV_CONTENT).getOffsetHeight() * 9 / 10;
+		reportWidth = RootPanel.get(DIV_CONTENT).getOffsetWidth() * 9 / 10;
 		panel.setWidth(String.valueOf(reportWidth));
 		panel.setHeight(String.valueOf(reportHeight));
 		frame.setWidth(String.valueOf(reportWidth));
-		frame.setHeight(String.valueOf(reportHeight-BAR_SIZE));
+		frame.setHeight(String.valueOf(reportHeight - BAR_SIZE));
 		initButtons();
 		initParameters();
 	}
@@ -159,7 +162,6 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 		}
 	}
 
-
 	private void initButtons() {
 		reportName.setText(sprvReports.getSprpDesc());
 		cancel.setText(constants.Cancel());
@@ -170,37 +172,47 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 	@UiHandler("apply")
 	void onClick(ClickEvent event) {
 		final RequestBuilder requestBuilder = new RequestBuilder(
-				RequestBuilder.POST, GWT.getModuleBaseURL() + REPORT_SERVER_SERVLET);
-		requestBuilder.setHeader("Content-type", "application/x-www-form-urlencoded");
+				RequestBuilder.POST, GWT.getModuleBaseURL()
+						+ REPORT_SERVER_SERVLET);
+		requestBuilder.setHeader("Content-type",
+				"application/x-www-form-urlencoded");
 		final StringBuffer postData = new StringBuffer();
 		int rowIndex = HEADER_ROW_INDEX + 1;
 		Widget widget = new Widget();
 		postData.append(COOKIE_TAG_ID).append("=")
-		.append(URL.encode(Cookies.getCookie(COOKIE_TAG_ID)))
-		.append("&");
+				.append(URL.encode(Cookies.getCookie(COOKIE_TAG_ID)))
+				.append("&");
 		postData.append(COOKIE_TIMEZONE_OFFSET).append("=")
-		.append(URL.encode(Cookies.getCookie(COOKIE_TIMEZONE_OFFSET)))
-		.append("&");
+				.append(URL.encode(Cookies.getCookie(COOKIE_TIMEZONE_OFFSET)))
+				.append("&");
 		for (int i = 0; i < parameters.size(); i++) {
-			postData.append(URL.encode(parameters.get(i).getSpprName())).append("=");
+			postData.append(URL.encode(parameters.get(i).getSpprName()))
+					.append("=");
 			widget = flexTable.getWidget(rowIndex, 1);
-			if(parameters.get(i).getSpprType().equals(SQL_TYPE_DATE)) {
-				postData.append(URL.encode(getText((FlexTable) widget))).append("&");
-			} else if (parameters.get(i).getSpprType().equals(SQL_TYPE_LIST_STRING)) {
+			if (parameters.get(i).getSpprType().equals(SQL_TYPE_DATE)) {
+				postData.append(URL.encode(getText((FlexTable) widget)))
+						.append("&");
+			} else if (parameters.get(i).getSpprType()
+					.equals(SQL_TYPE_LIST_STRING)) {
 				ListBox listBox = (ListBox) widget;
-				postData.append(URL.encode(listBox.getValue(listBox.getSelectedIndex()))).append("&");
+				postData.append(
+						URL.encode(listBox.getValue(listBox.getSelectedIndex())))
+						.append("&");
 			} else {
-				postData.append(URL.encode(((TextBox) widget).getValue())).append("&");
+				postData.append(URL.encode(((TextBox) widget).getValue()))
+						.append("&");
 			}
 			rowIndex++;
 		}
-		postData.append(REPORT_FILE).append("=").append(sprvReports.getSprpSource());
+		postData.append(REPORT_FILE).append("=")
+				.append(sprvReports.getSprpSource());
 		requestBuilder.setRequestData(postData.toString());
 		requestBuilder.setCallback(new RequestCallback() {
 			@Override
 			public void onError(Request request, Throwable exception) {
 				showDefaultCursor();
-				new DbMessage(MessageType.ERROR, "Ошибка формирования отчёта: " +exception.getMessage());
+				new DbMessage(MessageType.ERROR, "Ошибка формирования отчёта: "
+						+ exception.getMessage());
 			}
 
 			@Override
@@ -210,7 +222,9 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 					frame.setUrl(GWT.getHostPageBaseURL() + response.getText());
 					panel.selectTab(1);
 				} else {
-					new DbMessage(MessageType.ERROR, "Ошибка формирования отчёта: "+response.getStatusCode());
+					new DbMessage(MessageType.ERROR,
+							"Ошибка формирования отчёта: "
+									+ response.getStatusCode());
 				}
 
 			}
@@ -231,9 +245,12 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 		ListBox hoursBox = (ListBox) widget.getWidget(0, 1);
 		ListBox minutesBox = (ListBox) widget.getWidget(0, 2);
 		ListBox secondsBox = (ListBox) widget.getWidget(0, 3);
-		date.setHours(Integer.parseInt(hoursBox.getItemText(hoursBox.getSelectedIndex())));
-		date.setMinutes(Integer.parseInt(minutesBox.getItemText(minutesBox.getSelectedIndex())));
-		date.setSeconds(Integer.parseInt(secondsBox.getItemText(secondsBox.getSelectedIndex())));
+		date.setHours(Integer.parseInt(hoursBox.getItemText(hoursBox
+				.getSelectedIndex())));
+		date.setMinutes(Integer.parseInt(minutesBox.getItemText(minutesBox
+				.getSelectedIndex())));
+		date.setSeconds(Integer.parseInt(secondsBox.getItemText(secondsBox
+				.getSelectedIndex())));
 		return DATE_TIME_FORMAT.format(date);
 	}
 
@@ -265,7 +282,7 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 
 	@SuppressWarnings("deprecation")
 	private Widget addWidget(SprvReportParameters paramTable) {
-		
+
 		if (paramTable.getSpprType().equals(SQL_TYPE_STRING)) {
 			final TextBox textBox = new TextBox();
 			if (paramTable.getSpprValuev() != null) {
@@ -275,8 +292,7 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 		} else if (paramTable.getSpprType().equals(SQL_TYPE_LONG)) {
 			final LongBox longBox = new LongBox();
 			if (paramTable.getSpprValuen() != null) {
-				longBox.setValue(paramTable
-						.getSpprValuen().longValue());
+				longBox.setValue(paramTable.getSpprValuen().longValue());
 			}
 			return longBox;
 		} else if (paramTable.getSpprType().equals(SQL_TYPE_DATE)) {
@@ -285,11 +301,12 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 				dateTimeBox = new DateTimeBox(paramTable.getSpprValued());
 			} else {
 				Date date = new Date();
-				if(paramTable.getSpprName().equalsIgnoreCase("date_beg")) {
+				if (paramTable.getSpprName().equalsIgnoreCase("date_beg")) {
 					date.setHours(0);
 					date.setMinutes(0);
 					date.setSeconds(0);
-				} else if (paramTable.getSpprName().equalsIgnoreCase("date_end")) {
+				} else if (paramTable.getSpprName()
+						.equalsIgnoreCase("date_end")) {
 					date.setHours(23);
 					date.setMinutes(59);
 					date.setSeconds(59);
@@ -304,12 +321,19 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 				public void onFailure(Throwable caught) {
 					eventBusData.fireEvent(new CheckSessionEvent());
 				}
+
 				@Override
 				public void onSuccess(List<ReportParamList> result) {
-					for (ReportParamList entry: result) {
-						widgetListBox.addItem(new StringBuffer().append(entry.getValue()).append('(')
-								.append(entry.getKey()).append(')').toString(), entry.getKey());
-					}					
+					for (ReportParamList entry : result) {
+						widgetListBox
+								.addItem(
+										new StringBuffer()
+												.append(entry.getValue())
+												.append('(')
+												.append(entry.getKey())
+												.append(')').toString(),
+										entry.getKey());
+					}
 				}
 
 			};
@@ -323,11 +347,12 @@ public class DbReportsView extends DialogBox implements ImplConstantsGWT,
 			return widget;
 		}
 	}
+
 	private static void showWaitCursor() {
 		RootPanel.getBodyElement().getStyle().setProperty("cursor", "wait");
 	}
-	 
+
 	private static void showDefaultCursor() {
-	    RootPanel.getBodyElement().getStyle().setProperty("cursor","default");
+		RootPanel.getBodyElement().getStyle().setProperty("cursor", "default");
 	}
 }

@@ -22,8 +22,6 @@ import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -430,16 +428,7 @@ public class CwObjInfoTable extends ResizeComposite implements
 	 * @param event
 	 */
 	private void getPopupTrack(CellPreviewEvent<DataSensorLast> event) {
-		ClickHandler listener = new ClickHandler() {
-
-			@Override
-			public final void onClick(ClickEvent event) {
-				trackData.removeFromParent();
-			}
-
-		};
 		setFollow(false);
-		trackData.addListener(listener);
 		trackData.setModal(false);
 		trackData.setAnimationEnabled(true);
 		trackData.setDasnData(event.getValue());

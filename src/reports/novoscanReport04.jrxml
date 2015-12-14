@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="novoscanReport04" language="groovy" pageWidth="600" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="5eec7acb-b54b-410b-8906-6a0abd62d6f6">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="88"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="DejaVu Sans" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" mode="Opaque" backcolor="#FFFFCC" fontName="DejaVu Sans" fontSize="18" isBold="true">
 		<box>
@@ -85,6 +85,7 @@
 ,d.rec_speed
 ,d.rec_value
 ,d.rec_type
+,d.rec_objname
   FROM rep_record04(to_timestamp('$P!{date_beg}','YYYY.MM.DD HH24:MI:SS')::timestamp,to_timestamp('$P!{date_end}','YYYY.MM.DD HH24:MI:SS')::timestamp, '$P!{spmd_uid}'::varchar
 ,'$P!{TimeZoneOffset}'::int) d
 WHERE d.rec_value > 0]]>
@@ -98,6 +99,7 @@ WHERE d.rec_value > 0]]>
 	<field name="rec_speed" class="java.math.BigDecimal"/>
 	<field name="rec_value" class="java.math.BigDecimal"/>
 	<field name="rec_type" class="java.lang.Integer"/>
+	<field name="rec_objname" class="java.lang.String"/>
 	<variable name="rec_fuel" class="java.math.BigDecimal" incrementType="Report">
 		<variableExpression><![CDATA[($F{rec_value} != null  && $F{rec_type} == 1) ? $F{rec_value} : $V{rec_fuel}]]></variableExpression>
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
@@ -138,7 +140,7 @@ WHERE d.rec_value > 0]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="90" splitType="Stretch">
+		<band height="105" splitType="Stretch">
 			<staticText>
 				<reportElement style="Title" x="0" y="0" width="560" height="40" uuid="8ab37ff8-8936-4387-a45e-74789822ff40"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -185,6 +187,22 @@ WHERE d.rec_value > 0]]>
 						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{spmd_uid}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="SubTitle" mode="Opaque" x="0" y="90" width="145" height="15" uuid="a2536305-81d9-49d9-9bc9-4d8865085425"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="DejaVu Sans" size="10" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Объект:"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="SubTitle" mode="Opaque" x="145" y="90" width="415" height="15" uuid="2c76d921-b0d3-4a04-b6f8-164fd435d555"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="DejaVu Sans" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{rec_objname}]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 		</band>

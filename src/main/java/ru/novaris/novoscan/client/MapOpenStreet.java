@@ -86,23 +86,23 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 
 	private Novoscan entryPoint;
 
-	private VectorFeature lineFeature = null;
+	private VectorFeature lineFeature;
 
-	private Vector markers = null;
+	private Vector markers;
 
-	private Vector courses = null;
+	private Vector courses;
 
-	private Vector parking = null;
+	private Vector parking;
 
-	private Vector vectorLayer = null;
+	private Vector vectorLayer;
 
-	private Vector geoZones = null;
+	private Vector geoZones;
 
-	private Bounds bounds = null;
+	private Bounds bounds;
 
 	private final WidgMaps widget;
 
-	private List<DataSensor> dataTrack = null;
+	private List<DataSensor> dataTrack = new ArrayList<DataSensor>();
 
 	private Timer refreshTimer;
 
@@ -134,11 +134,24 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 
 	private DrawFeature drawPolygonControl = null;
 
-	private List<Point> pointArray;
+	private List<Point> pointArray = new ArrayList<Point>();;
 
 	private int lastZoom;
 
 	private LonLat lastCenter;
+
+	private List<VectorFeature> vectorFeatureArray = new ArrayList<VectorFeature>();
+
+	private final Style[] styles = new Style[] { new Style(), new Style(),
+			new Style(), new Style(), new Style() };
+
+	private final String[] colors = new String[] { "LightGreen", "Green",
+			"DarkOrange", "LightSalmon", "Red" };
+
+	private final Double[] speed = new Double[] { 40.0, 60.0, 80.0, 120.0,
+			200.0 };
+
+	private boolean isView;
 
 	public MapOpenStreet(final WidgMaps widget, final Novoscan entryPoint) {
 		stopRefreshTimer();
@@ -150,6 +163,13 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 		this.widget.addStyleDependentName("tobackground");
 		this.eventBusData = entryPoint.getEventBusData();
 		stopTimeLong = entryPoint.getStopTimeLong();
+		for (int i = 0; i < styles.length; i++) {
+			styles[i].setFillColor(colors[i]);
+			styles[i].setStrokeColor(colors[i]);
+			styles[i].setPointRadius(2);
+			styles[i].setStrokeWidth(2);
+		}
+		isView = false;
 		MapRunnable mapProcess = new MapRunnable();
 		mapProcess.run();
 	}
@@ -279,7 +299,7 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 				BingType.AERIAL);
 		bingOptionRoad.setProtocol(ProtocolType.HTTP);
 		Bing bAerial = new Bing(bingOptionAerial);
-		
+
 		// WMS
 		// Create a WMS layer as base layer
 		WMSParams wmsParams = new WMSParams();
@@ -343,6 +363,8 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 		this.addListeners();
 		lastZoom = map.getZoom();
 		lastCenter = map.getCenter();
+		widget.add(mapWidget);
+		entryPoint.setContent(widget);
 	}
 
 	private void addListeners() {
@@ -431,9 +453,7 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 		dataSensorCurrent = entryPoint.getDataSensorLast();
 		Point objPoint;
 		bounds = new Bounds();
-		boolean noDataPoint = true;
 		for (DataSensorLast dasl : dataSensorCurrent) {
-			noDataPoint = false;
 			objPoint = new Point(dasl.getDaslLongitude(),
 					dasl.getDaslLatitude());
 			objPoint.transform(SRC_PROJ, DST_PROJ);
@@ -509,7 +529,7 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 		dataSensorLast.clear();
 		dataSensorLast.addAll(dataSensorCurrent);
 
-		if (noDataPoint) {
+		if (dataSensorCurrent.size() == 0) {
 			if (markers.getFeatureById(NO_DATA) == null) {
 				objPoint = UNKNOWN_POINT;
 				objPoint.transform(SRC_PROJ, DST_PROJ);
@@ -551,9 +571,9 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 
 	private void DataView() {
 		reCalcMap();
-		widget.add(mapWidget);
-		entryPoint.setContent(widget);
-		addTrack();
+		if (!isView) {
+			addTrack();
+		}
 	}
 
 	private void reCalcMap() {
@@ -613,67 +633,80 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 	public void addTrack() {
 		int pointsNum = 0;
 		this.dataTrack = entryPoint.getTrackDataSensor();
-		if (this.dataTrack != null) {
-			pointsNum = this.dataTrack.size();
-		}
-		if (pointsNum > 0) {
-			pointArray = new ArrayList<Point>();
-			for (int i = 0; i < pointsNum; i++) {
-				final DataSensor dasnSensor = this.dataTrack.get(i);
-				courseCurrent = 0;
-				if (dasnSensor.getDasnType() == TRACK_STOP) {
-					addPoint(
-							dasnSensor,
-							images.parking(),
-							getParkingImageUrl(),
-							getParkingInfoHTML(dasnSensor),
-							parking,
-							new StringBuffer()
-									.append(DATE_TIME_SHORT_FORMAT
-											.format(dasnSensor
-													.getDasnDatetime()))
-									.append("\n")
-									.append(dasnSensor.getDasnXml()).toString(),
-							true);
-				} else if (dasnSensor.getDasnType() == TRACK_ROUND) {
-					addPoint(dasnSensor, images.information(),
-							getInfoImageUrl(), getCourseInfoHTML(dasnSensor),
-							courses, null, true);
-				} else if (dasnSensor.getDasnType() == TRACK_BEGIN) {
-					addPoint(dasnSensor, images.information(),
-							getInfoImageUrl(), getCourseInfoHTML(dasnSensor),
-							courses, null, true);
-				} else if (dasnSensor.getDasnType() == TRACK_END) {
-					addPoint(dasnSensor, images.information(),
-							getInfoImageUrl(), getCourseInfoHTML(dasnSensor),
-							courses, null, true);
+		pointsNum = this.dataTrack.size();
+		Point[] pts = new Point[2];
+		for (int i = 0; i < pointsNum; i++) {
+			final DataSensor dasnSensor = this.dataTrack.get(i);
+			courseCurrent = 0;
+			Point point = new Point(dasnSensor.getDasnLongitude(),
+					dasnSensor.getDasnLatitude());
+			point.transform(SRC_PROJ, DST_PROJ);
+			pts[1] = pts[0];
+			pts[0] = point;
+			if (dasnSensor.getDasnType() == TRACK_STOP) {
+				addPoint(
+						dasnSensor,
+						images.parking(),
+						getParkingImageUrl(),
+						getParkingInfoHTML(dasnSensor),
+						parking,
+						new StringBuffer()
+								.append(DATE_TIME_SHORT_FORMAT
+										.format(dasnSensor.getDasnDatetime()))
+								.append("\n").append(dasnSensor.getDasnXml())
+								.toString());
+			} else if (dasnSensor.getDasnType() == TRACK_ROUND) {
+				addPoint(dasnSensor, images.information(), getInfoImageUrl(),
+						getCourseInfoHTML(dasnSensor), courses, null);
+			} else if (dasnSensor.getDasnType() == TRACK_BEGIN) {
+				addPoint(dasnSensor, images.information(), getInfoImageUrl(),
+						getCourseInfoHTML(dasnSensor), courses, null);
+			} else if (dasnSensor.getDasnType() == TRACK_END) {
+				addPoint(dasnSensor, images.information(), getInfoImageUrl(),
+						getCourseInfoHTML(dasnSensor), courses, null);
 
+			} else {
+				if (entryPoint.isSpeed()) {
+					final VectorFeature vectorFeature = new VectorFeature(
+							new LineString(pts));
+					vectorFeature.setStyle(getPointStyle(dasnSensor));
+					vectorFeatureArray.add(vectorFeature);
 				} else {
-					Point point = new Point(dasnSensor.getDasnLongitude(),
-							dasnSensor.getDasnLatitude());
-					point.transform(SRC_PROJ, DST_PROJ);
 					pointArray.add(point);
 				}
 			}
-			Style lineStyle = new Style();
-			lineStyle.setStrokeColor("#0000FF");
-			addDrivePoints();
-			if (lineFeature == null) {
-				LineString line = new LineString(
-						pointArray.toArray(new Point[pointArray.size()]));
-				lineFeature = new VectorFeature(line, lineStyle);
-				vectorLayer.addFeature(lineFeature);
-				map.zoomToExtent(vectorLayer.getDataExtent());
-			} else {
-				vectorLayer.addFeature(lineFeature);
-			}
-
 		}
+		Style lineStyle = new Style();
+		lineStyle.setStrokeColor("#0000FF");
+		addDrivePoints();
+
+		if (entryPoint.isSpeed()) {
+			vectorLayer.addFeatures(vectorFeatureArray
+					.toArray(new VectorFeature[vectorFeatureArray.size()]));
+		} else {
+			LineString line = new LineString(
+					pointArray.toArray(new Point[pointArray.size()]));
+			lineFeature = new VectorFeature(line, lineStyle);
+			vectorLayer.addFeature(lineFeature);
+		}
+		if (pointsNum > 0) {
+			map.zoomToExtent(vectorLayer.getDataExtent());
+		}
+		isView = true;
+
+	}
+
+	private Style getPointStyle(DataSensor dasnSensor) {
+		for (int i = 0; i < styles.length; i++) {
+			if (dasnSensor.getDasnSog() <= speed[i]) {
+				return (styles[i]);
+			}
+		}
+		return styles[1];
 	}
 
 	private void addDrivePoints() {
-		if (this.dataTrack != null) {
-
+		if (this.dataTrack.size() > 0) {
 			courses.destroyFeatures();
 			double distance = 0;
 			/*
@@ -720,7 +753,7 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 										dasnSensor.getDasnSatUsed(), false);
 								addPoint(dasnSensor, images.arrow2(), imageUrl,
 										getCourseInfoHTML(dasnSensor), courses,
-										null, false);
+										null);
 							}
 
 						}
@@ -735,8 +768,7 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 	}
 
 	private void addPoint(DataSensor dasnSensor, ImageResource image,
-			String imageURL, String info, Vector layer, String label,
-			boolean addPoint) {
+			String imageURL, String info, Vector layer, String label) {
 		if (dasnSensor != null) {
 			Point point = new Point(dasnSensor.getDasnLongitude(),
 					dasnSensor.getDasnLatitude());
@@ -771,23 +803,18 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 						.setFeatureId(String.valueOf(dasnSensor.getDasnId()));
 			}
 			layer.addFeature(pointFeature);
-			if (addPoint) {
-				pointArray.add(point);
-			}
 		}
 	}
 
 	public void clearTrack() {
-		if (lineFeature != null) {
-			vectorLayer.removeFeature(lineFeature);
-			lineFeature.destroy();
-			lineFeature = null;
-		}
-		dataTrack = null;
+		dataTrack.clear();
+		pointArray.clear();
+		vectorFeatureArray.clear();		
+		isView = false;
+		vectorLayer.removeAllFeatures();
 		courses.destroyFeatures();
 		parking.destroyFeatures();
-		vectorLayer.removeAllFeatures();
-		entryPoint.setTrackData(null);
+		entryPoint.removeTrackData();
 		// Центрирование
 		entryPoint.setMapCenter(map.getCenter());
 		entryPoint.setMapZoom(map.getZoom());
@@ -930,17 +957,18 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 		drawPolygonControl = new DrawFeature(geoZones, drawPolygonHandler,
 				drawGeoZoneOptions);
 		map.addControl(drawPolygonControl);
-	    final SelectFeature selectFeature = new SelectFeature(geoZones);
-	    selectFeature.setAutoActivate(true);
-	    map.addControl(selectFeature);
+		final SelectFeature selectFeature = new SelectFeature(geoZones);
+		selectFeature.setAutoActivate(true);
+		map.addControl(selectFeature);
 		drawGeoZones();
 		geoZones.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
-            public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-            	Window.alert("Идентификатор объекта : " + eventObject.getVectorFeature().getFeatureId());
-            	
-                selectFeature.unSelect(eventObject.getVectorFeature());
-            }
-        });
+			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
+				Window.alert("Идентификатор объекта : "
+						+ eventObject.getVectorFeature().getFeatureId());
+
+				selectFeature.unSelect(eventObject.getVectorFeature());
+			}
+		});
 	}
 
 	private void drawGeoZones() {
@@ -991,7 +1019,8 @@ public class MapOpenStreet implements ImplConstantsGWT, ImplConstants {
 						zoneStyle.setLabel(gisDataPoint.getGsdtInfo());
 						VectorFeature zoneFeature = new VectorFeature(
 								linearRing, zoneStyle);
-						zoneFeature.setFeatureId(String.valueOf(gisDataPoint.getGsdtId()));
+						zoneFeature.setFeatureId(String.valueOf(gisDataPoint
+								.getGsdtId()));
 						geoZones.addFeature(zoneFeature);
 					}
 

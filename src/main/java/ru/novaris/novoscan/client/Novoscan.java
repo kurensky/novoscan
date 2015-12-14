@@ -73,7 +73,7 @@ public class Novoscan implements EntryPoint, ImplConstants, ImplConstantsGWT {
 		this.stopTimeLong = stopTimeLong;
 	}
 
-	private List<DataSensor> dataSensor;
+	private List<DataSensor> dataSensor = new ArrayList<DataSensor>();
 
 	private Date trackDataBegin;
 
@@ -100,6 +100,8 @@ public class Novoscan implements EntryPoint, ImplConstants, ImplConstantsGWT {
 	private String timeZoneID;
 
 	private int unavTimeLong = UNAVAILABLE_TIME_LONG; // 
+
+	private Boolean speed;
 	
 	public Integer getClientTimeOffset() {
 		return clientTimeOffset;
@@ -495,5 +497,16 @@ public class Novoscan implements EntryPoint, ImplConstants, ImplConstantsGWT {
 
 	public int getUnavTimeLong() {
 		return unavTimeLong;
+	}
+
+	public void setSpeed(Boolean speed) {
+		this.speed = speed;
+	}
+	public boolean isSpeed() {
+		return speed;
+	}
+
+	public void removeTrackData() {
+		dataSensor.clear();	
 	}
 }

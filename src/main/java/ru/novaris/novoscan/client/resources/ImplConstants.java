@@ -173,6 +173,10 @@ public interface ImplConstants {
     public final Integer G_SATELLITE_ZOOM_LEVEL = 20;
     
     public final Integer G_TERRAIN_ZOOM_LEVEL = 16;
+    
+    public final String JAVA_DATE_FORMAT = "yyyyMMddHHmmssSSS";
+    
+    public final int BUFFER = 2048;
 
     
 	

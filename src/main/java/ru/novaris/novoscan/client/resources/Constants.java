@@ -190,5 +190,7 @@ public interface Constants extends com.google.gwt.i18n.client.Constants {
 	public String GisObjects();
 
 	public String cwDataGridIgnition();
+
+	public String Speed();
 	
 }

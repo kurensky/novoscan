@@ -20,7 +20,7 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:DockLayoutPanel unit="EM" ui:field="dockLayoutPanel" width="300" height="150">
+	<g:DockLayoutPanel unit="EM" ui:field="dockLayoutPanel" width="350" height="150">
 		<g:center>
 			<g:HTMLPanel>
 				<table cellspacing='0' cellpadding='1' style='width:100%;'>
@@ -72,6 +72,9 @@
 						</td>
 						<td>
 							<g:PushButton text="Upload" ui:field="upload" addStyleNames="{style.button}" />
+						</td>
+						<td>
+							<g:CheckBox text="Speed" ui:field="speed" />
 						</td>
 					</tr>
 				</table>

@@ -3,6 +3,7 @@
  */
 package ru.novaris.novoscan.client.resources;
 
+
 import org.gwtopenmaps.openlayers.client.Bounds;
 import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.Pixel;
@@ -16,6 +17,7 @@ import ru.novaris.novoscan.client.DatabaseReadAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 
 /**
@@ -55,6 +57,9 @@ public interface ImplConstantsGWT {
 	public static final DateTimeFormat DATE_FORMAT = DateTimeFormat
 			.getFormat(constants.dtfd());
 	
+	public static final DateTimeFormat DATE_FORMAT_JAVA = DateTimeFormat
+			.getFormat(PredefinedFormat.ISO_8601);
+	
 	
 	public static final Size BUBBLE_SIZE = new Size(170, 100);
 
@@ -87,8 +92,14 @@ public interface ImplConstantsGWT {
 	public static final String DIV_MENU = "MenuBar2Container";
 	
 	public static final int KEY_COLUMN = 3;
-	
+
+	public static final int  FORMAT_GPX = 3;
+
+	public static final int  FORMAT_KMZ = 2;
+
 	public static final int  FORMAT_KML = 1;
+	
+	public static final String[] FORMATS = {"osm","kml","kmz","gpx"};
 
 	public static final int  FORMAT_OPENSTREET = 0;
 	

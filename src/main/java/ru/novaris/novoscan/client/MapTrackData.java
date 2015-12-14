@@ -9,15 +9,26 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.i18n.client.DateTimeFormat;
 
 import ru.novaris.novoscan.client.resources.DateTimeBox;
+import ru.novaris.novoscan.client.resources.ImplConstants;
 import ru.novaris.novoscan.client.resources.ImplConstantsGWT;
 import ru.novaris.novoscan.domain.DataSensor;
 import ru.novaris.novoscan.domain.DataSensorLast;
 
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.PushButton;
@@ -30,7 +41,8 @@ import com.google.gwt.user.client.ui.HTML;
  * @author kur
  * 
  */
-public class MapTrackData extends DialogBox implements ImplConstantsGWT {
+public class MapTrackData extends DialogBox implements ImplConstantsGWT,
+		ImplConstants {
 	private Date dateBegin;
 	private Date dateEnd;
 	private int format = FORMAT_OPENSTREET;
@@ -54,6 +66,9 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 	PushButton clear;
 	@UiField
 	DockLayoutPanel dockLayoutPanel;
+	@UiField
+	CheckBox speed;
+
 	private List<DataSensor> dataSensor;
 
 	public List<DataSensor> getDataSensor() {
@@ -62,9 +77,11 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 
 	private long dasnUid;
 	private Novoscan entryPoint;
-	DateTimeBox dateTimeBegin;
-	DateTimeBox dateTimeEnd;
+	private DateTimeBox dateTimeBegin;
+	private DateTimeBox dateTimeEnd;
 	private DataSensorLast dataSensorLast;
+	private final DateTimeFormat fmt = DateTimeFormat
+			.getFormat(JAVA_DATE_FORMAT);
 
 	interface MapTrackDataUiBinder extends UiBinder<Widget, MapTrackData> {
 	}
@@ -91,12 +108,12 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 		cancel.setText(constants.Cancel());
 		clear.setText(constants.Clear());
 		upload.setText(constants.Upload());
-		upload.setVisible(false);
+		speed.setText(constants.Speed());
+		addListener();
 		RootPanel.getBodyElement().getStyle().setProperty("cursor", "default");
 	}
 
-	public void addListener(ClickHandler listener) {
-		cancel.addClickHandler(listener);
+	public void addListener() {
 		ClickHandler listenerOK = new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -113,6 +130,7 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 					entryPoint.setTrackDataBegin(dateBegin);
 					entryPoint.setTrackDataEnd(dateEnd);
 					entryPoint.setUid(dasnUid);
+					entryPoint.setSpeed(speed.getValue());
 				}
 			}
 
@@ -125,8 +143,16 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 			}
 
 		};
-		cancel.addClickHandler(listenerClear);
 		clear.addClickHandler(listenerClear);
+		ClickHandler listenerCancel = new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				clearTrack();
+				removeFromParent();
+			}
+
+		};
+		cancel.addClickHandler(listenerCancel);
 		ClickHandler createKml = new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -137,8 +163,70 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 					new DbMessage(MessageType.ERROR,
 							"Неверно введены даты. Для выполнения запроса введите интервал дат.");
 				} else {
-					// TODO обработка выгрузки
-					format = FORMAT_KML;
+					format = FORMAT_GPX;
+					loadDataSensor(dasnUid, dateBegin, dateEnd);
+					entryPoint.setTrackDataBegin(dateBegin);
+					entryPoint.setTrackDataEnd(dateEnd);
+					entryPoint.setUid(dasnUid);
+					final String reportFile = "TRACK_DATA_" + dasnUid;
+					final RequestBuilder requestBuilder = new RequestBuilder(
+							RequestBuilder.POST, GWT.getModuleBaseURL()
+									+ REPORT_SERVER_SERVLET);
+					requestBuilder.setHeader("Content-type",
+							"application/x-www-form-urlencoded");
+					final StringBuffer postData = new StringBuffer();
+					postData.append(FORMAT_FILE)
+							.append("=")
+							.append(FORMATS[format])
+							.append("&")
+							.append("spmd_uid")
+							.append("=")
+							.append(Long.toString(dasnUid))
+							.append("&")
+							.append(COOKIE_TIMEZONE_OFFSET)
+							.append("=")
+							.append(URL.encode(Cookies
+									.getCookie(COOKIE_TIMEZONE_OFFSET)))
+							.append("&").append(REPORT_FILE).append("=")
+							.append(reportFile).append("&").append("date_beg")
+							.append("=").append(fmt.format(dateBegin))
+							.append("&").append("date_end").append("=")
+							.append(fmt.format(dateEnd));
+					requestBuilder.setRequestData(postData.toString());
+					requestBuilder.setCallback(new RequestCallback() {
+						@Override
+						public void onError(Request request, Throwable exception) {
+							showDefaultCursor();
+							new DbMessage(MessageType.ERROR,
+									"Ошибка формирования отчёта: "
+											+ exception.getMessage());
+						}
+
+						@Override
+						public void onResponseReceived(Request request,
+								Response response) {
+							showDefaultCursor();
+							if (response.getStatusCode() == Response.SC_OK) {
+								Window.open(
+										GWT.getHostPageBaseURL()
+												+ response.getText(),
+										reportFile, "");
+							} else {
+								new DbMessage(MessageType.ERROR,
+										"Ошибка формирования отчёта: "
+												+ response.getStatusCode());
+							}
+
+						}
+					});
+					try {
+						showWaitCursor();
+						requestBuilder.send();
+					} catch (RequestException ex) {
+						showDefaultCursor();
+						ex.printStackTrace();
+					}
+
 				}
 			}
 
@@ -158,8 +246,6 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 				setDataSensor(result);
 				if (format == FORMAT_OPENSTREET) {
 					viewTrack();
-				} else if (format == FORMAT_KML) {
-					viewKml();
 				}
 				if (result.size() > 0) {
 					objInfo.setText(result.get(result.size() - 1).getDasnXml());
@@ -176,7 +262,7 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 
 	protected void viewKml() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setDataSensor(List<DataSensor> result) {
@@ -190,7 +276,7 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 	}
 
 	public void clearTrack() {
-		entryPoint.setTrackData(null);
+		entryPoint.removeTrackData();
 		entryPoint.clearTrack();
 	}
 
@@ -229,6 +315,14 @@ public class MapTrackData extends DialogBox implements ImplConstantsGWT {
 	public void setTitle(String info) {
 		dockLayoutPanel.setTitle(info);
 		objName.setHTML(info);
+	}
+
+	private static void showWaitCursor() {
+		RootPanel.getBodyElement().getStyle().setProperty("cursor", "wait");
+	}
+
+	private static void showDefaultCursor() {
+		RootPanel.getBodyElement().getStyle().setProperty("cursor", "default");
 	}
 
 }
