@@ -176,8 +176,6 @@ public interface ImplConstants {
     
     public final String JAVA_DATE_FORMAT = "yyyyMMddHHmmssSSS";
     
-    public final int BUFFER = 2048;
-
-    
+    public final int BUFFER = 2048;    
 	
 }

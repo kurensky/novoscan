@@ -95,8 +95,6 @@ public class Novoscan implements EntryPoint, ImplConstants, ImplConstantsGWT {
 
 	private LonLat mapCenter;
 
-	private CwLogonEntry cwLogonEntry;
-
 	private String timeZoneID;
 
 	private int unavTimeLong = UNAVAILABLE_TIME_LONG; // 
@@ -132,8 +130,10 @@ public class Novoscan implements EntryPoint, ImplConstants, ImplConstantsGWT {
 		Date today = new Date();
 		clientTimeOffset = today.getTimezoneOffset();
 		Cookies.setCookie(COOKIE_TIMEZONE_OFFSET, String.valueOf(clientTimeOffset));
-		cwLogonEntry = new CwLogonEntry(this);
-		cwLogonEntry.setAnimationEnabled(true);
+		CwLogonEntry cwLogonEntry = new CwLogonEntry(this);
+		cwLogonEntry.setStyleName("gwt-Login-Form");
+		RootPanel.get(DIV_CONTENT).clear();
+		RootPanel.get(DIV_CONTENT).add(cwLogonEntry);
 	}
 
 	// *************************************************************************************

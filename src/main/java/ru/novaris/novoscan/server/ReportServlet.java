@@ -135,6 +135,7 @@ public class ReportServlet extends HttpServlet implements ImplConstants {
 				String[] paramValues = entry.getValue();
 				Locale locale = new Locale("ru", "RU");
 				params.put(JRParameter.REPORT_LOCALE, locale);
+				params.put("SUBREPORT_DIR", reportLocation);
 				if (paramValues.length >= 1) {
 					if (paramName.equalsIgnoreCase(REPORT_FILE)) {
 						baseFileName = paramValues[0];

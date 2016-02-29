@@ -1,93 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:p1="urn:import:com.google.gwt.user.cellview.client">	
-
-	<ui:with field='novImg'
-		type='ru.novaris.novoscan.client.resources.ImagesNovoscan' />
-	<ui:with field='constants' type='ru.novaris.novoscan.client.resources.Constants' />
-
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field="constants" type="ru.novaris.novoscan.client.resources.Constants" />
 	<ui:style>
-	.dataGridHeader {
-	font-size: small !important;
-	text-decoration: none !important;
-	padding: 1px 5px !important;
-	}
-	.cellTable {
-		border-bottom: 1px solid #ccc;
-		text-align: left;
-		margin-bottom: 4px;
-	}
-	.dataGridCell {
-	padding: 1px 5px !important;
-	}
-	.buttonPanel {
-	padding: 8px 20px;
-	border-top: 1px
-	solid #ccc;
-	width: 100%;
-	}
-	.button {
-	text-align: center;
-	font-weight: bold;
-	}
-	.important {
-		font-weight: bold;
-	}
+	
 	</ui:style>
-
-	<g:HorizontalPanel>
-		<!-- left vertical: Picture etc -->
-		<g:VerticalPanel ui:field="logonLeftVP"
-			verticalAlignment="middle" horizontalAlignment="ALIGN_CENTER">
-			<g:Image ui:field="novLogoImg" resource='{novImg.logo}' />
-			<g:Image ui:field="busyImage" resource='{novImg.load_line3}' />
-		</g:VerticalPanel>
-
-		<!-- main logon panel -->
-		<g:VerticalPanel verticalAlignment="middle"
-			horizontalAlignment="ALIGN_CENTER" styleName='{style.buttonPanel}'>
-			<g:Grid cellPadding="5"  width="100%" borderWidth="0">
-				<g:row>
-					<g:customCell>
-						<g:Label text='{constants.Username}' />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="logonUserName" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label text='{constants.Password}' />
-					</g:customCell>
-					<g:customCell>
-						<g:PasswordTextBox ui:field="logonPassword" />
-					</g:customCell>
-				</g:row>
-			</g:Grid>
-
-			<g:HorizontalPanel width="100%" height="100%">
-
-				<g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
-					<g:CheckBox ui:field="logonRememberCheck" />
-				</g:cell>
-				<g:cell horizontalAlignment="ALIGN_LEFT" verticalAlignment="ALIGN_MIDDLE">
-					<g:Label text="{constants.Remember}" />
-				</g:cell>
-				<g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
-					<g:Button ui:field="logonCancel" text='{constants.Cancel}' styleName= '{style.button}'/>
-				</g:cell>
-				<g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
-					<g:Button ui:field="logonSubmit" text='{constants.Login}'  styleName='{style.button}'/>
-				</g:cell>
-
+	<g:HTMLPanel>
+		<g:VerticalPanel ui:field="panel"
+			verticalAlignment="middle" horizontalAlignment="center">
+			<g:Label addStyleNames="gwt-Login-Head" ui:field="head" />
+			<g:SuggestBox ui:field="username" />
+			<g:PasswordTextBox ui:field="password" />
+			<g:HorizontalPanel ui:field="checkPanel">
+				<g:CheckBox ui:field="remember" />
+				<g:Label addStyleNames="gwt-Login-Label" text="{constants.Remember}" />
 			</g:HorizontalPanel>
-
-			<g:HorizontalPanel width="100%" height="100%">
-			</g:HorizontalPanel>
-
+			<g:Button ui:field="submit" text="{constants.Login}" />
+			<g:Label ui:field="errorLabel" />
 		</g:VerticalPanel>
-	</g:HorizontalPanel>
-
+	</g:HTMLPanel>
 </ui:UiBinder> 

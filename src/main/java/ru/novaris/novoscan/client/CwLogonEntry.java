@@ -7,104 +7,122 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.event.logical.shared.AttachEvent.Handler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-
 import com.google.gwt.user.client.Random;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-
 import com.googlecode.gwt.crypto.bouncycastle.DataLengthException;
 import com.googlecode.gwt.crypto.bouncycastle.InvalidCipherTextException;
 import com.googlecode.gwt.crypto.client.TripleDesCipher;
 import com.google.gwt.user.client.Cookies;
 
-public class CwLogonEntry extends DialogBox implements HasText, ImplConstants,
+public class CwLogonEntry extends Composite implements HasText, ImplConstants,
 		ImplConstantsGWT {
 
-	private final Novoscan novoscanEntry;
+	private final Novoscan entryPoint;
 
 	private boolean hadCookie = false;
 
-	private LogonCheck logonCheck;
+	private LogonCheck check;
 
-	private String resultInfo = null;
+	private String resultInfo;
 
 	private final int cryptMod = 4;
 
 	private final int cryptPad = 2;
+	
 
-	private static CwLogonEntryUB uiBinder = GWT.create(CwLogonEntryUB.class);
+	private static CwLogonEntryUiBinder uiBinder = GWT.create(CwLogonEntryUiBinder.class);
 
-	interface CwLogonEntryUB extends UiBinder<Widget, CwLogonEntry> {
+	interface CwLogonEntryUiBinder extends UiBinder<Widget, CwLogonEntry> {
 	};
 
 	public CwLogonEntry(Novoscan entryPoint) {
-		novoscanEntry = entryPoint;
-		logonCheck = LogonCheck.UNKNOWN;
-		setWidget(uiBinder.createAndBindUi(this));
-		this.center();
+		this.entryPoint = entryPoint;
+		check = LogonCheck.UNKNOWN;
+		initWidget(uiBinder.createAndBindUi(this));
+		checkPanel.setStylePrimaryName("gwt-Login-Label");
+		panel.getElement().setAttribute("type", "login");
+		username.getElement().setAttribute("type", "username");
+		username.addAttachHandler(new Handler() {
+		    @Override
+		    public void onAttachOrDetach(AttachEvent event) {
+		        if (event.isAttached()) {
+		        	username.getElement().setAttribute("placeholder", constants.Username());
+		        }
+		    }
+		});
+		password.getElement().setAttribute("type", "password");
+		password.addAttachHandler(new Handler() {
+		    @Override
+		    public void onAttachOrDetach(AttachEvent event) {
+		        if (event.isAttached()) {
+		        	password.getElement().setAttribute("placeholder", constants.Password());
+		        }
+		    }
+		});
+		
 		this.setTitle(constants.Authorization());
 		this.setText(constants.Authorization());
-		busyImage.setVisible(false);
+		head.setText(constants.Authorization());
+		errorLabel.setVisible(false);
+		submit.setStylePrimaryName("gwt-Login-Button");
+		submit.setTitle(constants.Login());
 		if (Cookies.getCookie(COOKIE_TAG_NAME) != null && !Cookies.getCookie(COOKIE_TAG_NAME).isEmpty()) {
-			logonUserName.setText(Cookies.getCookie(COOKIE_TAG_NAME));
+			username.setText(Cookies.getCookie(COOKIE_TAG_NAME));
 		}
 		if (Cookies.getCookie(COOKIE_TAG_NAME) != null 
 			&& !Cookies.getCookie(COOKIE_TAG_NAME).isEmpty()
 			&& Cookies.getCookie(COOKIE_TAG_PASSWORD) != null
 			&& !Cookies.getCookie(COOKIE_TAG_PASSWORD).isEmpty()) {
 			hadCookie = true;
-			logonPassword.setText(encrypt(Cookies
+			password.setText(encrypt(Cookies
 					.getCookie(COOKIE_TAG_PASSWORD)));
 			checkCredentials(rpcObject);
-			if (logonCheck == LogonCheck.ACCEPTED) {
-				logonRememberCheck.setValue(true);
+			if (check == LogonCheck.ACCEPTED) {
+				errorLabel.setVisible(false);
 				viewMainPage();
 			} else {
 				setLogonPage();
 			}
 
 		} else {
-			logonRememberCheck.setValue(false);
+			remember.setValue(false);
 		}
 	}
 
 	// -------------------------------------------------------------
 	private void setLogonPage() {
-		if (logonCheck == LogonCheck.FAIL) {
-			setText(constants.Authorization() + " : " + constants.ServerError());
-			novLogoImg.setResource(images.denied());
+		if (check == LogonCheck.FAIL) {
+			setError(constants.Authorization() + " : " + constants.ServerError());
 
-		} else if (logonCheck == LogonCheck.DENIED) {
-			novLogoImg.setResource(images.denied());
+		} else if (check == LogonCheck.DENIED) {
+			setError(constants.AccessDenied());
 		}
-		logonUserName.setFocus(true);
-		busyImage.setVisible(false);
-		this.show();
+		username.setFocus(true);
 	}
 
 	private void viewMainPage() {
-		Cookies.setCookie(COOKIE_TAG_NAME, logonUserName.getText(), null, null,
+		Cookies.setCookie(COOKIE_TAG_NAME, username.getText(), null, null,
 				"/", false);
 		Cookies.setCookie(COOKIE_TAG_PASSWORD,
-				decrypt(logonPassword.getText()), null, null, "/", false);
+				decrypt(password.getText()), null, null, "/", false);
 		this.setText(constants.Authorization());
-		logonUserName.setText(null);
-		logonPassword.setText(null);
-		novLogoImg.setResource(images.logo());
-		busyImage.setVisible(false);
 		this.removeFromParent();
-		novoscanEntry.viewMain();
+		entryPoint.viewMain();
 	}
 
 	// -------------------------------------------------------------
@@ -113,24 +131,24 @@ public class CwLogonEntry extends DialogBox implements HasText, ImplConstants,
 		AsyncCallback<Long> callback = new AsyncCallback<Long>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				logonCheck = LogonCheck.FAIL;
+				check = LogonCheck.FAIL;
 				setLogonPage();
 			}
 
 			@Override
 			public void onSuccess(Long result) {
 				if (result != null && result >= 0) {
-					logonCheck = LogonCheck.ACCEPTED;
+					check = LogonCheck.ACCEPTED;
 					Cookies.setCookie(COOKIE_TAG_ID, String.valueOf(result),
 							null, null, "/", false);
-					if (logonRememberCheck.getValue() && hadCookie) {
+					if (remember.getValue() && hadCookie) {
 						// TODO
 					}
 					viewMainPage();
 				} else {
-					logonCheck = LogonCheck.DENIED;
+					check = LogonCheck.DENIED;
 					getResultInfo(object);
-					setText(constants.Authorization() + " : " + result + ". "
+					setError(constants.Authorization() + " : " + result + ". "
 							+ resultInfo);
 					setLogonPage();
 				}
@@ -139,9 +157,9 @@ public class CwLogonEntry extends DialogBox implements HasText, ImplConstants,
 		TripleDesCipher cipher = new TripleDesCipher();
 		cipher.setKey(GWT_DES_KEY);
 		try {
-			String encryptPassword = cipher.encrypt(logonPassword.getText());
-			String encryptUsername = cipher.encrypt(logonUserName.getText());
-			logonCheck = LogonCheck.UNKNOWN;
+			String encryptPassword = cipher.encrypt(password.getText());
+			String encryptUsername = cipher.encrypt(username.getText());
+			check = LogonCheck.UNKNOWN;
 			object.checkConnect(encryptUsername, encryptPassword, callback);
 
 		} catch (DataLengthException e1) {
@@ -154,55 +172,47 @@ public class CwLogonEntry extends DialogBox implements HasText, ImplConstants,
 	}
 
 	@UiField
-	TextBox logonUserName;
-
-	@UiHandler("logonUserName")
+	SuggestBox username;
+	
+	@UiField
+	Label head;
+	
+	@UiField
+	Label errorLabel;
+	
+	@UiField
+	VerticalPanel panel;
+	
+	@UiField
+	HorizontalPanel	checkPanel;
+	
+	@UiHandler("username")
 	void onKeyUserName(KeyUpEvent event) {
 		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-			busyImage.setVisible(true);
 			checkCredentials(rpcObject);
 		}
 	}
 
 	@UiField
-	PasswordTextBox logonPassword;
+	PasswordTextBox password;
 
-	@UiHandler("logonPassword")
+	@UiHandler("password")
 	void onKeyPassword(KeyUpEvent event) {
 		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-			busyImage.setVisible(true);
 			checkCredentials(rpcObject);
 		}
 	}
 
 	@UiField
-	Button logonSubmit;
+	Button submit;
 
-	@UiHandler("logonSubmit")
+	@UiHandler("submit")
 	void onClickSubmit(ClickEvent e) {
-		busyImage.setVisible(true);
 		checkCredentials(rpcObject);
 	}
 
 	@UiField
-	Button logonCancel;
-
-	@UiHandler("logonCancel")
-	void onClickCancel(ClickEvent e) {
-		logonUserName.setText(null);
-		logonPassword.setText(null);
-		this.setText(constants.Authorization());
-		novLogoImg.setResource(images.logo());
-	}
-
-	@UiField
-	CheckBox logonRememberCheck;
-
-	@UiField
-	Image novLogoImg;
-
-	@UiField
-	Image busyImage;
+	CheckBox remember;
 
 	public void getResultInfo(final DatabaseReadAsync object) {
 		AsyncCallback<String> callback = new AsyncCallback<String>() {
@@ -267,4 +277,23 @@ public class CwLogonEntry extends DialogBox implements HasText, ImplConstants,
 		decryptString.append(lastChar);
 		return decryptString.toString();
 	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return errorLabel.getText();
+	}
+
+	@Override
+	public void setText(String text) {
+		errorLabel.setVisible(true);
+		errorLabel.setText(text);
+	}
+	
+	public void setError(String text) {
+		setText(text);
+		errorLabel.addStyleName("redText");
+	}
+	
+	
 }
