@@ -1,2 +1,0 @@
-serviceClass: ru.novaris.novoscan.client.DatabaseRead
-path: E0EF198C6876DE65A428EAF82D0C8A3C.gwt.rpc
