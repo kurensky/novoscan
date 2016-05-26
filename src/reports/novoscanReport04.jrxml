@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="novoscanReport04" language="groovy" pageWidth="600" pageHeight="995" whenNoDataType="AllSectionsNoDetail" columnWidth="585" leftMargin="5" rightMargin="10" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty" uuid="5eec7acb-b54b-410b-8906-6a0abd62d6f6">
-	<property name="ireport.zoom" value="1.3310000000000004"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="novoscanReport04" language="groovy" pageWidth="600" pageHeight="1100" whenNoDataType="AllSectionsNoDetail" columnWidth="585" leftMargin="5" rightMargin="10" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty" uuid="5eec7acb-b54b-410b-8906-6a0abd62d6f6">
+	<property name="ireport.zoom" value="2.5937424601000045"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="948"/>
+	<property name="ireport.y" value="519"/>
 	<style name="Title" fontName="DejaVu Sans" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" mode="Opaque" backcolor="#FFFFCC" fontName="DejaVu Sans" fontSize="18" isBold="true">
 		<box>
@@ -24,7 +24,16 @@
 			<rightPen lineWidth="0.5"/>
 		</box>
 	</style>
-	<style name="Detail" backcolor="#FFE6FF" pattern="1" fontName="DejaVu Sans" fontSize="12"/>
+	<style name="Detail" backcolor="#FFE6FF" fill="Solid" radius="1" fontName="DejaVu Sans" fontSize="12">
+		<pen lineWidth="0.25"/>
+		<box>
+			<pen lineWidth="0.5"/>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
 	<style name="Row" mode="Transparent" fontName="DejaVu Sans">
 		<pen lineWidth="0.25"/>
 		<box>
@@ -77,14 +86,104 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT get_obj_name_by_uid ($P{spmd_uid}) AS obj_name]]>
+		<![CDATA[SELECT d.rec_id
+,d.rec_date
+,d.rec_time
+,d.rec_datetime
+,d.rec_long
+,(d.rec_dist/1000.0) AS rec_dist
+,d.rec_speed
+,d.rec_value
+,d.rec_type
+,d.rec_objname
+  FROM rep_record04(to_timestamp('$P!{date_beg}','YYYY.MM.DD HH24:MI:SS')::timestamp,to_timestamp('$P!{date_end}','YYYY.MM.DD HH24:MI:SS')::timestamp, '$P!{spmd_uid}'::varchar
+,'$P!{TimeZoneOffset}'::int) d
+WHERE d.rec_value > 0
+ORDER BY d.rec_objname, d.rec_datetime]]>
 	</queryString>
-	<field name="obj_name" class="java.lang.String"/>
+	<field name="rec_id" class="java.lang.Long"/>
+	<field name="rec_date" class="java.lang.String"/>
+	<field name="rec_time" class="java.lang.String"/>
+	<field name="rec_datetime" class="java.sql.Timestamp"/>
+	<field name="rec_long" class="java.math.BigDecimal"/>
+	<field name="rec_dist" class="java.math.BigDecimal"/>
+	<field name="rec_speed" class="java.math.BigDecimal"/>
+	<field name="rec_value" class="java.math.BigDecimal"/>
+	<field name="rec_type" class="java.lang.Integer"/>
+	<field name="rec_objname" class="java.lang.String"/>
+	<variable name="obj_name" class="java.lang.String" resetType="None">
+		<initialValueExpression><![CDATA[$F{rec_objname}]]></initialValueExpression>
+	</variable>
+	<variable name="rec_fuel" class="java.math.BigDecimal" incrementType="Report">
+		<variableExpression><![CDATA[($F{rec_value} != null  && $F{rec_type} == 1) ? $F{rec_value} : $V{rec_fuel}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rec_fuel_end" class="java.math.BigDecimal" incrementType="Report">
+		<variableExpression><![CDATA[($F{rec_value} != null && $F{rec_type} == 1)  ? $F{rec_value} : $V{rec_fuel_end}]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{rec_fuel_end} != null && $F{rec_type} == 1) ? $V{rec_fuel_end} : $F{rec_value}]]></initialValueExpression>
+	</variable>
+	<variable name="rec_fuel_begin" class="java.math.BigDecimal" incrementType="Report">
+		<variableExpression><![CDATA[($F{rec_value} != null && $V{rec_fuel_begin} == null && $F{rec_type} == 1) ? $F{rec_value} : $V{rec_fuel_begin}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="max_speed" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[(($V{max_speed} < $F{rec_speed}) && $F{rec_type} == 1) ? $F{rec_speed} : $V{max_speed}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="rec_dist" class="java.math.BigDecimal" incrementType="Report">
+		<variableExpression><![CDATA[($F{rec_type} == 1) ? ($V{rec_dist} + $F{rec_dist}) : ($V{rec_dist})]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="rec_refill" class="java.math.BigDecimal" incrementType="Report">
+		<variableExpression><![CDATA[($F{rec_type} == 2) ? $V{rec_refill} + $F{rec_value} : $V{rec_refill}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="rec_refill_count" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{rec_type} == 2) ? $V{rec_refill_count} + 1 : $V{rec_refill_count}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rec_fuel_idle" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{rec_type} == 4) ? $V{rec_fuel_idle} + $F{rec_value} : $V{rec_fuel_idle}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="rec_idle_long" class="java.lang.Number">
+		<variableExpression><![CDATA[($F{rec_type} == 4) ? $V{rec_idle_long} + $F{rec_long} : $V{rec_idle_long}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="rec_sink" class="java.lang.Number">
+		<variableExpression><![CDATA[($F{rec_type} == 3) ? $V{rec_sink} + $F{rec_value} : $V{rec_sink}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rec_sink_count" class="java.lang.Number">
+		<variableExpression><![CDATA[($F{rec_type} == 3) ? $V{rec_sink_count} + 1 : $V{rec_sink_count}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rec_count" class="java.lang.Integer">
+		<variableExpression><![CDATA[($F{rec_type} == 2 || $F{rec_type} == 3) ? $V{rec_count} + 1 : $V{rec_count}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="object_name">
+		<groupExpression><![CDATA[$F{rec_objname}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField isStretchWithOverflow="true" pattern="">
+					<reportElement style="Detail" positionType="Float" mode="Opaque" x="0" y="0" width="585" height="20" forecolor="#000000" backcolor="#FFAFAF" uuid="e04a2f4e-4599-43a1-b900-9c59c4af3abb">
+						<printWhenExpression><![CDATA[$F{rec_objname} != null]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true" isItalic="true" isUnderline="false" pdfEncoding="Cp1251"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Имя объекта :  " + $F{rec_objname}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="895" splitType="Stretch">
+		<band height="90" splitType="Stretch">
 			<staticText>
 				<reportElement style="Title" x="0" y="0" width="585" height="40" uuid="8ab37ff8-8936-4387-a45e-74789822ff40"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -101,7 +200,7 @@
 			</staticText>
 			<elementGroup>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="SubTitle" mode="Opaque" x="0" y="60" width="170" height="15" uuid="360a21d2-17f3-46f0-a055-68ee606da1a3"/>
+					<reportElement style="SubTitle" mode="Opaque" x="0" y="60" width="145" height="15" uuid="360a21d2-17f3-46f0-a055-68ee606da1a3"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="DejaVu Sans" size="10" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="false"/>
 						<paragraph lineSpacing="Single"/>
@@ -109,7 +208,7 @@
 					<textFieldExpression><![CDATA["Интервал дат:"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="SubTitle" mode="Opaque" x="0" y="75" width="170" height="15" uuid="dbe3eef5-5973-4b8e-a395-3ef4c9d8219b"/>
+					<reportElement style="SubTitle" mode="Opaque" x="0" y="75" width="145" height="15" uuid="dbe3eef5-5973-4b8e-a395-3ef4c9d8219b"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="DejaVu Sans" size="10" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="false"/>
 						<paragraph lineSpacing="Single"/>
@@ -132,54 +231,119 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{spmd_uid}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement style="SubTitle" mode="Opaque" x="0" y="90" width="170" height="15" uuid="a2536305-81d9-49d9-9bc9-4d8865085425"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
-						<font fontName="DejaVu Sans" size="10" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="false"/>
-						<paragraph lineSpacing="Single"/>
-					</textElement>
-					<textFieldExpression><![CDATA["Объект:"]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement style="SubTitle" mode="Opaque" x="145" y="90" width="440" height="15" uuid="2c76d921-b0d3-4a04-b6f8-164fd435d555"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
-						<font fontName="DejaVu Sans" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="false"/>
-						<paragraph lineSpacing="Single"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{obj_name}]]></textFieldExpression>
-				</textField>
 			</elementGroup>
-			<subreport>
-				<reportElement style="Summary" x="0" y="105" width="585" height="790" uuid="80f52cee-8c7d-4b7a-8b52-fb5b737b338d"/>
-				<subreportParameter name="date_end">
-					<subreportParameterExpression><![CDATA[$P{date_end}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="SUBREPORT_DIR">
-					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="SUBREPORT_EXT">
-					<subreportParameterExpression><![CDATA[$P{SUBREPORT_EXT}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="date_beg">
-					<subreportParameterExpression><![CDATA[$P{date_beg}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="spmd_uid">
-					<subreportParameterExpression><![CDATA[$P{spmd_uid}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="TimeZoneOffset">
-					<subreportParameterExpression><![CDATA[$P{TimeZoneOffset}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+$P{JASPER_REPORT}.getName()+"_1"+$P{SUBREPORT_EXT}]]></subreportExpression>
-			</subreport>
 		</band>
 	</title>
+	<columnHeader>
+		<band height="60">
+			<staticText>
+				<reportElement style="ColumnHeader" positionType="Float" mode="Opaque" x="171" y="10" width="89" height="50" uuid="12d3d329-762e-4543-af1f-4591347d228f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+				</textElement>
+				<text><![CDATA[Длительность события]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="ColumnHeader" mode="Opaque" x="0" y="10" width="23" height="50" uuid="c51ba6f2-ddb7-4f2d-b882-e05777dd178d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+				</textElement>
+				<text><![CDATA[№]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="ColumnHeader" stretchType="RelativeToBandHeight" mode="Opaque" x="97" y="10" width="74" height="50" uuid="3674b1c4-2edb-4ea5-8855-3515b6aa2438"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+				</textElement>
+				<text><![CDATA[Время
+события]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="ColumnHeader" mode="Opaque" x="23" y="10" width="74" height="50" uuid="a6c50344-b837-4b4f-ae45-0f74ba4dccc2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+				</textElement>
+				<text><![CDATA[Дата события]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="ColumnHeader" stretchType="RelativeToBandHeight" mode="Opaque" x="323" y="10" width="262" height="50" uuid="0443f2fc-ef19-4490-b779-10f761b0c21b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+				</textElement>
+				<text><![CDATA[Тип события]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="ColumnHeader" positionType="Float" mode="Opaque" x="260" y="10" width="63" height="50" uuid="fb764d47-733a-4d57-bd06-67c74fb4c44e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+				</textElement>
+				<text><![CDATA[Литры]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="585" height="15" isRemoveLineWhenBlank="true" uuid="41d15a89-4b5e-4eef-a83a-f4515bedadaf">
+					<printWhenExpression><![CDATA[($F{rec_type} == 2 || $F{rec_type} == 3)]]></printWhenExpression>
+				</reportElement>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="323" y="0" width="262" height="15" isRemoveLineWhenBlank="true" uuid="6a18ae73-8555-432f-ad04-3a2b0fe09a60"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{rec_type} == 2) ? "Заправка" :
+($F{rec_type} == 3) ? "Слив" : "Не определено"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="171" y="0" width="89" height="15" isRemoveLineWhenBlank="true" uuid="6cbcaf02-4bee-432c-b25f-eb3da64dfac9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isStrikeThrough="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("00").format((Integer) $F{rec_long}/3600)
++":"+
+new java.text.DecimalFormat("00").format((Integer) ($F{rec_long}.intValue()%3600)/60)
++":"+
+new java.text.DecimalFormat("00").format((Integer) ($F{rec_long}.intValue()%60))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="23" height="15" isRemoveLineWhenBlank="true" uuid="11e73038-dd66-46ae-acbe-75a1e6824206"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{rec_count}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="23" y="0" width="74" height="15" isRemoveLineWhenBlank="true" uuid="66ef8d13-fd4b-4b08-a666-ba77ff4a89bb"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{rec_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="0" width="63" height="15" isRemoveLineWhenBlank="true" uuid="72d9e155-2d71-4b29-bee6-ea2a9fd71e02"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isStrikeThrough="false" pdfEncoding="Cp1251"/>
+						<paragraph rightIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("##0.0").format($F{rec_value})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="97" y="0" width="74" height="15" isRemoveLineWhenBlank="true" uuid="de7188c4-3ee6-44b4-8cb3-a4d26eb6aaa1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{rec_time}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
 	<lastPageFooter>
 		<band height="24">
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="560" height="24" uuid="a6ac723e-9eb4-441f-8b61-9dd57cfbfd42"/>
+				<reportElement mode="Opaque" x="0" y="0" width="585" height="24" uuid="a6ac723e-9eb4-441f-8b61-9dd57cfbfd42"/>
 				<textField pattern="">
-					<reportElement x="0" y="0" width="560" height="24" uuid="2be36b43-577c-45d5-8b5f-cad09d207452"/>
+					<reportElement x="0" y="0" width="585" height="24" uuid="2be36b43-577c-45d5-8b5f-cad09d207452"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="false" pdfEncoding="Cp1251"/>
 					</textElement>
@@ -188,4 +352,300 @@
 			</frame>
 		</band>
 	</lastPageFooter>
+	<summary>
+		<band height="800" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="10" width="585" height="181" uuid="aab3ea43-749c-46a5-9810-7a5dc52f572d">
+					<printWhenExpression><![CDATA[($V{rec_fuel_begin} != null) && ($V{rec_fuel_end} != null)]]></printWhenExpression>
+				</reportElement>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="19" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="99a20216-bd3d-429b-a455-43402aa67830"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="true" isUnderline="true" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Пробег: "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="19" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="71b7814b-3086-4d39-a40c-565b17af87ce"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("###,###.#").format($V{rec_dist})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="39" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="f123c823-f783-411c-8cb6-33bc6614ace7"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="true" isUnderline="true" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Фактический расход: "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="39" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="80005f74-5827-4151-8e12-8ef5378eaff4"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("###,###.0").format($V{rec_fuel_begin} - $V{rec_fuel_end} + $V{rec_refill} - $V{rec_sink})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="59" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="5e4152c0-1376-4cf3-9c53-c3ae4171e728"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="true" isUnderline="true" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Максимальная скорость: "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="59" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="5190f753-35b5-4a4c-9fbc-b2be91f25411"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("###.0").format($V{max_speed})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="79" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="d4933d79-7237-44c5-83f4-78df817099c5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="true" isUnderline="true" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Средний расход: "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="79" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="bc5205c4-863d-4fcb-8bde-3db8d4eb799f">
+						<printWhenExpression><![CDATA[($V{rec_fuel_begin} != null) && ($V{rec_fuel_end} != null)]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{rec_dist} > 1.0) ? new java.text.DecimalFormat("###,###.00").format(($V{rec_dist} == 0) ? 0 : (($V{rec_fuel_begin} - $V{rec_fuel_end} + $V{rec_refill} - $V{rec_sink}) * 100.0).divide($V{rec_dist},2,RoundingMode.CEILING)) : 0.0]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="99" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="25f55419-cac9-4133-a60e-fe7810ef7921"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="true" isUnderline="true" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Начальный уровень в баке: "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="99" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="bc4d70f0-772c-42f3-9b9c-6abddab29e07"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("###,###.0").format($V{rec_fuel_begin})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="119" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="a39968e6-f6cf-49dc-831b-823a08440056"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="true" isUnderline="true" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Конечный уровень в баке: "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="119" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="5f06885e-c625-4094-abaa-23e937a2c98d"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("###,###.0").format($V{rec_fuel_end})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="360" y="19" width="225" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="2533e437-85dd-4980-af39-bfcf54c71e74"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="true" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["км."]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="360" y="39" width="225" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="eddcfbcc-d7e4-4785-95e2-f509a83cf62c"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="true" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["л."]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="360" y="59" width="225" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="32d64a66-a5a6-4e56-bcfd-d05c54eb9bd8"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="true" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["км./ч."]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="360" y="79" width="225" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="ad5b1e44-c6b6-4970-b99e-a4a4e172bd1d"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="true" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["л./100 км."]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="360" y="119" width="225" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="826707ee-b012-4dd0-bdaa-9ec82b1d67a5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="true" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["л."]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="360" y="99" width="225" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="f49a025f-d5d5-40d5-87d2-df1052c81496"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="true" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["л."]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="SubTitle" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="585" height="19" uuid="4228ffd0-7e50-4923-a73c-926169b390bf"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Итоговые данные"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="139" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="caee9cfd-4410-43b0-a061-92ff93caabaa"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="true" isUnderline="true" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Заправлено (кол-во заправок "+$V{rec_refill_count}+"): "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="360" y="139" width="225" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="b39a9bc0-949c-4592-81c0-588c3d272dd2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="true" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["л."]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="139" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="29570119-ce19-480f-971c-664b9a9f57fc"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("###,###.0").format($V{rec_refill})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="159" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="3fecd96d-adf0-4082-be49-271ee863a855"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="false" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("###,###.0").format($V{rec_sink})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="360" y="159" width="225" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="5d7facb3-0b81-4a1f-b0e4-18e7be682333"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="false" isItalic="true" isUnderline="false" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["л."]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Summary" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="159" width="260" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="229b9ac3-fd10-4030-bc73-c4fb6f44bdf6"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="true" isUnderline="true" pdfEncoding="Cp1251"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Слито (кол-во сливов "+$V{rec_sink_count}+"): "]]></textFieldExpression>
+				</textField>
+			</frame>
+			<timeSeriesChart>
+				<chart isShowLegend="true">
+					<reportElement x="1" y="191" width="584" height="229" uuid="eea40401-3036-46ea-8bf2-7633c1825c38">
+						<printWhenExpression><![CDATA[($V{rec_fuel_begin} != null) && ($V{rec_fuel_end} != null)]]></printWhenExpression>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<timeSeriesDataset timePeriod="Minute">
+					<dataset>
+						<incrementWhenExpression><![CDATA[$F{rec_value} != null && $F{rec_type} == 1]]></incrementWhenExpression>
+					</dataset>
+					<timeSeries>
+						<seriesExpression><![CDATA["Время - Уровень топлива"]]></seriesExpression>
+						<timePeriodExpression><![CDATA[$F{rec_datetime}]]></timePeriodExpression>
+						<valueExpression><![CDATA[($F{rec_type} != 2) ? $F{rec_value} : null]]></valueExpression>
+					</timeSeries>
+					<timeSeries>
+						<seriesExpression><![CDATA["Время - Заправки"]]></seriesExpression>
+						<timePeriodExpression><![CDATA[$F{rec_datetime}]]></timePeriodExpression>
+						<valueExpression><![CDATA[($F{rec_type} == 2) ? $F{rec_value} : null]]></valueExpression>
+					</timeSeries>
+				</timeSeriesDataset>
+				<timeSeriesPlot isShowLines="true" isShowShapes="false">
+					<plot/>
+					<timeAxisLabelExpression><![CDATA["Время"]]></timeAxisLabelExpression>
+					<timeAxisFormat>
+						<axisFormat tickLabelMask="MM.dd HH:mm" verticalTickLabels="false">
+							<tickLabelFont>
+								<font fontName="DejaVu Serif" size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</timeAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Топливо, л."]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat tickLabelMask="0.0E00" verticalTickLabels="false"/>
+					</valueAxisFormat>
+				</timeSeriesPlot>
+			</timeSeriesChart>
+			<timeSeriesChart>
+				<chart isShowLegend="true">
+					<reportElement x="1" y="420" width="584" height="150" uuid="b16b347a-d4ea-4581-a594-932c7cf27664">
+						<printWhenExpression><![CDATA[($V{rec_fuel_begin} != null) && ($V{rec_fuel_end} != null)]]></printWhenExpression>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<timeSeriesDataset timePeriod="Minute">
+					<dataset>
+						<incrementWhenExpression><![CDATA[$F{rec_value} != null && $F{rec_type} == 1]]></incrementWhenExpression>
+					</dataset>
+					<timeSeries>
+						<seriesExpression><![CDATA["Время - Скорость"]]></seriesExpression>
+						<timePeriodExpression><![CDATA[$F{rec_datetime}]]></timePeriodExpression>
+						<valueExpression><![CDATA[$F{rec_speed}]]></valueExpression>
+					</timeSeries>
+				</timeSeriesDataset>
+				<timeSeriesPlot isShowLines="true" isShowShapes="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#808080"/>
+					</plot>
+					<timeAxisLabelExpression><![CDATA["Время"]]></timeAxisLabelExpression>
+					<timeAxisFormat>
+						<axisFormat tickLabelMask="MM.dd HH:mm" verticalTickLabels="false">
+							<tickLabelFont>
+								<font fontName="DejaVu Serif" size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</timeAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Скорость, км/ч."]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="false" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</timeSeriesPlot>
+			</timeSeriesChart>
+			<xyLineChart>
+				<chart theme="default">
+					<reportElement x="1" y="570" width="584" height="230" uuid="a3d77cab-c125-4a10-9192-573ea9e8a25b">
+						<printWhenExpression><![CDATA[($V{rec_fuel_begin} != null) && ($V{rec_fuel_end} != null)]]></printWhenExpression>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<xyDataset>
+					<dataset>
+						<incrementWhenExpression><![CDATA[$F{rec_value} != null  && $F{rec_type} == 1]]></incrementWhenExpression>
+					</dataset>
+					<xySeries>
+						<seriesExpression><![CDATA["Дистанция - Уровень топлива"]]></seriesExpression>
+						<xValueExpression><![CDATA[$V{rec_dist}]]></xValueExpression>
+						<yValueExpression><![CDATA[$F{rec_value}]]></yValueExpression>
+					</xySeries>
+				</xyDataset>
+				<linePlot isShowShapes="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#0259F9"/>
+					</plot>
+					<categoryAxisLabelExpression><![CDATA["Дистанция, км."]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat verticalTickLabels="false"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Топливо, л."]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="false"/>
+					</valueAxisFormat>
+				</linePlot>
+			</xyLineChart>
+		</band>
+	</summary>
 </jasperReport>
