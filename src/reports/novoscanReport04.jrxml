@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="novoscanReport04" language="groovy" pageWidth="600" pageHeight="1100" whenNoDataType="AllSectionsNoDetail" columnWidth="585" leftMargin="5" rightMargin="10" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty" uuid="5eec7acb-b54b-410b-8906-6a0abd62d6f6">
 	<property name="ireport.zoom" value="2.5937424601000045"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="519"/>
+	<property name="ireport.x" value="32"/>
+	<property name="ireport.y" value="236"/>
 	<style name="Title" fontName="DejaVu Sans" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" mode="Opaque" backcolor="#FFFFCC" fontName="DejaVu Sans" fontSize="18" isBold="true">
 		<box>
@@ -572,7 +572,7 @@ new java.text.DecimalFormat("00").format((Integer) ($F{rec_long}.intValue()%60))
 					</timeAxisFormat>
 					<valueAxisLabelExpression><![CDATA["Топливо, л."]]></valueAxisLabelExpression>
 					<valueAxisFormat>
-						<axisFormat tickLabelMask="0.0E00" verticalTickLabels="false"/>
+						<axisFormat verticalTickLabels="false"/>
 					</valueAxisFormat>
 				</timeSeriesPlot>
 			</timeSeriesChart>

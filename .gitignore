@@ -4,10 +4,6 @@
 *.jar
 *.war
 
-# Jasper Reports Binary
-*.jasper
-src/reports/*.jasper
-
 # gwt caches and compiled units #
 war/gwt_bree/
 gwt-unitCache/
@@ -19,7 +15,6 @@ gwt-unitCache/
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
 war/temp/
-src/main/webapp/WEB-INF/deploy/
 
 #compilation logs
 .gwt/
